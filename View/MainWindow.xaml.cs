@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ControlPanel.Services;
+using ControlPanel.Model;
 
 namespace ControlPanel
 {
@@ -20,9 +22,12 @@ namespace ControlPanel
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ApplicationContext DB { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            DB = new ApplicationContext();
         }
     }
 }
