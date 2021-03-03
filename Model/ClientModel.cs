@@ -15,24 +15,38 @@ namespace ControlPanel.Model
         public DateTime BirthDate { get; private set; }
         public string PhoneNumber { get; private set; }//Длинна должна быть равна 11 (например 78005553535)
         public string PhotoPath { get; private set; }
+        public string ParentType { get; private set; }
+        public string ParentFIO { get; private set; }
+        public string ParentPhoneNumber { get; private set; }//Длинна должна быть равна 11 (например 78005553535)
+        public DateTime DateLastPayment { get; private set; }
+
+
+
 
         private ClientModel() { }
 
         public ClientModel(int id, string surname, string name, string patronymic,
-                           DateTime BirthDate, string phoneNumber, string photoPath)
+                           DateTime birthDate, string phoneNumber, DateTime dateLastPayment,
+                           string photoPath=null, string parentType=null,
+                           string parentFIO= null, string parentPhoneNumber=null)
         {
-            if (surname is null || name is null || patronymic is null || phoneNumber is null || photoPath is null)
+            if (surname is null || name is null || patronymic is null || phoneNumber is null)
                 throw new ArgumentNullException();
 
-            if (phoneNumber.Length != 11)
+            if (phoneNumber.Length != 11 || (!(parentPhoneNumber is null) && parentPhoneNumber.Length != 11))
                 throw new PhoneNumberException("Номер имеет некорректную длину");
             ID = id;
             Surname = surname;
             Name = name;
             Patronymic = patronymic;
-            this.BirthDate = BirthDate;
+            BirthDate = birthDate;
             PhoneNumber = phoneNumber;
+            DateLastPayment = dateLastPayment;
+
             PhotoPath = photoPath;
+            ParentType = parentType;
+            ParentFIO = parentFIO;
+            ParentPhoneNumber = parentPhoneNumber;
         }
 
     }
