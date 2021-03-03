@@ -8,11 +8,23 @@
 
   <ItemGroup>
     <Folder Include="ViewModel\" />
-    <Folder Include="Model\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.3" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AForge.Video">
+      <HintPath>Libs\AForge.Video.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Video.DirectShow">
+      <HintPath>Libs\AForge.Video.DirectShow.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing">
+      <HintPath>Libs\zxing.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>

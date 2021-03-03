@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ControlPanel.Services;
 using ControlPanel.Model;
+using ControlPanel.View;
 
 namespace ControlPanel
 {
@@ -24,10 +25,32 @@ namespace ControlPanel
     {
         private ApplicationContext DB { get; set; }
 
+
         public MainWindow()
         {
             InitializeComponent();
             DB = new ApplicationContext();
+            //DB.ClientsModels.Add(new ClientModel(104, "Василий", "Федосеев", "patronomic", new DateTime(2007, 10, 11), "79137564327", "path"));
+            //DB.SaveChanges();
+        }
+
+        
+        private void lbClients_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<ClientModel> clients = DB.ClientsModels.ToList();
+
+            foreach (ClientModel client in clients)
+            {
+                string msg = $"{client.Surname} {client.Name} {client.PhoneNumber}";
+                lbClients.Items.Add(msg);
+            }
+        }
+
+        private void butSetupCamera_Click(object sender, RoutedEventArgs e)
+        {
+            CamWindow camWindow = new CamWindow();
+            camWindow.Show();
+
         }
     }
 }
