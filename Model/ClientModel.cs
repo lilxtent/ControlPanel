@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ControlPanel.Exceptions;
+using ControlPanel.Services;
 
 namespace ControlPanel.Model
 {
-    class ClientModel
+    public class ClientModel
     {
         public int ID { get; private set; }
         public string Surname { get; private set; }    
@@ -26,7 +27,7 @@ namespace ControlPanel.Model
         private ClientModel() { }
 
         public ClientModel(int id, string surname, string name, string patronymic,
-                           DateTime birthDate, string phoneNumber, DateTime dateLastPayment,
+                           DateTime birthDate, string phoneNumber, DateTime dateLastPayment = default(DateTime),
                            string photoPath=null, string parentType=null,
                            string parentFIO= null, string parentPhoneNumber=null)
         {
@@ -49,5 +50,10 @@ namespace ControlPanel.Model
             ParentPhoneNumber = parentPhoneNumber;
         }
 
+
+        public void SaveToDB(ApplicationContext DB)
+        {
+            DB.ClientsModels.Add(this);
+        }
     }
 }

@@ -30,9 +30,6 @@ namespace ControlPanel
         {
             InitializeComponent();
             DB = new ApplicationContext();
-            DB.ClientsModels.Add(new ClientModel(100458, "Латкин", "Борис", "Курапович",
-                new DateTime(2012, 12, 12), "79137564745", new DateTime(2021, 03, 05)));
-            DB.SaveChanges();
         }
 
         
@@ -51,7 +48,6 @@ namespace ControlPanel
         {
             CamWindow camWindow = new CamWindow();
             camWindow.Show();
-
         }
     }
 }

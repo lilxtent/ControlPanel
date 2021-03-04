@@ -7,7 +7,7 @@ using System.IO;
 
 namespace ControlPanel.Services
 {
-    class ApplicationContext : DbContext
+    public class ApplicationContext : DbContext
     {
 
         public DbSet<ClientModel> ClientsModels { get; private set; }
