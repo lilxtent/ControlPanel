@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="805">
     <Grid x:Name="mainGrid" Margin="0,0,0,2">
-        <ListBox x:Name="lbClients" Margin="10,10,278,202" Loaded="lbClients_Loaded"/>
+        <ListBox x:Name="lbClients" Margin="10,10,278,202" Loaded="lbClients_Loaded" SelectionChanged="lbClients_SelectionChanged" />
         <Button x:Name="butSetupCamera" Content="camera" HorizontalAlignment="Left" Margin="704,399,0,0" VerticalAlignment="Top" Height="18" Width="64" Click="butSetupCamera_Click"/>
+        <StackPanel x:Name="spPersonalArea" Margin="532,10,10,172"/>
 
     </Grid>
 </Window>

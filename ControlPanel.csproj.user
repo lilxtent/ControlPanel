@@ -12,9 +12,15 @@
     <Compile Update="View\CamWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\PopUpWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\CamWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\PopUpWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
