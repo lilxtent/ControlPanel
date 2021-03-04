@@ -21,9 +21,6 @@ namespace ControlPanel.Model
         public string ParentPhoneNumber { get; private set; }//Длинна должна быть равна 11 (например 78005553535)
         public DateTime DateLastPayment { get; private set; }
 
-
-
-
         private ClientModel() { }
 
         public ClientModel(int id, string surname, string name, string patronymic,
@@ -49,11 +46,24 @@ namespace ControlPanel.Model
             ParentFIO = parentFIO;
             ParentPhoneNumber = parentPhoneNumber;
         }
-
-
         public void SaveToDB(ApplicationContext DB)
         {
             DB.ClientsModels.Add(this);
         }
     }
+    class ClientModelInfo
+    {
+        public ClientModel clientModel { get; private set; }
+        public ClientModelInfo(ClientModel model)
+        {
+            clientModel = model;
+        }
+
+        public override string ToString()
+        {
+            return $"{clientModel.Surname} {clientModel.Name} " +
+                $"{clientModel.Patronymic} телефон: {clientModel.PhoneNumber}";
+        }
+
+    } 
 }
