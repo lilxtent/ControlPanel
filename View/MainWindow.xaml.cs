@@ -26,21 +26,17 @@ namespace ControlPanel
     public partial class MainWindow : Window
     {
         private ApplicationContext DB { get; set; }
-        
-
-
 
         public MainWindow()
         {
             InitializeComponent();
             DB = new ApplicationContext();
+            AddUserWindow test = new AddUserWindow();
+            test.ShowDialog();
         }
-
 
         private void lbClients_Loaded(object sender, RoutedEventArgs e)
         {
-           
-
             List<ClientModel> clients = DB.ClientsModels.ToList();
             ListBoxItem item;
             
@@ -71,6 +67,7 @@ namespace ControlPanel
         {
             MessageBox.Show(lbClients.SelectedIndex.ToString());
         }
+
         private void lbClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListBoxItem lbi = ((sender as ListBox).SelectedItem as ListBoxItem);
@@ -85,8 +82,5 @@ namespace ControlPanel
                 spPersonalArea.Children.Add(((PersonalUnit)el).getGrid());
 
         }
-
     }   
-
-
 }

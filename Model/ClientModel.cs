@@ -41,7 +41,7 @@ namespace ControlPanel.Model
             PhoneNumber = phoneNumber;
             DateLastPayment = dateLastPayment;
 
-            PhotoPath = photoPath;
+            PhotoPath = photoPath is null ? @"..\..\..\Sourses\Images\default-user-image.png" : photoPath;
             ParentType = parentType;
             ParentFIO = parentFIO;
             ParentPhoneNumber = parentPhoneNumber;

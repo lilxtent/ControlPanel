@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ControlPanel.Model;
+using Microsoft.Win32;
 
 namespace ControlPanel.View
 {
@@ -85,7 +86,9 @@ namespace ControlPanel.View
                                                ClientSurname.Text.Trim(' '), ClientName.Text.Trim(' '),
                                                ClientPatronymic.Text.Trim(' '),
                                                (DateTime)ClientBirthDate.SelectedDate,
-                                               ClientPhoneNumber.Text.Trim(' '));
+                                               ClientPhoneNumber.Text.Trim(' '),
+                                               default(DateTime),
+                                               ProfilePicture.Source.ToString());
             Close();
         }
 
@@ -97,6 +100,17 @@ namespace ControlPanel.View
         private void ThisFieldCantBeEmpty(string fieldName)
         {
             MessageBox.Show(this, $"Это поле не может быть пустым: {fieldName}", "Ошибка");
+        }
+
+        private void ChosePhoto(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "jpg files (*.jpg)|*.jpg|png files (*.png)|*.png";
+            dialog.Title = "Выберите фотографию клиента";
+            if (dialog.ShowDialog() ?? false)
+            {
+                ProfilePicture.Source = new BitmapImage(new Uri(dialog.FileName));
+            }
         }
     }
 }
