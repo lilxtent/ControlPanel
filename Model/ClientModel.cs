@@ -31,7 +31,7 @@ namespace ControlPanel.Model
             if (surname is null || name is null || patronymic is null || phoneNumber is null)
                 throw new ArgumentNullException();
 
-            if (phoneNumber.Length != 11 || (!(parentPhoneNumber is null) && parentPhoneNumber.Length != 11))
+            if (phoneNumber.Length != 11 || ((parentPhoneNumber is not null && parentPhoneNumber != "") && parentPhoneNumber.Length != 11))
                 throw new PhoneNumberException("Номер имеет некорректную длину");
             ID = id;
             Surname = surname;
