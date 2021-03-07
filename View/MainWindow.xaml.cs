@@ -31,8 +31,6 @@ namespace ControlPanel
         {
             InitializeComponent();
             DB = new ApplicationContext();
-            AddUserWindow test = new AddUserWindow();
-            test.ShowDialog();
         }
 
         private void lbClients_Loaded(object sender, RoutedEventArgs e)

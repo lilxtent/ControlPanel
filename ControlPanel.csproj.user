@@ -15,6 +15,9 @@
     <Compile Update="View\CamWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\EditClientProfileWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\PopUpWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -24,6 +27,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\CamWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\EditClientProfileWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\PopUpWindow.xaml">

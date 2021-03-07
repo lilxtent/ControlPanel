@@ -16,29 +16,67 @@ using Microsoft.Win32;
 namespace ControlPanel.View
 {
     /// <summary>
-    /// Логика взаимодействия для AddUserWindow.xaml
+    /// Логика взаимодействия для EditClientProfile.xaml
     /// </summary>
-    public partial class AddUserWindow : Window
+    public partial class EditClientProfile : Window
     {
-        private ClientModel enterdClientData { get; set; }
-        public ClientModel EnterdClientData
+        private ClientModel clientData { get; set; }
+        public ClientModel ClientData
         {
             get
             {
-                if (enterdClientData is null)
+                if (clientData is null)
                     throw new NullReferenceException();
-                return enterdClientData;
+                return clientData;
             }
-            private set { enterdClientData = value; }
+            private set { clientData = value; }
         }
 
-        public AddUserWindow()
+        private EditClientProfile()
         {
             InitializeComponent();
         }
 
-        private void ButtonAdd_Click(object sender, RoutedEventArgs e)
+        public EditClientProfile(ClientModel Client)
         {
+            ClientData = Client;
+
+            InitializeComponent();
+            ClientSurname.Text = Client.Surname;
+            ClientName.Text = Client.Name;
+            ClientPatronymic.Text = Client.Patronymic;
+            ClientBirthDate.SelectedDate = Client.BirthDate;
+            ClientPhoneNumber.Text = Client.PhoneNumber;
+            ID.Text = Convert.ToString(Client.ID);
+
+            ClientParentType.Text = Client.ParentType;
+            if (Client.ParentFIO is not null)
+            {
+                string[] parentFIO = Client.ParentFIO.Split(' ');
+                if (parentFIO.Length > 0) ClientParentSurname.Text = parentFIO[0];
+                if (parentFIO.Length > 1) ClientParentName.Text = parentFIO[1];
+                if (parentFIO.Length > 2) ClientParentPatronymic.Text = parentFIO[2];
+            }
+            ClientParentPhoneNumber.Text = Client.ParentPhoneNumber;
+
+            ProfilePicture.Source = new BitmapImage(new Uri(Client.PhotoPath));
+        }
+
+        private void ChosePhoto(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "jpg files (*.jpg)|*.jpg|png files (*.png)|*.png";
+            dialog.Title = "Выберите фотографию клиента";
+            if (dialog.ShowDialog() ?? false)
+            {
+                ProfilePicture.Source = new BitmapImage(new Uri(dialog.FileName));
+            }
+        }
+
+        private void ButtonSave_Click(object sender, RoutedEventArgs e)
+        {
+            ApplicationContext DB = new ApplicationContext();
+
             if (ClientSurname.Text is null || ClientSurname.Text.Trim(' ') == "")
             {
                 ThisFieldCantBeEmpty("Фамилия");
@@ -71,7 +109,7 @@ namespace ControlPanel.View
                 return;
             }
 
-            if(ID.Text is null || ID.Text.Trim(' ') == "")
+            if (ID.Text is null || ID.Text.Trim(' ') == "")
             {
                 ThisFieldCantBeEmpty("ID");
                 return;
@@ -83,26 +121,42 @@ namespace ControlPanel.View
                 return;
             }
 
-            EnterdClientData = new ClientModel(Convert.ToInt32(ID.Text.Trim(' ')),
+
+            ClientModel newClientData = new ClientModel(Convert.ToInt32(ID.Text.Trim(' ')),
                                                ClientSurname.Text.Trim(' '), ClientName.Text.Trim(' '),
                                                ClientPatronymic.Text.Trim(' '),
                                                (DateTime)ClientBirthDate.SelectedDate,
                                                ClientPhoneNumber.Text.Trim(' '),
-                                               default(DateTime),
+                                               ClientData.DateLastPayment,
                                                ProfilePicture.Source.ToString(),
                                                ClientParentType.Text.Trim(' '),
                                                ClientParentSurname.Text.Trim(' ') + " " + ClientParentName.Text.Trim(' ') + " " + ClientParentPatronymic.Text.Trim(' '),
                                                ClientParentPhoneNumber.Text.Trim(' ')
                                                );
-            ApplicationContext DB = new ApplicationContext();
-            if (DB.ClientsModels.Find(new object[] { EnterdClientData.ID }) is not null)
+
+
+            if (newClientData.ID != ClientData.ID)
             {
-                MessageBox.Show(this, "Клиент с таким ID уже существует", "Ошибка");
-                return;
+                DB.ClientsModels.Remove(ClientData);
+                DB.ClientsModels.Add(newClientData);
             }
-            DB.ClientsModels.Add(EnterdClientData);
+            else
+            {
+                DB.ClientsModels.Update(newClientData);
+            }
             DB.SaveChanges();
-            Close();
+            ClientData = newClientData;
+        }
+
+        private void DeleteClient(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show(this, "Вы уверенны, что хотите удалить клиента?", "Удадение клиента", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                ApplicationContext DB = new ApplicationContext();
+                DB.ClientsModels.Remove(ClientData);
+                DB.SaveChanges();
+                Close();
+            }
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)
@@ -113,17 +167,6 @@ namespace ControlPanel.View
         private void ThisFieldCantBeEmpty(string fieldName)
         {
             MessageBox.Show(this, $"Это поле не может быть пустым: {fieldName}", "Ошибка");
-        }
-
-        private void ChosePhoto(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "jpg files (*.jpg)|*.jpg|png files (*.png)|*.png";
-            dialog.Title = "Выберите фотографию клиента";
-            if (dialog.ShowDialog() ?? false)
-            {
-                ProfilePicture.Source = new BitmapImage(new Uri(dialog.FileName));
-            }
         }
     }
 }
