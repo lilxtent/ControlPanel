@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
+
 namespace ControlPanel.View
 {
     /// <summary>
@@ -19,10 +20,15 @@ namespace ControlPanel.View
     public partial class PopUpWindow : Window
     {
         private DispatcherTimer timer;
-        public PopUpWindow()
+        private string IdCard;
+        public PopUpWindow(string Id)
         {
-
             InitializeComponent();
+            this.Top = 10;
+            this.Left = 20;
+            this.WindowStyle = WindowStyle.None;
+            IdCard = Id;
+            MainGrid.Children.Add(new Label() { Content = IdCard, FontSize=30});
             timer = new DispatcherTimer();
             timer.Tick += new EventHandler(timerTick);
             timer.Interval = new TimeSpan(0, 0, 5);

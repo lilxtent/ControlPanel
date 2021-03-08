@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ControlPanel.Model;
+using ControlPanel.Services;
 
 namespace ControlPanel.View
 {
@@ -75,9 +76,9 @@ namespace ControlPanel.View
                 return;
             }
 
-            if (ID.Text.Trim(' ').Length != 10)
+            if (ID.Text.Trim(' ').Length != 6)
             {
-                MessageBox.Show(this, "Поле 'ID' должно содержать 10 цифр", "Ошибка");
+                MessageBox.Show(this, "Поле 'ID' должно содержать 6 цифр", "Ошибка");
                 return;
             }
 
@@ -86,6 +87,10 @@ namespace ControlPanel.View
                                                ClientPatronymic.Text.Trim(' '),
                                                (DateTime)ClientBirthDate.SelectedDate,
                                                ClientPhoneNumber.Text.Trim(' '));
+            // добавляем в базу
+            ApplicationContext DB = new ApplicationContext();
+            DB.Add(EnterdClientData);
+            DB.SaveChanges();
             Close();
         }
 

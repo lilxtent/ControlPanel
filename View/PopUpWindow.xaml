@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel.View"
         mc:Ignorable="d"
-        Title="PopUpWindow" Height="600" Width="400" Background="GreenYellow">
-    <Grid Margin="10,0,0,0">
+        Title="PopUpWindow" Height="600" Width="400" Background="CornflowerBlue">
+    <Grid x:Name ="MainGrid" Margin="10,0,0,0">
         
     </Grid>
 </Window>

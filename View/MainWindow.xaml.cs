@@ -26,7 +26,7 @@ namespace ControlPanel
     public partial class MainWindow : Window
     {
         private ApplicationContext DB { get; set; }
-        
+        private CameraModel camera;
 
 
 
@@ -34,6 +34,8 @@ namespace ControlPanel
         {
             InitializeComponent();
             DB = new ApplicationContext();
+            camera = new CameraModel();
+
         }
 
 
@@ -56,14 +58,10 @@ namespace ControlPanel
                 lbClients.Items.Add(item);
             }
         }
-        private void lbClients_DisplayMember(object sender, EventArgs e)
-        {
-
-        }
 
         private void butSetupCamera_Click(object sender, RoutedEventArgs e)
         {
-            CamWindow camWindow = new CamWindow();
+            var camWindow = new CamWindow(camera);
             camWindow.Show();
         }
 
@@ -86,6 +84,11 @@ namespace ControlPanel
 
         }
 
+        private void butAddClient_Click(object sender, RoutedEventArgs e)
+        {
+            AddUserWindow userWindow = new AddUserWindow();
+            userWindow.Show();
+        }
     }   
 
 

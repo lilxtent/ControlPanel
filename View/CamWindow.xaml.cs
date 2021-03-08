@@ -16,6 +16,7 @@ using AForge.Video;
 using AForge.Video.DirectShow;
 using System.Drawing;
 using System.IO;
+using System.ComponentModel;
 
 namespace ControlPanel.View
 {
@@ -24,16 +25,19 @@ namespace ControlPanel.View
     /// </summary>
     public partial class CamWindow : Window
     {
-        private CameraModel camera { get; set; }
         delegate void SetStringDelegate(string parameter);
         private ApplicationContext DB { get; set; }
+        private CameraModel camera;
 
-        public CamWindow()
+        public CamWindow(CameraModel cameraModel)
         {
             InitializeComponent();
             DB = new ApplicationContext();
-            camera = new CameraModel(this, imageCam);
+            camera = cameraModel;
+            camera.ImageContainer = imageCam;
+            camera.WindowCurr = this;
         }
+
 
         private void butONCam_Click(object sender, RoutedEventArgs e)
         {
@@ -62,7 +66,7 @@ namespace ControlPanel.View
         {
             string answer = "None";
             List<ClientModel> clients = DB.ClientsModels.ToList();
-            string startStr = "E700000216086";
+            string startStr = "E7000002160";
             for (int i = 0; i < clients.Count; i++)
             {
                 if (startStr + clients[i].ID.ToString() == code)
