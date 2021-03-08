@@ -77,9 +77,9 @@ namespace ControlPanel.View
                 return;
             }
 
-            if (ID.Text.Trim(' ').Length != 10)
+            if (ID.Text.Trim(' ').Length != 6)
             {
-                MessageBox.Show(this, "Поле 'ID' должно содержать 10 цифр", "Ошибка");
+                MessageBox.Show(this, "Поле 'ID' должно содержать 6 цифр", "Ошибка");
                 return;
             }
 

@@ -9,36 +9,46 @@ using ControlPanel;
 using System.Windows.Threading;
 using System.Windows.Media.Imaging;
 using ControlPanel.View;
+using System.Windows;
 
 namespace ControlPanel.Model
 {
-    
-    class CameraModel
+
+    public class CameraModel
     {
         public FilterInfoCollection videoDevices { get; private set; }
         public VideoCaptureDevice videoSource { get; private set; }
         private ZXing.BarcodeReader reader { get; set; }
+        private CamWindow windowCurr;
 
-        private CamWindow window;
         private System.Windows.Controls.Image imageContainer;
 
         delegate void SetImageDelegate(Bitmap parameter);
 
+        public CamWindow WindowCurr
+        {
+            get { return windowCurr; }
+            set { windowCurr = value; }
+        }
+        public System.Windows.Controls.Image ImageContainer
+        {
+            get { return imageContainer; }
+            set { imageContainer = value; }
+        }
 
-        public CameraModel(CamWindow window, System.Windows.Controls.Image imageContainer) {
+
+        public CameraModel() {
             videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
             reader = new ZXing.BarcodeReader();
             reader.Options.PossibleFormats = new List<ZXing.BarcodeFormat>();
             reader.Options.PossibleFormats.Add(ZXing.BarcodeFormat.QR_CODE);
-            this.window = window;
-            this.imageContainer = imageContainer;
         }
 
 
         public void startVideo()
         {
-            videoSource = new VideoCaptureDevice(videoDevices[window.lbCams.SelectedIndex].MonikerString);
+            videoSource = new VideoCaptureDevice(videoDevices[windowCurr.lbCams.SelectedIndex].MonikerString);
             videoSource.NewFrame += new NewFrameEventHandler(videoNewFrame);
             videoSource.Start();
         }
@@ -51,7 +61,13 @@ namespace ControlPanel.Model
 
             if (result != null)
             {
-                window.SetResult(result.Text);
+                windowCurr.SetResult(result.Text);
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    var popupWindow = new PopUpWindow(result.Text) { Name = "popupWindow"};
+                    popupWindow.Show();
+                });
+                
             }
         }
         public BitmapImage ConvertBitmapToImage(Bitmap src)
@@ -69,10 +85,10 @@ namespace ControlPanel.Model
 
         private void SetImageCam(Bitmap bitmap)
         {
-            if (window.CheckAccess())
-                window.imageCam.Source = ConvertBitmapToImage(bitmap);
+            if (windowCurr.CheckAccess())
+                windowCurr.imageCam.Source = ConvertBitmapToImage(bitmap);
             else
-                window.Dispatcher.Invoke(new SetImageDelegate(SetImageCam), new object[] { bitmap });
+                windowCurr.Dispatcher.Invoke(new SetImageDelegate(SetImageCam), new object[] { bitmap });
         }
         
     }
