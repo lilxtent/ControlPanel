@@ -15,16 +15,19 @@ namespace ControlPanel.Model
         public string Patronymic { get; private set; } 
         public DateTime BirthDate { get; private set; }
         public string PhoneNumber { get; private set; }//Длинна должна быть равна 11 (например 78005553535)
+        public DateTime DateLastPayment { get; private set; }
+        public string Section { get; private set; }
         public string PhotoPath { get; private set; }
         public string ParentType { get; private set; }
         public string ParentFIO { get; private set; }
         public string ParentPhoneNumber { get; private set; }//Длинна должна быть равна 11 (например 78005553535)
-        public DateTime DateLastPayment { get; private set; }
 
         private ClientModel() { }
 
         public ClientModel(int id, string surname, string name, string patronymic,
-                           DateTime birthDate, string phoneNumber, DateTime dateLastPayment = default(DateTime),
+                           DateTime birthDate, string phoneNumber,
+                           DateTime dateLastPayment = default(DateTime),
+                           string section = default,
                            string photoPath=null, string parentType=null,
                            string parentFIO= null, string parentPhoneNumber=null)
         {
@@ -40,7 +43,7 @@ namespace ControlPanel.Model
             BirthDate = birthDate;
             PhoneNumber = phoneNumber;
             DateLastPayment = dateLastPayment;
-
+            Section = section;
             PhotoPath = photoPath is null ? @"..\..\..\Sourses\Images\default-user-image.png" : photoPath;
             ParentType = parentType;
             ParentFIO = parentFIO;
