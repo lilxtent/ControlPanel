@@ -17,6 +17,7 @@ using ControlPanel.Model;
 using ControlPanel.View;
 using ControlPanel.Sourses;
 using System.Windows.Threading;
+using ControlPanel.ViewModel;
 
 namespace ControlPanel
 {
@@ -37,16 +38,7 @@ namespace ControlPanel
 
         private void lbClients_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (ClientModel client in DB.ClientsModels.ToList())
-            {
-                lbClients.Items.Add(new ListBoxItem()
-                {
-                    Content = new ClientModelInfo(client),
-                    Margin = new Thickness(1),
-                    BorderBrush = Brushes.Black,
-                    BorderThickness = new Thickness(1)
-                });
-            }
+            ShowAllClientsShortData(lbClients);
         }
 
         private void butSetupCamera_Click(object sender, RoutedEventArgs e)
@@ -55,14 +47,9 @@ namespace ControlPanel
             camWindow.Show();
         }
 
-        private void lbClients_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            MessageBox.Show(lbClients.SelectedIndex.ToString());
-        }
-
         private void lbClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var lbi = (ClientModelInfo)((sender as ListBox).SelectedItem as ListBoxItem).Content;
+            var lbi = (ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content;
             PersonalUnit[] personalObj = {
                 new PersonalFIO(lbi),
                 new PersonalPhone(lbi),
@@ -78,6 +65,35 @@ namespace ControlPanel
         {
             AddUserWindow userWindow = new AddUserWindow();
             userWindow.Show();
+        }
+
+        private void TextBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (TextBoxSearch.Text is null || TextBoxSearch.Text.Trim(' ') is "")
+            {
+                ShowAllClientsShortData(lbClients);
+            }
+            else
+            {
+                lbClients.Items.Clear();
+                foreach (ClientModel Client in DB.ClientsModels.ToList())
+                {
+                    if (Client.FIO.ToLower().Contains(TextBoxSearch.Text.Trim(' ').ToLower()))
+                    {
+                        lbClients.Items.Add(new ListBoxShortClientData(Client));
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Очищает переданный ListBox и выводит в нем краткую информацию о всех клиентах
+        /// </summary>
+        private void ShowAllClientsShortData(ListBox Box)
+        {
+            Box.Items.Clear();
+            foreach (ClientModel Client in DB.ClientsModels.ToList())
+                Box.Items.Add(new ListBoxShortClientData(Client));
         }
     }
 }

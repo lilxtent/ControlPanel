@@ -22,6 +22,11 @@ namespace ControlPanel.Model
         public string ParentFIO { get; private set; }
         public string ParentPhoneNumber { get; private set; }//Длинна должна быть равна 11 (например 78005553535)
 
+        public string FIO
+        {
+            get => Surname + Name + Patronymic;
+        }
+
         private ClientModel() { }
 
         public ClientModel(int id, string surname, string name, string patronymic,
