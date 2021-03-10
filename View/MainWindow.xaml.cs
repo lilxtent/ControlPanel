@@ -26,33 +26,26 @@ namespace ControlPanel
     public partial class MainWindow : Window
     {
         private ApplicationContext DB { get; set; }
-        private CameraModel camera;
-
-
+        private CameraModel camera { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             DB = new ApplicationContext();
             camera = new CameraModel();
-
         }
 
         private void lbClients_Loaded(object sender, RoutedEventArgs e)
         {
-            List<ClientModel> clients = DB.ClientsModels.ToList();
-            ListBoxItem item;
-            
-            foreach (ClientModel client in clients)
+            foreach (ClientModel client in DB.ClientsModels.ToList())
             {
-                string msg = $"{client.Surname} {client.Name} {client.PhoneNumber}";
-
-                item = new ListBoxItem()
+                lbClients.Items.Add(new ListBoxItem()
                 {
-                    Content = new ClientModelInfo(client), Margin = new Thickness(1),
-                    BorderBrush = Brushes.Black, BorderThickness = new Thickness(1)
-                };
-                lbClients.Items.Add(item);
+                    Content = new ClientModelInfo(client),
+                    Margin = new Thickness(1),
+                    BorderBrush = Brushes.Black,
+                    BorderThickness = new Thickness(1)
+                });
             }
         }
 
@@ -69,17 +62,16 @@ namespace ControlPanel
 
         private void lbClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ListBoxItem lbi = ((sender as ListBox).SelectedItem as ListBoxItem);
-            object[] personalObj = {
-                new PersonalFIO((ClientModelInfo)lbi.Content),
-                new PersonalPhone((ClientModelInfo)lbi.Content),
-                new PersonalBirthDate((ClientModelInfo)lbi.Content),
+            var lbi = (ClientModelInfo)((sender as ListBox).SelectedItem as ListBoxItem).Content;
+            PersonalUnit[] personalObj = {
+                new PersonalFIO(lbi),
+                new PersonalPhone(lbi),
+                new PersonalBirthDate(lbi),
                 new PersonalButton()
             };
             spPersonalArea.Children.Clear();
-            foreach (object el in personalObj)
-                spPersonalArea.Children.Add(((PersonalUnit)el).getGrid());
-
+            foreach (var el in personalObj)
+                spPersonalArea.Children.Add(el.getGrid());
         }
 
         private void butAddClient_Click(object sender, RoutedEventArgs e)
@@ -87,5 +79,5 @@ namespace ControlPanel
             AddUserWindow userWindow = new AddUserWindow();
             userWindow.Show();
         }
-    }   
+    }
 }
