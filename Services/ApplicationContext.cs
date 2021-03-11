@@ -11,6 +11,8 @@ namespace ControlPanel.Services
     {
 
         public DbSet<ClientModel> ClientsModels { get; private set; }
+        public DbSet<PaymentModel> Payments { get; private set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite(@"Data Source=..\..\..\Database\clients.db");
