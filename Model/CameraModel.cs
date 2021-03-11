@@ -78,15 +78,27 @@ namespace ControlPanel.Model
             image.BeginInit();
             ms.Seek(0, SeekOrigin.Begin);
             image.StreamSource = ms;
+            image.EndInit();   
+            return image;
+        }
+        public static BitmapImage ToBitmapImage(Bitmap bitmap)
+        {
+            MemoryStream ms = new MemoryStream();
+            bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+            BitmapImage image = new BitmapImage();
+            image.BeginInit();
+            ms.Seek(0, SeekOrigin.Begin);
+            image.StreamSource = ms;
             image.EndInit();
             return image;
+
         }
 
 
         private void SetImageCam(Bitmap bitmap)
         {
             if (windowCurr.CheckAccess())
-                windowCurr.imageCam.Source = ConvertBitmapToImage(bitmap);
+                windowCurr.imageCam.Source = (System.Windows.Media.ImageSource)ToBitmapImage(bitmap);
             else
                 windowCurr.Dispatcher.Invoke(new SetImageDelegate(SetImageCam), new object[] { bitmap });
         }

@@ -74,7 +74,7 @@ namespace ControlPanel
                 new PersonalFIO((ClientModelInfo)lbi.Content),
                 new PersonalPhone((ClientModelInfo)lbi.Content),
                 new PersonalBirthDate((ClientModelInfo)lbi.Content),
-                new PersonalButton()
+                new PersonalButton(this)
             };
             spPersonalArea.Children.Clear();
             foreach (object el in personalObj)
@@ -86,6 +86,11 @@ namespace ControlPanel
         {
             AddUserWindow userWindow = new AddUserWindow();
             userWindow.Show();
+        }
+
+        private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }   
 }
