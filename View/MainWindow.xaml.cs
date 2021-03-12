@@ -54,7 +54,7 @@ namespace ControlPanel
                 new PersonalFIO(lbi),
                 new PersonalPhone(lbi),
                 new PersonalBirthDate(lbi),
-                new PersonalButton()
+                new PersonalButton(this)
             };
             spPersonalArea.Children.Clear();
             foreach (var el in personalObj)
