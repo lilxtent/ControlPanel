@@ -9,6 +9,7 @@ using ControlPanel;
 using System.Windows.Threading;
 using System.Windows.Media.Imaging;
 using ControlPanel.View;
+
 using System.Windows;
 
 namespace ControlPanel.Model

@@ -47,7 +47,7 @@ namespace ControlPanel.View
         public void SetResult(string result)
         {
             if (CheckAccess())
-                tbCode.Text = FindClient(result);
+            tbCode.Text = FindClient(result);
             else
                 Dispatcher.Invoke(new SetStringDelegate(SetResult), new object[] { result });
         }
@@ -66,7 +66,7 @@ namespace ControlPanel.View
         {
             string answer = "None";
             List<ClientModel> clients = DB.ClientsModels.ToList();
-            string startStr = "E7000002160";
+            string startStr = "https://pay-tomsk.ru/qr/01CA433100";
             for (int i = 0; i < clients.Count; i++)
             {
                 if (startStr + clients[i].ID.ToString() == code)

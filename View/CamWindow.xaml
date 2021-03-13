@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel.View"
         mc:Ignorable="d"
-        Title="CamWindow" Height="450" Width="500">
-    <Grid Margin="0,0,10,0">
-        <ListBox x:Name="lbCams" Margin="10,305,397,71" Loaded="lbCams_Loaded"/>
-        <Button x:Name="butONCam" Content="Play Camera" HorizontalAlignment="Left" Margin="222,369,0,0" VerticalAlignment="Top" Height="26" Width="108" Click="butONCam_Click"/>
-        <TextBox x:Name="tbCode" HorizontalAlignment="Left" Margin="10,368,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="193" Height="27" Background="#FFF3D8D8"/>
-        <Image x:Name="imageCam" HorizontalAlignment="Left" Height="263" Margin="10,23,0,0" VerticalAlignment="Top" Width="435"/>
+        Title="CamWindow" Height="550
+        " Width="700">
+    <Grid Margin="0,0,0,-6">
+        <ListBox x:Name="lbCams" Margin="38,373,392,89" Loaded="lbCams_Loaded"/>
+        <Button x:Name="butONCam" Content="Play Camera" HorizontalAlignment="Left" Margin="256,470,0,0" VerticalAlignment="Top" Height="26" Width="108" Click="butONCam_Click"/>
+        <TextBox x:Name="tbCode" HorizontalAlignment="Left" Margin="38,470,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="193" Height="27" Background="#FFF3D8D8"/>
+        <Image x:Name="imageCam" HorizontalAlignment="Left" Height="323" Margin="10,23,0,0" VerticalAlignment="Top" Width="656"/>
 
     </Grid>
 </Window>

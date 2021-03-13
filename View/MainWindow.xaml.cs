@@ -36,6 +36,7 @@ namespace ControlPanel
             camera = new CameraModel();
         }
 
+
         private void lbClients_Loaded(object sender, RoutedEventArgs e)
         {
             ShowAllClientsShortData(lbClients);
@@ -49,16 +50,26 @@ namespace ControlPanel
 
         private void lbClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var lbi = (ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content;
-            PersonalUnit[] personalObj = {
+            if (lbClients.SelectedIndex != -1)
+            {
+                var lbi = (ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content;
+                PersonalUnit[] personalObj = {
+                new PersonalAvatar(lbi),
                 new PersonalFIO(lbi),
                 new PersonalPhone(lbi),
                 new PersonalBirthDate(lbi),
-                new PersonalButton(this)
-            };
-            spPersonalArea.Children.Clear();
-            foreach (var el in personalObj)
-                spPersonalArea.Children.Add(el.getGrid());
+                new PersonalButtonsLine(this)
+                };
+                spPersonalArea.Children.Clear();
+                spPayment.Children.Clear();
+                foreach (var el in personalObj)
+                    spPersonalArea.Children.Add(el.getGrid());
+            }
+            else
+            {
+                spPersonalArea.Children.Clear();
+                spPayment.Children.Clear();
+            }
         }
 
         private void butAddClient_Click(object sender, RoutedEventArgs e)
@@ -95,5 +106,7 @@ namespace ControlPanel
             foreach (ClientModel Client in DB.ClientsModels.ToList())
                 Box.Items.Add(new ListBoxShortClientData(Client));
         }
+
+        public void UpdateClientsList(ListBox Box) => ShowAllClientsShortData(Box);
     }
 }

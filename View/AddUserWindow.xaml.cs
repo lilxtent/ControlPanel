@@ -89,6 +89,7 @@ namespace ControlPanel.View
                                                (DateTime)ClientBirthDate.SelectedDate,
                                                ClientPhoneNumber.Text.Trim(' '),
                                                default(DateTime),
+                                               default(string),
                                                ProfilePicture.Source.ToString(),
                                                ClientParentType.Text.Trim(' '),
                                                ClientParentSurname.Text.Trim(' ') + " " + ClientParentName.Text.Trim(' ') + " " + ClientParentPatronymic.Text.Trim(' '),
