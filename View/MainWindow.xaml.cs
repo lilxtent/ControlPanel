@@ -33,7 +33,7 @@ namespace ControlPanel
         {
             InitializeComponent();
             DB = new ApplicationContext();
-            camera = new CameraModel();
+            camera = new CameraModel(DB);
         }
 
 
@@ -107,6 +107,15 @@ namespace ControlPanel
                 Box.Items.Add(new ListBoxShortClientData(Client));
         }
 
-        public void UpdateClientsList(ListBox Box) => ShowAllClientsShortData(Box);
+        public void UpdateClientsList(ListBox Box)
+        {
+            DB = new ApplicationContext();
+            ShowAllClientsShortData(Box);
+        }
+
+        private void UpdateList_Click(object sender, RoutedEventArgs e)
+        {
+            UpdateClientsList(lbClients);
+        }
     }
 }

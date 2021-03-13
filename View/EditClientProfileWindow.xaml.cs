@@ -115,9 +115,9 @@ namespace ControlPanel.View
                 return;
             }
 
-            if (ID.Text.Trim(' ').Length != 10)
+            if (ID.Text.Trim(' ').Length != 6)
             {
-                MessageBox.Show(this, "Поле 'ID' должно содержать 10 цифр", "Ошибка");
+                MessageBox.Show(this, "Поле 'ID' должно содержать 6 цифр", "Ошибка");
                 return;
             }
 
@@ -128,6 +128,7 @@ namespace ControlPanel.View
                                                (DateTime)ClientBirthDate.SelectedDate,
                                                ClientPhoneNumber.Text.Trim(' '),
                                                ClientData.DateLastPayment,
+                                               ClientData.Section,
                                                ProfilePicture.Source.ToString(),
                                                ClientParentType.Text.Trim(' '),
                                                ClientParentSurname.Text.Trim(' ') + " " + ClientParentName.Text.Trim(' ') + " " + ClientParentPatronymic.Text.Trim(' '),
@@ -146,6 +147,8 @@ namespace ControlPanel.View
             }
             DB.SaveChanges();
             ClientData = newClientData;
+            MessageBox.Show("Изменения сохранены");
+            Close();
         }
 
         private void DeleteClient(object sender, RoutedEventArgs e)
