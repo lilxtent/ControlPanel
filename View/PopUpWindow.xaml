@@ -5,8 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel.View"
         mc:Ignorable="d"
-        Title="PopUpWindow" Height="600" Width="400" Background="CornflowerBlue">
-    <Grid x:Name ="MainGrid" Margin="10,0,0,0">
-        
+        Title="PopUpWindow" Height="374" Width="375" Background="White">
+    <Grid x:Name ="MainGrid">
+        <Image x:Name="imagePhoto" HorizontalAlignment="Left" Height="199" Margin="80,36,0,0" VerticalAlignment="Top" Width="221"/>
+        <Label x:Name="labelFIO" Content="Неизвестная или нечитаемая карта" HorizontalAlignment="Center" Margin="0,273,0,0" VerticalAlignment="Top" Width="337" FontSize="15" FontWeight="Bold" Height="60"/>
+
     </Grid>
 </Window>

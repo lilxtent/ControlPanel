@@ -9,7 +9,10 @@ using ControlPanel;
 using System.Windows.Threading;
 using System.Windows.Media.Imaging;
 using ControlPanel.View;
+
 using System.Windows;
+using ControlPanel.Services;
+using System.Linq;
 
 namespace ControlPanel.Model
 {
@@ -20,8 +23,10 @@ namespace ControlPanel.Model
         public VideoCaptureDevice videoSource { get; private set; }
         private ZXing.BarcodeReader reader { get; set; }
         private CamWindow windowCurr;
-
         private System.Windows.Controls.Image imageContainer;
+        private ApplicationContext DB { get; set; }
+        public bool isPopUpWindowActive;
+
 
         delegate void SetImageDelegate(Bitmap parameter);
 
@@ -37,12 +42,16 @@ namespace ControlPanel.Model
         }
 
 
-        public CameraModel() {
+        public CameraModel(ApplicationContext DB)
+        {
             videoDevices = new FilterInfoCollection(FilterCategory.VideoInputDevice);
 
             reader = new ZXing.BarcodeReader();
             reader.Options.PossibleFormats = new List<ZXing.BarcodeFormat>();
             reader.Options.PossibleFormats.Add(ZXing.BarcodeFormat.QR_CODE);
+
+            this.DB = new();
+            isPopUpWindowActive = false;
         }
 
 
@@ -54,21 +63,46 @@ namespace ControlPanel.Model
         }
         private void videoNewFrame(object sender, NewFrameEventArgs eventArgs)
         {
-            Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
-            SetImageCam(bitmap);
-
-            ZXing.Result result = reader.Decode((Bitmap)eventArgs.Frame.Clone());
-
-            if (result != null)
+            if (!isPopUpWindowActive)
             {
-                windowCurr.SetResult(result.Text);
-                Application.Current.Dispatcher.Invoke(() =>
+                Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
+                SetImageCam(bitmap);
+
+                ZXing.Result result = reader.Decode((Bitmap)eventArgs.Frame.Clone());
+
+                if (result != null)
                 {
-                    var popupWindow = new PopUpWindow(result.Text) { Name = "popupWindow"};
-                    popupWindow.Show();
-                });
-                
+                    windowCurr.SetResult(result.Text);
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        var popupWindow = new PopUpWindow(FindClient(result.Text), this) { Name = "popupWindow" };
+                        popupWindow.Show();
+                    });
+
+                }
             }
+        }
+        private ClientModel FindClient(string id)
+        {
+            int idClient;
+            if (int.TryParse(id, out idClient))
+            {
+                idClient = int.Parse(id);
+            }
+            else
+            {
+                return null;
+            }
+            List<ClientModel> Clients = DB.ClientsModels.ToList();
+            foreach (ClientModel client in Clients)
+            {
+
+                if (client.ID == idClient)
+                {
+                    return client;
+                }
+            }
+            return null;
         }
         public BitmapImage ConvertBitmapToImage(Bitmap src)
         {
@@ -78,7 +112,7 @@ namespace ControlPanel.Model
             image.BeginInit();
             ms.Seek(0, SeekOrigin.Begin);
             image.StreamSource = ms;
-            image.EndInit();   
+            image.EndInit();
             return image;
         }
         public static BitmapImage ToBitmapImage(Bitmap bitmap)
@@ -102,6 +136,6 @@ namespace ControlPanel.Model
             else
                 windowCurr.Dispatcher.Invoke(new SetImageDelegate(SetImageCam), new object[] { bitmap });
         }
-        
+
     }
 }

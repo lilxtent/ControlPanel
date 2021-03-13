@@ -5,14 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="805">
+        Title="MainWindow" Height="700" Width="1200
+        ">
     <Grid x:Name="mainGrid" Margin="0,0,0,2">
-        <ListBox x:Name="lbClients" Margin="10,40,278,172" Loaded="lbClients_Loaded" SelectionChanged="lbClients_SelectionChanged"/>
-        <Button x:Name="butSetupCamera" Content="camera" HorizontalAlignment="Left" Margin="704,399,0,0" VerticalAlignment="Top" Height="18" Width="64" Click="butSetupCamera_Click"/>
-        <StackPanel x:Name="spPersonalArea" Margin="532,10,10,172"/>
-        <Button x:Name="butAddClient" Content="добавить " HorizontalAlignment="Left" Margin="597,399,0,0" VerticalAlignment="Top" Width="82" Click="butAddClient_Click"/>
-        <Label Content="Поиск:" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="50"/>
-        <TextBox x:Name="TextBoxSearch" HorizontalAlignment="Left" Height="25" Margin="65,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" TextChanged="TextBoxSearch_TextChanged"/>
+        <ListBox x:Name="lbClients" Margin="25,93,669,150" Loaded="lbClients_Loaded" SelectionChanged="lbClients_SelectionChanged"/>
+        <Button x:Name="butSetupCamera" Content="camera" HorizontalAlignment="Left" Margin="1087,607,0,0" VerticalAlignment="Top" Height="33" Width="60" Click="butSetupCamera_Click"/>
+        <StackPanel x:Name="spPersonalArea" Margin="549,93,370,346"/>
+        <Button x:Name="butAddClient" Content="добавить клиента" HorizontalAlignment="Left" Margin="963,607,0,0" VerticalAlignment="Top" Width="119" Click="butAddClient_Click" Height="33"/>
+        <Label Content="Поиск:" HorizontalAlignment="Left" Height="25" Margin="25,63,0,0" VerticalAlignment="Top" Width="50"/>
+        <TextBox x:Name="TextBoxSearch" HorizontalAlignment="Left" Height="25" Margin="80,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" TextChanged="TextBoxSearch_TextChanged"/>
+
+        <StackPanel x:Name="spPayment" Margin="549,341,370,150"/>
+        <Button x:Name="UpdateList" Content="Button" Margin="442,537,669,112" Click="UpdateList_Click"/>
 
     </Grid>
 </Window>

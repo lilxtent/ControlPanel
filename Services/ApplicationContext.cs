@@ -12,6 +12,8 @@ namespace ControlPanel.Services
 
         public DbSet<ClientModel> ClientsModels { get; private set; }
         public DbSet<PaymentModel> Payments { get; private set; }
+        public DbSet<VisitModel> Visits { get; private set; }
+
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
