@@ -10,9 +10,9 @@ namespace ControlPanel.Model
     public class ClientModel
     {
         public int ID { get; private set; }
-        public string Surname { get; private set; }    
-        public string Name { get; private set; }       
-        public string Patronymic { get; private set; } 
+        public string Surname { get; private set; }
+        public string Name { get; private set; }
+        public string Patronymic { get; private set; }
         public DateTime BirthDate { get; private set; }
         public string PhoneNumber { get; private set; }//Длинна должна быть равна 11 (например 78005553535)
         public DateTime DateLastPayment { get; private set; }
@@ -26,7 +26,7 @@ namespace ControlPanel.Model
 
         public string FIO
         {
-            get => Surname + Name + Patronymic;
+            get => Surname + " " + Name + " " + Patronymic;
         }
 
         private ClientModel() { }
@@ -35,8 +35,8 @@ namespace ControlPanel.Model
                            DateTime birthDate, string phoneNumber,
                            DateTime dateLastPayment = default(DateTime),
                            string section = default,
-                           string photoPath=null, string parentType=null,
-                           string parentFIO= null, string parentPhoneNumber=null, DateTime dateLastVisit = default(DateTime))
+                           string photoPath = null, string parentType = null,
+                           string parentFIO = null, string parentPhoneNumber = null, DateTime dateLastVisit = default(DateTime))
         {
             if (surname is null || name is null || patronymic is null || phoneNumber is null)
                 throw new ArgumentNullException();
@@ -62,7 +62,14 @@ namespace ControlPanel.Model
         {
             DB.ClientsModels.Add(this);
         }
+
+        public IEnumerable<PaymentModel> GetPayments()
+        {
+            ApplicationContext DB = new();
+            return DB.Payments.ToList().Where(x => x.ID == ID);
+        }
     }
+
     class ClientModelInfo
     {
         public ClientModel clientModel { get; private set; }
@@ -75,7 +82,7 @@ namespace ControlPanel.Model
             string answer = "не оплачено";
             if (clientModel.DateLastPayment == default)
                 return answer;
-            int diffDays = (clientModel.DateLastPayment - DateTime.Today ).Days;
+            int diffDays = (clientModel.DateLastPayment - DateTime.Today).Days;
             if (diffDays < 0)
             {
                 answer = $" просрочено {Math.Abs(diffDays)} день";
@@ -96,5 +103,5 @@ namespace ControlPanel.Model
                 $"{clientModel.Patronymic} телефон: {clientModel.PhoneNumber} оплата: {RestOfDaysStr()}";
         }
 
-    } 
+    }
 }
