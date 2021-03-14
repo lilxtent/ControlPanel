@@ -157,7 +157,7 @@ namespace ControlPanel.ViewModel.MainWindow
             timePayment.AddHours(DateTime.Now.Date.Hour);
             // запись в таблицу платежей
             DB.Payments.Add(new PaymentModel(id, DateTime.Now,
-                DateStartPeriod.SelectedDate, dateEndPeriod.SelectedDate, float.Parse(costTextBox.Text)));
+                DateStartPeriod.SelectedDate.Value, dateEndPeriod.SelectedDate.Value, float.Parse(costTextBox.Text)));
             // обновляем информацию о последнем платеже клиента
             ClientModel NewClient = currClient.clientModel;
             NewClient.SetDateLastPayment(dateEndPeriod.SelectedDate);

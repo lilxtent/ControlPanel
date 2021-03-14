@@ -11,9 +11,9 @@ namespace ControlPanel.Model
     public class PaymentModel
     {
         public int ID { get; private set; }
-        public DateTime? DatePayment { get; private set; }
-        public DateTime? StartPeriod { get; private set; }
-        public DateTime? EndPeriod { get; private set; }
+        public DateTime DatePayment { get; private set; }
+        public DateTime StartPeriod { get; private set; }
+        public DateTime EndPeriod { get; private set; }
         public float Cost { get; private set; }
 
 
@@ -21,8 +21,8 @@ namespace ControlPanel.Model
 
         private PaymentModel() { }
 
-        public PaymentModel(int id, DateTime? datePayment, DateTime? startPeriod,
-                           DateTime? endPeriod, float cost)
+        public PaymentModel(int id, DateTime datePayment, DateTime startPeriod,
+                           DateTime endPeriod, float cost)
         {
 
             ID = id;
