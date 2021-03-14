@@ -24,6 +24,9 @@
     <Compile Update="View\PopUpWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\VisitJournalWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="View\AddUserWindow.xaml">
@@ -39,6 +42,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\PopUpWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\VisitJournalWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
