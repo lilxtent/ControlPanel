@@ -17,6 +17,8 @@ using AForge.Video.DirectShow;
 using System.Drawing;
 using System.IO;
 using System.ComponentModel;
+using System.Configuration;
+using System.Xml;
 
 namespace ControlPanel.View
 {
@@ -27,39 +29,46 @@ namespace ControlPanel.View
     {
         delegate void SetStringDelegate(string parameter);
         private ApplicationContext DB { get; set; }
-        private CameraModel camera;
+        private CameraModel Camera;
 
         public CamWindow(CameraModel cameraModel)
         {
             InitializeComponent();
             DB = new ApplicationContext();
-            camera = cameraModel;
-            camera.ImageContainer = imageCam;
-            camera.WindowCurr = this;
+            Camera = cameraModel;
+            Camera.ImageContainer = imageCam;
+            Camera.WindowCurr = this;
         }
-
 
         private void butONCam_Click(object sender, RoutedEventArgs e)
         {
-            camera.startVideo();
-            SetResult("");
+            Camera.startVideo();
         }
-        public void SetResult(string result)
+        private int FindIndexCameraInConfig(FilterInfoCollection Devises)
         {
-            if (CheckAccess())
-            tbCode.Text = FindClient(result);
-            else
-                Dispatcher.Invoke(new SetStringDelegate(SetResult), new object[] { result });
+            string cameraNameInConfig = "";
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.Load(@"C:\Users\ksh19\Desktop\Shadow\ControlPanel\Config.xml");
+
+            foreach (XmlNode xNode in xDoc.ChildNodes)
+                if (xNode.Name == "Camera")
+                    cameraNameInConfig = xNode.InnerText;
+
+            for (int i = 0; i < Devises.Count; i++)
+                if (cameraNameInConfig == Devises[i].Name)
+                    return i;
+            return 0;
         }
+        
         private void lbCams_Loaded(object sender, RoutedEventArgs e)
         {
-            if (camera.videoDevices.Count > 0)
+            if (Camera.videoDevices.Count > 0)
             {
-                foreach (FilterInfo device in camera.videoDevices)
+                foreach (FilterInfo device in Camera.videoDevices)
                 {
                     lbCams.Items.Add(device.Name);
                 }
-                lbCams.SelectedIndex = 0;
+                lbCams.SelectedIndex = FindIndexCameraInConfig(Camera.videoDevices);
             }
         }
         public string FindClient(string code)

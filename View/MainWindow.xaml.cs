@@ -19,6 +19,9 @@ using ControlPanel.Sourses;
 using System.Windows.Threading;
 using ControlPanel.ViewModel;
 using ControlPanel.ViewModel.MainWindow;
+using AForge.Video.DirectShow;
+using AForge.Video;
+using System.Xml;
 
 namespace ControlPanel
 {
@@ -30,13 +33,13 @@ namespace ControlPanel
         private bool isEnableAreaExtendSubscripion;
 
         private ApplicationContext DB { get; set; }
-        private CameraModel camera { get; set; }
+        private CameraModel Camera { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             DB = new ApplicationContext();
-            camera = new CameraModel(DB);
+            Camera = new CameraModel(DB);
             isEnableAreaExtendSubscripion = false;
         }
 
@@ -46,12 +49,44 @@ namespace ControlPanel
             ShowAllClientsShortData(lbClients);
         }
 
-        private void butSetupCamera_Click(object sender, RoutedEventArgs e)
+        private void miSetupCamera_Click(object sender, RoutedEventArgs e)
         {
-            var camWindow = new CamWindow(camera);
+            var camWindow = new CamWindow(Camera);
             camWindow.Show();
         }
+        private void butSetupCamera_Click(object sender, RoutedEventArgs e)
+        {
+            // Выгружаем название камеры из конфигураций
+            string cameraNameInConfig = "";
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.Load(@"C:\Users\ksh19\Desktop\Shadow\ControlPanel\Config.xml");
+            foreach (XmlNode xNode in xDoc.ChildNodes)
+                if (xNode.Name == "Camera")
+                    cameraNameInConfig = xNode.InnerText;
+            // ищем камеру с таким же названием среди Devices
+            int indexCamera = -1;
+            for (int i = 0; i < Camera.videoDevices.Count; i++)
+                if (cameraNameInConfig == Camera.videoDevices[i].Name)
+                {
+                    indexCamera = i;
+                    break;
+                }
+            // после нахождения инициализируем съемку
+            if (indexCamera != -1)
+            {
+                Camera.videoSource = new VideoCaptureDevice(Camera.videoDevices[indexCamera].MonikerString);
+                Camera.videoSource.NewFrame += new NewFrameEventHandler(Camera.videoNewFrame);
+                Camera.videoSource.Start();
+                Camera.isCameraStart = true;
+            }
+            // если не нашли выводим предупреждение
+            else
+            {
+                MessageBox.Show("Указанной камеры по умолчанию не существует\nЗайдите в раздел Настройки->Камера",
+                    "Предупреждение");
+            }
 
+        }
         private void lbClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (lbClients.SelectedIndex != -1)
@@ -169,5 +204,6 @@ namespace ControlPanel
             EditClientProfile Editor = new EditClientProfile(((ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content).clientModel);
             Editor.Show();
         }
+
     }
 }
