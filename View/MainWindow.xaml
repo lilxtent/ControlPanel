@@ -36,11 +36,7 @@
 
             </TabItem>
         </TabControl>
-
-
-
-
-
-
+        <Button x:Name="ButtonPaymentJournal" Content="Журнал оплат" HorizontalAlignment="Left" Height="25" Margin="536,513,0,0" VerticalAlignment="Top" Width="125" Click="ButtonPaymentJournal_Click" IsEnabled="False"/>
+        <Button x:Name="ButtonVisitJournal" Content="Журнал посещений" HorizontalAlignment="Left" Height="25" Margin="676,513,0,0" VerticalAlignment="Top" Width="126" Click="ButtonVisitJournal_Click" IsEnabled="False"/>
     </Grid>
 </Window>

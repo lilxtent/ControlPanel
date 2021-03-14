@@ -36,7 +36,6 @@ namespace ControlPanel
             camera = new CameraModel(DB);
         }
 
-
         private void lbClients_Loaded(object sender, RoutedEventArgs e)
         {
             ShowAllClientsShortData(lbClients);
@@ -52,6 +51,9 @@ namespace ControlPanel
         {
             if (lbClients.SelectedIndex != -1)
             {
+                ButtonPaymentJournal.IsEnabled = true;//активируем кнопку журнала оплат
+                ButtonVisitJournal.IsEnabled = true;//активируем кнопку журнала посещений
+
                 var lbi = (ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content;
                 // список объектов для общей информации о спортсмене(клиенте)
                 PersonalUnit[] personalObj = {
@@ -77,6 +79,9 @@ namespace ControlPanel
             }
             else
             {
+                ButtonPaymentJournal.IsEnabled = false;//деактивируем кнопку просмотра журнала
+                ButtonVisitJournal.IsEnabled = false;//деактивируем кнопку журнала посещений
+
                 spPersonalArea.Children.Clear();
                 spPayment.Children.Clear();
                 spAdditionalInfo.Children.Clear();
@@ -129,5 +134,20 @@ namespace ControlPanel
             UpdateClientsList(lbClients);
         }
 
+        private void ButtonPaymentJournal_Click(object sender, RoutedEventArgs e)
+        {
+            PaymentJournalWindow Window = 
+                new PaymentJournalWindow(
+                    ((ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content).clientModel);
+            Window.ShowDialog();
+        }
+
+        private void ButtonVisitJournal_Click(object sender, RoutedEventArgs e)
+        {
+            VisitJournalWindow Window =
+                new VisitJournalWindow(
+                    ((ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content).clientModel);
+            Window.ShowDialog();
+        }
     }
 }

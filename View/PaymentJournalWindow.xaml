@@ -1,0 +1,19 @@
+﻿<Window x:Class="ControlPanel.View.PaymentJournalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ControlPanel.View"
+        mc:Ignorable="d"
+        Title="PaymentJournal" Height="450" Width="800">
+    <Grid>
+        <DataGrid x:Name="PaymentJournalTable" AutoGenerateColumns="False"  Margin="11,10,10,10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата оплаты" Binding="{Binding Path=DatePayment}" Width="200"/>
+                <DataGridTextColumn Header="Начало периода" Binding="{Binding Path=StartPeriod}" Width="200"/>
+                <DataGridTextColumn Header="Конец периода" Binding="{Binding Path=EndPeriod}" Width="200"/>
+                <DataGridTextColumn Header="Сумма оплаты" Binding="{Binding Path=Cost}" Width="200"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
