@@ -90,6 +90,23 @@ namespace ControlPanel.Sourses
             return grid;
         }
     }
+    class PersonalSection : PersonalUnit
+    {
+        private string section { get; set; }
+        public PersonalSection(ClientModelInfo client)
+        {
+            section = client.clientModel.Section;
+        }
+        public override Grid getGrid()
+        {
+            Grid grid = new Grid();
+            if (section == default) section = "не указано";
+            grid.Children.Add(new Label() { Content = $"Секция: {section}" });
+
+            return grid;
+        }
+    }
+
     class PersonalBirthDate : PersonalUnit
     {
         private DateTime BirthDate { get; set; }
@@ -105,64 +122,42 @@ namespace ControlPanel.Sourses
             return grid;
         }
     }
-    class PersonalButtonsLine : PersonalUnit
+    class PersonalLastPay : PersonalUnit
     {
-        private MainWindow Window { get; set; }
-        private bool isEnableAreaExtendSubscripion;
-        public PersonalButtonsLine(MainWindow mainWindow)
+        private DateTime LastPay { get; set; }
+        public PersonalLastPay(ClientModelInfo client)
         {
-            Window = mainWindow;
-            isEnableAreaExtendSubscripion = false;
+            LastPay = client.clientModel.DateLastPayment;
         }
         public override Grid getGrid()
         {
             Grid grid = new Grid();
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            grid.ColumnDefinitions.Add(new ColumnDefinition());
-            Button ButRegistr = new Button()
-            {
-                Content = $"редактировать",
-                Margin = new Thickness(5, 0, 0, 0)
-            };
-            ButRegistr.Click += new RoutedEventHandler(ButRegistr_Click);
+            string lastPay = "нет оплат";
+            if (LastPay != default)
+                lastPay = LastPay.ToLongDateString();
 
-            Button ButExtendSubscription = new Button()
-            {
-                Content = $"продлить абонемент",
-                Margin = new Thickness(0, 0, 5, 0),
-                Background = new SolidColorBrush(Color.FromArgb(255, 0, 244, 137)),
-            };
-            ButExtendSubscription.Click += new RoutedEventHandler(ButExtendSubscription_Click);
-
-            grid.Children.Add(ButRegistr);
-            grid.Children.Add(ButExtendSubscription);
-
-            Grid.SetColumn(ButExtendSubscription, 0);
-            Grid.SetColumn(ButRegistr, 1);
-
+            grid.Children.Add(new Label() { Content = $"Оплачено до: {lastPay}" });
 
             return grid;
         }
-        private void ButExtendSubscription_Click(object sender, RoutedEventArgs e)
+    }
+    class PersonalLastVisit : PersonalUnit
+    {
+        private DateTime LastVisit { get; set; }
+        public PersonalLastVisit(ClientModelInfo client)
         {
-            // если мы уже активировали поле для продления абонемента мы его закроем и наоборот
-            if (isEnableAreaExtendSubscripion)
-            {
-                Window.spPayment.Children.Clear();
-                isEnableAreaExtendSubscripion = false;
-            }
-            else
-            {
-                ExtendSubscription AreaExtendSubscripion = new ExtendSubscription(Window);
-                AreaExtendSubscripion.Show();
-                isEnableAreaExtendSubscripion = true;
-            }
+            LastVisit = client.clientModel.DateLastVisit;
         }
-        private void ButRegistr_Click(object sender, RoutedEventArgs e)
+        public override Grid getGrid()
         {
-            // инициализируем окно редактирования
-            EditClientProfile Editor = new EditClientProfile(((ClientModelInfo)(Window.lbClients.SelectedItem as ListBoxItem).Content).clientModel);
-            Editor.Show();
+            Grid grid = new Grid();
+            string lastPay = "нет посещеинй";
+            if (LastVisit != default)
+                lastPay = LastVisit.ToLongDateString();
+
+            grid.Children.Add(new Label() { Content = $"Последний раз был: {lastPay}" });
+
+            return grid;
         }
     }
 }

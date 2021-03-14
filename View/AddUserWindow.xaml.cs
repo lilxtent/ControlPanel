@@ -93,7 +93,8 @@ namespace ControlPanel.View
                                                ProfilePicture.Source.ToString(),
                                                ClientParentType.Text.Trim(' '),
                                                ClientParentSurname.Text.Trim(' ') + " " + ClientParentName.Text.Trim(' ') + " " + ClientParentPatronymic.Text.Trim(' '),
-                                               ClientParentPhoneNumber.Text.Trim(' ')
+                                               ClientParentPhoneNumber.Text.Trim(' '),
+                                               default(DateTime)
                                                );
             ApplicationContext DB = new ApplicationContext();
             if (DB.ClientsModels.Find(new object[] { EnterdClientData.ID }) is not null)

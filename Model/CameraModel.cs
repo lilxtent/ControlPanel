@@ -9,23 +9,25 @@ using ControlPanel;
 using System.Windows.Threading;
 using System.Windows.Media.Imaging;
 using ControlPanel.View;
-
+using System.Configuration;
 using System.Windows;
 using ControlPanel.Services;
 using System.Linq;
+using System.Xml;
 
 namespace ControlPanel.Model
 {
 
     public class CameraModel
     {
-        public FilterInfoCollection videoDevices { get; private set; }
-        public VideoCaptureDevice videoSource { get; private set; }
+        public FilterInfoCollection videoDevices { get;  set; }
+        public VideoCaptureDevice videoSource { get;  set; }
         private ZXing.BarcodeReader reader { get; set; }
         private CamWindow windowCurr;
         private System.Windows.Controls.Image imageContainer;
         private ApplicationContext DB { get; set; }
         public bool isPopUpWindowActive;
+        public bool isCameraStart;
 
 
         delegate void SetImageDelegate(Bitmap parameter);
@@ -52,27 +54,47 @@ namespace ControlPanel.Model
 
             this.DB = new();
             isPopUpWindowActive = false;
+            isCameraStart = false;
         }
-
+        private void SetCameraInConfig(string newCameraName)
+        {
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.Load(@"C:\Users\ksh19\Desktop\Shadow\ControlPanel\Config.xml");
+            foreach (XmlNode xNode in xDoc.ChildNodes)
+            {
+                if(xNode.Name == "Camera")
+                {
+                    xNode.InnerText = newCameraName;
+                }
+            }
+            xDoc.Save(@"C:\Users\ksh19\Desktop\Shadow\ControlPanel\Config.xml");
+        }
 
         public void startVideo()
         {
+            // если выбранная камера отличается от камеры в конфигурации мы перезаписываем конфигурацию
+            if (windowCurr.lbCams.SelectedItem.ToString() != ConfigurationManager.AppSettings["CameraName"].ToString())
+            {
+                SetCameraInConfig(windowCurr.lbCams.SelectedItem.ToString());
+
+            }
             videoSource = new VideoCaptureDevice(videoDevices[windowCurr.lbCams.SelectedIndex].MonikerString);
             videoSource.NewFrame += new NewFrameEventHandler(videoNewFrame);
             videoSource.Start();
+            isCameraStart = true;
         }
-        private void videoNewFrame(object sender, NewFrameEventArgs eventArgs)
+        public void videoNewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             if (!isPopUpWindowActive)
             {
                 Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
+                
                 SetImageCam(bitmap);
 
                 ZXing.Result result = reader.Decode((Bitmap)eventArgs.Frame.Clone());
 
                 if (result != null)
                 {
-                    windowCurr.SetResult(result.Text);
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         var popupWindow = new PopUpWindow(FindClient(result.Text), this) { Name = "popupWindow" };
@@ -131,11 +153,12 @@ namespace ControlPanel.Model
 
         private void SetImageCam(Bitmap bitmap)
         {
+            if (windowCurr is null) return; // если окно не инициализированно
+
             if (windowCurr.CheckAccess())
                 windowCurr.imageCam.Source = (System.Windows.Media.ImageSource)ToBitmapImage(bitmap);
             else
                 windowCurr.Dispatcher.Invoke(new SetImageDelegate(SetImageCam), new object[] { bitmap });
         }
-
     }
 }

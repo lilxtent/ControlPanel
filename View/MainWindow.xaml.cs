@@ -18,6 +18,10 @@ using ControlPanel.View;
 using ControlPanel.Sourses;
 using System.Windows.Threading;
 using ControlPanel.ViewModel;
+using ControlPanel.ViewModel.MainWindow;
+using AForge.Video.DirectShow;
+using AForge.Video;
+using System.Xml;
 
 namespace ControlPanel
 {
@@ -26,14 +30,17 @@ namespace ControlPanel
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool isEnableAreaExtendSubscripion;
+
         private ApplicationContext DB { get; set; }
-        private CameraModel camera { get; set; }
+        private CameraModel Camera { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
             DB = new ApplicationContext();
-            camera = new CameraModel(DB);
+            Camera = new CameraModel(DB);
+            isEnableAreaExtendSubscripion = false;
         }
 
         private void lbClients_Loaded(object sender, RoutedEventArgs e)
@@ -41,12 +48,44 @@ namespace ControlPanel
             ShowAllClientsShortData(lbClients);
         }
 
-        private void butSetupCamera_Click(object sender, RoutedEventArgs e)
+        private void miSetupCamera_Click(object sender, RoutedEventArgs e)
         {
-            var camWindow = new CamWindow(camera);
+            var camWindow = new CamWindow(Camera);
             camWindow.Show();
         }
+        private void butSetupCamera_Click(object sender, RoutedEventArgs e)
+        {
+            // Выгружаем название камеры из конфигураций
+            string cameraNameInConfig = "";
+            XmlDocument xDoc = new XmlDocument();
+            xDoc.Load(@"C:\Users\ksh19\Desktop\Shadow\ControlPanel\Config.xml");
+            foreach (XmlNode xNode in xDoc.ChildNodes)
+                if (xNode.Name == "Camera")
+                    cameraNameInConfig = xNode.InnerText;
+            // ищем камеру с таким же названием среди Devices
+            int indexCamera = -1;
+            for (int i = 0; i < Camera.videoDevices.Count; i++)
+                if (cameraNameInConfig == Camera.videoDevices[i].Name)
+                {
+                    indexCamera = i;
+                    break;
+                }
+            // после нахождения инициализируем съемку
+            if (indexCamera != -1)
+            {
+                Camera.videoSource = new VideoCaptureDevice(Camera.videoDevices[indexCamera].MonikerString);
+                Camera.videoSource.NewFrame += new NewFrameEventHandler(Camera.videoNewFrame);
+                Camera.videoSource.Start();
+                Camera.isCameraStart = true;
+            }
+            // если не нашли выводим предупреждение
+            else
+            {
+                MessageBox.Show("Указанной камеры по умолчанию не существует\nЗайдите в раздел Настройки->Камера",
+                    "Предупреждение");
+            }
 
+        }
         private void lbClients_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (lbClients.SelectedIndex != -1)
@@ -59,9 +98,11 @@ namespace ControlPanel
                 PersonalUnit[] personalObj = {
                 new PersonalAvatar(lbi),
                 new PersonalFIO(lbi),
+                new PersonalSection(lbi),
                 new PersonalPhone(lbi),
                 new PersonalBirthDate(lbi),
-                new PersonalButtonsLine(this)
+                new PersonalLastPay(lbi),
+                new PersonalLastVisit(lbi),
                 };
                 spPersonalArea.Children.Clear();
                 spPayment.Children.Clear();
@@ -149,5 +190,40 @@ namespace ControlPanel
                     ((ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content).clientModel);
             Window.ShowDialog();
         }
+        private void butExtendSubscription_Click(object sender, RoutedEventArgs e)
+        {
+            // если клиент не выбран сообщить
+            if (lbClients.SelectedIndex == -1)
+            {
+                MessageBox.Show("Выберите клиента из списка!");
+                return;
+            }
+            // если мы уже активировали поле для продления абонемента мы его закроем и наоборот
+            if (isEnableAreaExtendSubscripion)
+            {
+                spPayment.Children.Clear();
+                isEnableAreaExtendSubscripion = false;
+            }
+            else
+            {
+                ExtendSubscription AreaExtendSubscripion = new ExtendSubscription(this);
+                AreaExtendSubscripion.Show();
+                isEnableAreaExtendSubscripion = true;
+            }
+        }
+
+        private void butEdit_Click(object sender, RoutedEventArgs e)
+        {
+            // если клиент не выбран сообщить
+            if (lbClients.SelectedIndex == -1)
+            {
+                MessageBox.Show("Выберите клиента из списка!");
+                return;
+            }
+            // инициализируем окно редактирования
+            EditClientProfile Editor = new EditClientProfile(((ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content).clientModel);
+            Editor.Show();
+        }
+
     }
 }
