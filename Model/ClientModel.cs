@@ -68,6 +68,12 @@ namespace ControlPanel.Model
             ApplicationContext DB = new();
             return DB.Payments.ToList().Where(x => x.ID == ID);
         }
+
+        public IEnumerable<VisitModel> GetVisits()
+        {
+            ApplicationContext DB = new();
+            return DB.Visits.ToList().Where(x => x.ID == ID);
+        }
     }
 
     class ClientModelInfo
