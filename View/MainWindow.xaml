@@ -19,14 +19,14 @@
             </MenuItem>
         </Menu>
 
-        <ListBox x:Name="lbClients" Margin="12,59,682,184" Loaded="lbClients_Loaded" SelectionChanged="lbClients_SelectionChanged"/>
+        <ListBox x:Name="lbClients" Margin="12,59,682,72" Loaded="lbClients_Loaded" SelectionChanged="lbClients_SelectionChanged"/>
         <Button x:Name="butSetupCamera" Content="camera" HorizontalAlignment="Left" Margin="1087,607,0,0" VerticalAlignment="Top" Height="33" Width="60" Click="butSetupCamera_Click"/>
         <Button x:Name="butAddClient" Content="добавить клиента" HorizontalAlignment="Left" Margin="963,607,0,0" VerticalAlignment="Top" Width="119" Click="butAddClient_Click" Height="33"/>
         <Label Content="Поиск:" HorizontalAlignment="Left" Height="25" Margin="12,29,0,0" VerticalAlignment="Top" Width="50"/>
         <TextBox x:Name="TextBoxSearch" HorizontalAlignment="Left" Height="25" Margin="67,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" TextChanged="TextBoxSearch_TextChanged"/>
 
-        <StackPanel x:Name="spPayment" Margin="525,427,391,72" Background="#FFCCCCCC"/>
-        <Button x:Name="UpdateList" Content="Button" Margin="387,505,724,0" Click="UpdateList_Click" VerticalAlignment="Top"/>
+        <StackPanel x:Name="spPayment" Margin="525,427,373,72" Background="#FFCCCCCC"/>
+        <Button x:Name="UpdateList" Content="Button" Margin="415,644,696,0" Click="UpdateList_Click" VerticalAlignment="Top"/>
         <TabControl Margin="523,36,390,317">
             <TabItem Header="Спортсмен">
                 <StackPanel x:Name="spPersonalArea" Margin="0,0,0,-2" Background="#FFE5E5E5"/>
@@ -36,10 +36,10 @@
 
             </TabItem>
         </TabControl>
-        <Button x:Name="butExtendSubscription" Content="Продлить абонемент" HorizontalAlignment="Left" Margin="525,402,0,0" VerticalAlignment="Top" Width="127" Click="butExtendSubscription_Click"/>
-        <Button x:Name="butEdit" Content="Редактировать" HorizontalAlignment="Left" Margin="657,402,0,0" VerticalAlignment="Top" Width="108" Click="butEdit_Click"/>
+        <Button x:Name="butExtendSubscription" Content="Продлить абонемент" HorizontalAlignment="Left" Margin="523,402,0,0" VerticalAlignment="Top" Width="136" Click="butExtendSubscription_Click" IsEnabled="False"/>
+        <Button x:Name="butEdit" Content="Редактировать" HorizontalAlignment="Left" Margin="677,402,0,0" VerticalAlignment="Top" Width="133" Click="butEdit_Click" IsEnabled="False"/>
 
-        <Button x:Name="ButtonPaymentJournal" Content="Журнал оплат" HorizontalAlignment="Left" Height="25" Margin="522,372,0,0" VerticalAlignment="Top" Width="125" Click="ButtonPaymentJournal_Click" IsEnabled="False"/>
-        <Button x:Name="ButtonVisitJournal" Content="Журнал посещений" HorizontalAlignment="Left" Height="25" Margin="652,372,0,0" VerticalAlignment="Top" Width="126" Click="ButtonVisitJournal_Click" IsEnabled="False"/>
+        <Button x:Name="ButtonPaymentJournal" Content="Журнал оплат" HorizontalAlignment="Left" Height="20" Margin="523,377,0,0" VerticalAlignment="Top" Width="136" Click="ButtonPaymentJournal_Click" IsEnabled="False"/>
+        <Button x:Name="ButtonVisitJournal" Content="Журнал посещений" HorizontalAlignment="Left" Height="20" Margin="677,377,0,0" VerticalAlignment="Top" Width="133" Click="ButtonVisitJournal_Click" IsEnabled="False"/>
     </Grid>
 </Window>

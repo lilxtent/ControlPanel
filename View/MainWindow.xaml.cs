@@ -51,7 +51,7 @@ namespace ControlPanel
         private void miSetupCamera_Click(object sender, RoutedEventArgs e)
         {
             var camWindow = new CamWindow(Camera);
-            camWindow.Show();
+            camWindow.ShowDialog();
         }
         private void butSetupCamera_Click(object sender, RoutedEventArgs e)
         {
@@ -90,8 +90,10 @@ namespace ControlPanel
         {
             if (lbClients.SelectedIndex != -1)
             {
-                ButtonPaymentJournal.IsEnabled = true;//активируем кнопку журнала оплат
-                ButtonVisitJournal.IsEnabled = true;//активируем кнопку журнала посещений
+                ButtonPaymentJournal.IsEnabled = true; // активируем кнопку журнала оплат
+                ButtonVisitJournal.IsEnabled = true; // активируем кнопку журнала посещений
+                butExtendSubscription.IsEnabled = true; // активируем кнопку редактирования
+                butEdit.IsEnabled = true; // активируем кнопку продления абонемента
 
                 var lbi = (ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content;
                 // список объектов для общей информации о спортсмене(клиенте)
@@ -120,8 +122,11 @@ namespace ControlPanel
             }
             else
             {
-                ButtonPaymentJournal.IsEnabled = false;//деактивируем кнопку просмотра журнала
-                ButtonVisitJournal.IsEnabled = false;//деактивируем кнопку журнала посещений
+                ButtonPaymentJournal.IsEnabled = false; // деактивируем кнопку просмотра журнала
+                ButtonVisitJournal.IsEnabled = false; // деактивируем кнопку журнала посещений
+                butExtendSubscription.IsEnabled = false; // деактивируем кнопку редактирования
+                butEdit.IsEnabled = false; // деактивируем кнопку продления абонемента
+
 
                 spPersonalArea.Children.Clear();
                 spPayment.Children.Clear();
@@ -132,7 +137,7 @@ namespace ControlPanel
         private void butAddClient_Click(object sender, RoutedEventArgs e)
         {
             AddUserWindow userWindow = new AddUserWindow();
-            userWindow.Show();
+            userWindow.ShowDialog();
         }
 
         private void TextBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -222,7 +227,7 @@ namespace ControlPanel
             }
             // инициализируем окно редактирования
             EditClientProfile Editor = new EditClientProfile(((ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content).clientModel);
-            Editor.Show();
+            Editor.ShowDialog();
         }
 
     }
