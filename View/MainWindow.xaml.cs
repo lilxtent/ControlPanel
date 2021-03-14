@@ -53,6 +53,7 @@ namespace ControlPanel
             if (lbClients.SelectedIndex != -1)
             {
                 var lbi = (ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content;
+                // список объектов для общей информации о спортсмене(клиенте)
                 PersonalUnit[] personalObj = {
                 new PersonalAvatar(lbi),
                 new PersonalFIO(lbi),
@@ -62,13 +63,23 @@ namespace ControlPanel
                 };
                 spPersonalArea.Children.Clear();
                 spPayment.Children.Clear();
+                spAdditionalInfo.Children.Clear();
+
                 foreach (var el in personalObj)
                     spPersonalArea.Children.Add(el.getGrid());
+
+                // список объектов для дополнительной информации
+                PersonalUnit[] AdditionalInfoObj = {
+                new AdditionalInfoParent(lbi)
+                };
+                foreach (var el in AdditionalInfoObj)
+                    spAdditionalInfo.Children.Add(el.getGrid());
             }
             else
             {
                 spPersonalArea.Children.Clear();
                 spPayment.Children.Clear();
+                spAdditionalInfo.Children.Clear();
             }
         }
 
@@ -117,5 +128,6 @@ namespace ControlPanel
         {
             UpdateClientsList(lbClients);
         }
+
     }
 }
