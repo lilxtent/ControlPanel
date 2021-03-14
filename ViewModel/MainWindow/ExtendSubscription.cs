@@ -41,12 +41,19 @@ namespace ControlPanel.ViewModel.MainWindow
         private DatePicker dateEndPeriod { get; set; }
         private ComboBox comboBox { get; set; }
         private TextBox costTextBox { get; set; }
+        private ClientModel currClient { get; set; }
+        private ApplicationContext DB { get; set; }
+
+
 
         private int comboBoxAnotherIndex;
 
         public ExtendSubscription(ControlPanel.MainWindow CurrWindow)
         {
             this.CurrWindow = CurrWindow;
+            DB = new();
+            ListBoxItem lbi = ((CurrWindow.lbClients as ListBox).SelectedItem as ListBoxItem);
+            currClient = (lbi.Content as ClientModelInfo).clientModel;
 
             Grid = new Grid();
             // разметили сетку 6 строк на 2 колонки
@@ -57,7 +64,8 @@ namespace ControlPanel.ViewModel.MainWindow
                 Grid.RowDefinitions.Add(new RowDefinition());
 
             // инициализировани объекты с датой
-            DateStartPeriod = new DatePicker() { SelectedDate = DateTime.Today };
+            DateStartPeriod = new DatePicker() {
+                SelectedDate = currClient.DateLastPayment == default ? DateTime.Today : currClient.DateLastPayment};
             dateEndPeriod = new DatePicker() { };
             DateStartPeriod.SelectedDateChanged += new EventHandler<SelectionChangedEventArgs>(DatePicker_SelectedDateChanged);
             dateEndPeriod.SelectedDateChanged += new EventHandler<SelectionChangedEventArgs>(DatePicker_SelectedDateChanged);
@@ -147,19 +155,63 @@ namespace ControlPanel.ViewModel.MainWindow
         {
             comboBox.SelectedIndex = comboBoxAnotherIndex;
         }
+        private bool CheckAllError()
+        {
+            void ThisFieldCantBeEmpty(string fieldName) =>
+                MessageBox.Show($"Это поле не может быть пустым: {fieldName}", "Ошибка");
+
+            // обработка пустых полей
+            if (DateStartPeriod.SelectedDate == default)
+            {
+                ThisFieldCantBeEmpty("Старт");
+                return false;
+            }
+            if (dateEndPeriod.SelectedDate == default)
+            {
+                ThisFieldCantBeEmpty("Конец");
+                return false;
+            }
+            if (costTextBox.Text.Trim(' ') == "")
+            {
+                ThisFieldCantBeEmpty("Сумма оплаты");
+                return false;
+            }
+            // обработка суммы на float
+            float temp;
+            if (!(float.TryParse(costTextBox.Text.Trim(' '), out temp)))
+            {
+                MessageBox.Show($"Некорректная сумма оплаты!", "Ошибка");
+                return false;
+            }
+            // обработка некорректного периода оплаты
+            if (((DateTime)dateEndPeriod.SelectedDate - (DateTime)DateStartPeriod.SelectedDate).Days < 0)
+            {
+                MessageBox.Show($"Некорректный период оплаты!", "Ошибка");
+                return false;
+            }
+            // смотрим пытаемся ли мы оплатить уже оплаченный период дей
+            if (currClient.DateLastPayment > DateStartPeriod.SelectedDate)
+            {
+                MessageBox.Show($"В период который вы оплачиваете входят оплаченные дни!", "Ошибка");
+                return false;
+            }
+
+            return true;
+        }
+
         private void butExtend_Click(object sender, RoutedEventArgs e)
         {
-            ApplicationContext DB = new();
-            ListBoxItem lbi = ((CurrWindow.lbClients as ListBox).SelectedItem as ListBoxItem);
-            var currClient = lbi.Content as ClientModelInfo;
-            int id = currClient.clientModel.ID;
+            if (!CheckAllError()) return;
+            
+            int id = currClient.ID;
+
             DateTime timePayment = DateTime.Today;
             timePayment.AddHours(DateTime.Now.Date.Hour);
             // запись в таблицу платежей
             DB.Payments.Add(new PaymentModel(id, DateTime.Now,
-                DateStartPeriod.SelectedDate, dateEndPeriod.SelectedDate, float.Parse(costTextBox.Text)));
+                DateStartPeriod.SelectedDate, dateEndPeriod.SelectedDate, float.Parse(costTextBox.Text.Trim(' '))));
             // обновляем информацию о последнем платеже клиента
-            ClientModel NewClient = currClient.clientModel;
+            ClientModel NewClient = currClient;
             NewClient.SetDateLastPayment(dateEndPeriod.SelectedDate);
             DB.ClientsModels.Update(NewClient);
             // сохраняем бд
