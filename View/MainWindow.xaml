@@ -36,6 +36,7 @@
 
             </TabItem>
         </TabControl>
+        <Button x:Name="ButtonPaymentJournal" Content="Журнал оплат" HorizontalAlignment="Left" Height="25" Margin="536,513,0,0" VerticalAlignment="Top" Width="125" Click="ButtonPaymentJournal_Click" IsEnabled="False"/>
 
 
 
