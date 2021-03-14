@@ -18,6 +18,7 @@ using ControlPanel.View;
 using ControlPanel.Sourses;
 using System.Windows.Threading;
 using ControlPanel.ViewModel;
+using ControlPanel.ViewModel.MainWindow;
 
 namespace ControlPanel
 {
@@ -26,6 +27,8 @@ namespace ControlPanel
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool isEnableAreaExtendSubscripion;
+
         private ApplicationContext DB { get; set; }
         private CameraModel camera { get; set; }
 
@@ -34,6 +37,7 @@ namespace ControlPanel
             InitializeComponent();
             DB = new ApplicationContext();
             camera = new CameraModel(DB);
+            isEnableAreaExtendSubscripion = false;
         }
 
 
@@ -57,9 +61,11 @@ namespace ControlPanel
                 PersonalUnit[] personalObj = {
                 new PersonalAvatar(lbi),
                 new PersonalFIO(lbi),
+                new PersonalSection(lbi),
                 new PersonalPhone(lbi),
                 new PersonalBirthDate(lbi),
-                new PersonalButtonsLine(this)
+                new PersonalLastPay(lbi),
+                new PersonalLastVisit(lbi),
                 };
                 spPersonalArea.Children.Clear();
                 spPayment.Children.Clear();
@@ -129,5 +135,39 @@ namespace ControlPanel
             UpdateClientsList(lbClients);
         }
 
+        private void butExtendSubscription_Click(object sender, RoutedEventArgs e)
+        {
+            // если клиент не выбран сообщить
+            if (lbClients.SelectedIndex == -1)
+            {
+                MessageBox.Show("Выберите клиента из списка!");
+                return;
+            }
+            // если мы уже активировали поле для продления абонемента мы его закроем и наоборот
+            if (isEnableAreaExtendSubscripion)
+            {
+                spPayment.Children.Clear();
+                isEnableAreaExtendSubscripion = false;
+            }
+            else
+            {
+                ExtendSubscription AreaExtendSubscripion = new ExtendSubscription(this);
+                AreaExtendSubscripion.Show();
+                isEnableAreaExtendSubscripion = true;
+            }
+        }
+
+        private void butEdit_Click(object sender, RoutedEventArgs e)
+        {
+            // если клиент не выбран сообщить
+            if (lbClients.SelectedIndex == -1)
+            {
+                MessageBox.Show("Выберите клиента из списка!");
+                return;
+            }
+            // инициализируем окно редактирования
+            EditClientProfile Editor = new EditClientProfile(((ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content).clientModel);
+            Editor.Show();
+        }
     }
 }

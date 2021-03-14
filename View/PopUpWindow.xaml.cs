@@ -80,6 +80,9 @@ namespace ControlPanel.View
             }
             ApplicationContext DB = new();
             DB.Visits.Add(new VisitModel(Client.ID, DateTime.Now));
+            ClientModel NewClient = Client;
+            NewClient.DateLastVisit = DateTime.Now;
+            DB.ClientsModels.Update(NewClient);
             DB.SaveChanges();
         }
     }

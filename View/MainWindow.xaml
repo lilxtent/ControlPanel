@@ -25,9 +25,9 @@
         <Label Content="Поиск:" HorizontalAlignment="Left" Height="25" Margin="12,29,0,0" VerticalAlignment="Top" Width="50"/>
         <TextBox x:Name="TextBoxSearch" HorizontalAlignment="Left" Height="25" Margin="67,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" TextChanged="TextBoxSearch_TextChanged"/>
 
-        <StackPanel x:Name="spPayment" Margin="536,317,383,184" Background="#FFCCCCCC"/>
-        <Button x:Name="UpdateList" Content="Button" Margin="429,503,682,146" Click="UpdateList_Click"/>
-        <TabControl Margin="536,31,383,373">
+        <StackPanel x:Name="spPayment" Margin="541,434,378,65" Background="#FFCCCCCC"/>
+        <Button x:Name="UpdateList" Content="Button" Margin="387,505,724,0" Click="UpdateList_Click" VerticalAlignment="Top"/>
+        <TabControl Margin="523,36,390,317">
             <TabItem Header="Спортсмен">
                 <StackPanel x:Name="spPersonalArea" Margin="0,0,0,-2" Background="#FFE5E5E5"/>
             </TabItem>
@@ -36,6 +36,8 @@
 
             </TabItem>
         </TabControl>
+        <Button x:Name="butExtendSubscription" Content="Продлить абонемент" HorizontalAlignment="Left" Margin="541,409,0,0" VerticalAlignment="Top" Width="126" Click="butExtendSubscription_Click"/>
+        <Button x:Name="butEdit" Content="Редактировать" HorizontalAlignment="Left" Margin="672,409,0,0" VerticalAlignment="Top" Width="106" Click="butEdit_Click"/>
 
 
 

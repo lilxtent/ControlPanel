@@ -21,7 +21,7 @@ namespace ControlPanel.Model
         public string ParentType { get; private set; }
         public string ParentFIO { get; private set; }
         public string ParentPhoneNumber { get; private set; }//Длинна должна быть равна 11 (например 78005553535)
-        public DateTime DateLastVisit { get; private set; }//Длинна должна быть равна 11 (например 78005553535)
+        public DateTime DateLastVisit { get; set; }
 
 
         public string FIO
