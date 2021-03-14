@@ -51,20 +51,36 @@ namespace ControlPanel.View
         private void InitializeClientInfo()
         {
             labelFIO.HorizontalContentAlignment = HorizontalAlignment.Center;
+            // если клиент найден выводим инфрмацию о нем
             if (Client is not null)
             {
 
                 labelFIO.Content = $"{Client.Surname} {Client.Name} {Client.Patronymic}";
                 imagePhoto.Source = new BitmapImage(new Uri(Client.PhotoPath, UriKind.Absolute));
                 this.Background = new SolidColorBrush(Color.FromArgb(255, 0, 244, 137));
+
+                SaveVisitInDB(); // сохраняем информацию о посещении
             }
+            // иначе информируем об обратном
             else
             {
                 imagePhoto.Source = new BitmapImage(new Uri(@"C:\Users\ksh19\Desktop\Shadow\ControlPanel\Sourses\Images\default-user-image.png",
                     UriKind.Absolute));
                 this.Background = new SolidColorBrush(Color.FromArgb(255, 254, 244, 137));
             }
-            
+        }
+        private void SaveVisitInDB()
+        {
+            // мы считаем разницу между текущим временем и временем посещения только в случе если клиент
+            // уже посещал клуб
+            if (Client.DateLastVisit != default)
+            {
+                double diff = (DateTime.Now - Client.DateLastVisit).TotalHours;
+                if (diff >= 1) return; // если в течении предыдущего часа вы уже отмечались, то вас не запишет снова
+            }
+            ApplicationContext DB = new();
+            DB.Visits.Add(new VisitModel(Client.ID, DateTime.Now));
+            DB.SaveChanges();
         }
     }
 }

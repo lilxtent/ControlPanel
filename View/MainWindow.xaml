@@ -5,18 +5,42 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1200
-        ">
-    <Grid x:Name="mainGrid" Margin="0,0,0,2">
-        <ListBox x:Name="lbClients" Margin="25,93,669,150" Loaded="lbClients_Loaded" SelectionChanged="lbClients_SelectionChanged"/>
-        <Button x:Name="butSetupCamera" Content="camera" HorizontalAlignment="Left" Margin="1087,607,0,0" VerticalAlignment="Top" Height="33" Width="60" Click="butSetupCamera_Click"/>
-        <StackPanel x:Name="spPersonalArea" Margin="549,93,370,346"/>
-        <Button x:Name="butAddClient" Content="добавить клиента" HorizontalAlignment="Left" Margin="963,607,0,0" VerticalAlignment="Top" Width="119" Click="butAddClient_Click" Height="33"/>
-        <Label Content="Поиск:" HorizontalAlignment="Left" Height="25" Margin="25,63,0,0" VerticalAlignment="Top" Width="50"/>
-        <TextBox x:Name="TextBoxSearch" HorizontalAlignment="Left" Height="25" Margin="80,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" TextChanged="TextBoxSearch_TextChanged"/>
+        Title="MainWindow" Height="700" Width="1200"
+        >
+    <Grid x:Name="mainGrid" Margin="0,0,0,0" Background="#FFE5E5E5">
+        <Menu HorizontalAlignment="Left" VerticalAlignment="Top" Width="117">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Open"></MenuItem>
+                <MenuItem Header="Save"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Настройки">
+                <MenuItem Header="Камера"></MenuItem>
+                <MenuItem Header="Окно посетителя"></MenuItem>
+            </MenuItem>
+        </Menu>
 
-        <StackPanel x:Name="spPayment" Margin="549,341,370,150"/>
-        <Button x:Name="UpdateList" Content="Button" Margin="442,537,669,112" Click="UpdateList_Click"/>
+        <ListBox x:Name="lbClients" Margin="12,59,682,184" Loaded="lbClients_Loaded" SelectionChanged="lbClients_SelectionChanged"/>
+        <Button x:Name="butSetupCamera" Content="camera" HorizontalAlignment="Left" Margin="1087,607,0,0" VerticalAlignment="Top" Height="33" Width="60" Click="butSetupCamera_Click"/>
+        <Button x:Name="butAddClient" Content="добавить клиента" HorizontalAlignment="Left" Margin="963,607,0,0" VerticalAlignment="Top" Width="119" Click="butAddClient_Click" Height="33"/>
+        <Label Content="Поиск:" HorizontalAlignment="Left" Height="25" Margin="12,29,0,0" VerticalAlignment="Top" Width="50"/>
+        <TextBox x:Name="TextBoxSearch" HorizontalAlignment="Left" Height="25" Margin="67,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" TextChanged="TextBoxSearch_TextChanged"/>
+
+        <StackPanel x:Name="spPayment" Margin="536,317,383,184" Background="#FFCCCCCC"/>
+        <Button x:Name="UpdateList" Content="Button" Margin="429,503,682,146" Click="UpdateList_Click"/>
+        <TabControl Margin="536,31,383,373">
+            <TabItem Header="Спортсмен">
+                <StackPanel x:Name="spPersonalArea" Margin="0,0,0,-2" Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="Дополнительная информация">
+                <StackPanel x:Name="spAdditionalInfo" Margin="0,0,0,-2" Background="#FFE5E5E5"/>
+
+            </TabItem>
+        </TabControl>
+
+
+
+
+
 
     </Grid>
 </Window>

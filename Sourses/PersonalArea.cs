@@ -36,7 +36,9 @@ namespace ControlPanel.Sourses
         public override Grid getGrid()
         {
             Grid grid = new Grid();
-            grid.Children.Add(new Label() { Content = $"Спортсмен: {Surname} {Name} {Patronymic}" });
+            grid.Children.Add(new Label() { Content = $"{Surname} {Name} {Patronymic}",
+                FontWeight = FontWeights.Bold,
+            });
 
             return grid;
         }
@@ -52,12 +54,14 @@ namespace ControlPanel.Sourses
         }
         public override Grid getGrid()
         {
-            Grid grid = new Grid();
+            Grid grid = new Grid() {};
             Image ImageContainer = new Image()
             {
-                Width = 85,
+                Width = 140,
                 Height = 120,
-                HorizontalAlignment = HorizontalAlignment.Left
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
+                Margin = new Thickness(4, 4, 0, 0)
             };
             ImageSource image;
             if (ImagePath is null)
