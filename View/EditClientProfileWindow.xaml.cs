@@ -132,7 +132,8 @@ namespace ControlPanel.View
                                                ProfilePicture.Source.ToString(),
                                                ClientParentType.Text.Trim(' '),
                                                ClientParentSurname.Text.Trim(' ') + " " + ClientParentName.Text.Trim(' ') + " " + ClientParentPatronymic.Text.Trim(' '),
-                                               ClientParentPhoneNumber.Text.Trim(' ')
+                                               ClientParentPhoneNumber.Text.Trim(' '),
+                                               ClientData.DateLastVisit
                                                );
 
 
