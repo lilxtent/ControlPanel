@@ -48,6 +48,7 @@ namespace ControlPanel.View
             ClientBirthDate.SelectedDate = Client.BirthDate;
             ClientPhoneNumber.Text = Client.PhoneNumber;
             ID.Text = Convert.ToString(Client.ID);
+            ClientSection.Text = Client.Section;
 
             ClientParentType.Text = Client.ParentType;
             if (Client.ParentFIO is not null)
@@ -121,6 +122,11 @@ namespace ControlPanel.View
                 return;
             }
 
+            if (ClientSection.Text is null || ClientSection.Text.Trim(' ') == "")
+            {
+                ThisFieldCantBeEmpty("Секция");
+                return;
+            }
 
             ClientModel newClientData = new ClientModel(Convert.ToInt32(ID.Text.Trim(' ')),
                                                ClientSurname.Text.Trim(' '), ClientName.Text.Trim(' '),
@@ -128,7 +134,7 @@ namespace ControlPanel.View
                                                (DateTime)ClientBirthDate.SelectedDate,
                                                ClientPhoneNumber.Text.Trim(' '),
                                                ClientData.DateLastPayment,
-                                               ClientData.Section,
+                                               ClientSection.Text.Trim(' '),
                                                ProfilePicture.Source.ToString(),
                                                ClientParentType.Text.Trim(' '),
                                                ClientParentSurname.Text.Trim(' ') + " " + ClientParentName.Text.Trim(' ') + " " + ClientParentPatronymic.Text.Trim(' '),

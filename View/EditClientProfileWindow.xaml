@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel.View"
         mc:Ignorable="d"
-        Title="Редактирование профиля" Height="574" Width="850">
+        Title="Редактирование профиля" Height="500" Width="590" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="47*"/>
             <ColumnDefinition Width="803*"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Header="Клиент" HorizontalAlignment="Left" Height="210" Margin="10,10,0,0" VerticalAlignment="Top" Width="265" Grid.ColumnSpan="2">
+        <GroupBox Header="Клиент" HorizontalAlignment="Left" Height="240" Margin="10,10,0,0" VerticalAlignment="Top" Width="265" Grid.ColumnSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="243*"/>
@@ -29,9 +29,11 @@
                 <TextBox x:Name="ClientPhoneNumber" HorizontalAlignment="Left" Height="25" Margin="120,132,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" AutomationProperties.IsRequiredForForm="True" InputScope="Default" Grid.ColumnSpan="2" />
                 <Label Content="ID карты:" HorizontalAlignment="Left" Height="25" Margin="10,160,0,0" VerticalAlignment="Top" Width="105"/>
                 <TextBox x:Name="ID" HorizontalAlignment="Left" Height="25" Margin="120,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" AutomationProperties.IsRequiredForForm="True"/>
+                <Label Content="Секция:" HorizontalAlignment="Left" Height="25" Margin="10,190,0,0" VerticalAlignment="Top" Width="65"/>
+                <TextBox x:Name="ClientSection" HorizontalAlignment="Left" Height="25" Margin="120,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Родитель" HorizontalAlignment="Left" Height="185" Margin="10,225,0,0" VerticalAlignment="Top" Width="265" Grid.ColumnSpan="2">
+        <GroupBox Header="Родитель" HorizontalAlignment="Left" Height="185" Margin="10,255,0,0" VerticalAlignment="Top" Width="265" Grid.ColumnSpan="2">
             <Grid>
                 <Label Content="Кто:" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
                 <TextBox x:Name="ClientParentType" HorizontalAlignment="Left" Height="25" Margin="120,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
@@ -45,10 +47,10 @@
                 <TextBox x:Name="ClientParentPatronymic" HorizontalAlignment="Left" Height="25" Margin="120,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
             </Grid>
         </GroupBox>
-        <Button Content="Сохранить" HorizontalAlignment="Left" Height="25" Margin="433,399,0,0" VerticalAlignment="Top" Width="100" AutomationProperties.Name="ButtonAdd" Click="ButtonSave_Click" Grid.Column="1"/>
-        <Button Content="Отмена" HorizontalAlignment="Left" Height="25" Margin="643,399,0,0" VerticalAlignment="Top" Width="100" AutomationProperties.Name="ByttonCancel" Click="ButtonCancel_Click" Grid.Column="1"/>
-        <Image x:Name="ProfilePicture" HorizontalAlignment="Left" Height="256" Margin="517,10,0,0" VerticalAlignment="Top" Width="256" Source="/View/default-user-image.png" Grid.Column="1" />
-        <Button Content="Выбрать фото" HorizontalAlignment="Left" Height="25" Margin="517,271,0,0" VerticalAlignment="Top" Width="100" Click="ChosePhoto" Grid.Column="1"/>
-        <Button Content="Удалить" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="538,399,0,0" VerticalAlignment="Top" Width="100" Click="DeleteClient"/>
+        <Button Content="Сохранить" HorizontalAlignment="Left" Height="24" Margin="242,415,0,0" VerticalAlignment="Top" Width="100" AutomationProperties.Name="ButtonAdd" Click="ButtonSave_Click" Grid.Column="1"/>
+        <Button Content="Отмена" HorizontalAlignment="Left" Height="25" Margin="452,415,0,0" VerticalAlignment="Top" Width="100" AutomationProperties.Name="ByttonCancel" Click="ButtonCancel_Click" Grid.Column="1"/>
+        <Image x:Name="ProfilePicture" HorizontalAlignment="Left" Height="256" Margin="262,10,0,0" VerticalAlignment="Top" Width="256" Source="/View/default-user-image.png" Grid.Column="1" />
+        <Button Content="Выбрать фото" HorizontalAlignment="Left" Height="25" Margin="262,271,0,0" VerticalAlignment="Top" Width="100" Click="ChosePhoto" Grid.Column="1"/>
+        <Button Content="Удалить" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="347,415,0,0" VerticalAlignment="Top" Width="100" Click="DeleteClient"/>
     </Grid>
 </Window>

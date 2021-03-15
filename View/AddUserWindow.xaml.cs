@@ -83,13 +83,19 @@ namespace ControlPanel.View
                 return;
             }
 
+            if (ClientSection.Text is null || ClientSection.Text.Trim(' ') == "")
+            {
+                ThisFieldCantBeEmpty("Секция");
+                return;
+            }
+
             EnterdClientData = new ClientModel(Convert.ToInt32(ID.Text.Trim(' ')),
                                                ClientSurname.Text.Trim(' '), ClientName.Text.Trim(' '),
                                                ClientPatronymic.Text.Trim(' '),
                                                (DateTime)ClientBirthDate.SelectedDate,
                                                ClientPhoneNumber.Text.Trim(' '),
                                                default(DateTime),
-                                               default(string),
+                                               ClientSection.Text.Trim(' '),
                                                ProfilePicture.Source.ToString(),
                                                ClientParentType.Text.Trim(' '),
                                                ClientParentSurname.Text.Trim(' ') + " " + ClientParentName.Text.Trim(' ') + " " + ClientParentPatronymic.Text.Trim(' '),

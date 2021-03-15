@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel.View"
         mc:Ignorable="d"
-        Title="Добавление клиента" Height="600" Width="850">
+        Title="Добавление клиента" Height="500" Width="590" ResizeMode="NoResize">
     <Grid>
-        <GroupBox Header="Клиент" HorizontalAlignment="Left" Height="210" Margin="10,10,0,0" VerticalAlignment="Top" Width="265">
+        <GroupBox Header="Клиент" HorizontalAlignment="Left" Height="240" Margin="10,10,0,0" VerticalAlignment="Top" Width="265">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="243*"/>
@@ -25,9 +25,11 @@
                 <TextBox x:Name="ClientPhoneNumber" HorizontalAlignment="Left" Height="25" Margin="120,132,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" AutomationProperties.IsRequiredForForm="True" InputScope="Default" Grid.ColumnSpan="2" />
                 <Label Content="ID карты:" HorizontalAlignment="Left" Height="25" Margin="10,160,0,0" VerticalAlignment="Top" Width="105"/>
                 <TextBox x:Name="ID" HorizontalAlignment="Left" Height="25" Margin="120,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" AutomationProperties.IsRequiredForForm="True"/>
+                <Label Content="Секция:" HorizontalAlignment="Left" Height="25" Margin="10,190,0,0" VerticalAlignment="Top" Width="65"/>
+                <TextBox x:Name="ClientSection" HorizontalAlignment="Left" Height="25" Margin="120,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Родитель" HorizontalAlignment="Left" Height="185" Margin="10,225,0,0" VerticalAlignment="Top" Width="265">
+        <GroupBox Header="Родитель" HorizontalAlignment="Left" Height="185" Margin="10,257,0,0" VerticalAlignment="Top" Width="265">
             <Grid>
                 <Label Content="Кто:" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
                 <TextBox x:Name="ClientParentType" HorizontalAlignment="Left" Height="25" Margin="120,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
@@ -41,9 +43,9 @@
                 <TextBox x:Name="ClientParentPatronymic" HorizontalAlignment="Left" Height="25" Margin="120,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
             </Grid>
         </GroupBox>
-        <Button Content="Добавить" HorizontalAlignment="Left" Height="25" Margin="585,399,0,0" VerticalAlignment="Top" Width="100" AutomationProperties.Name="ButtonAdd" Click="ButtonAdd_Click"/>
-        <Button Content="Отмена" HorizontalAlignment="Left" Height="25" Margin="690,399,0,0" VerticalAlignment="Top" Width="100" AutomationProperties.Name="ByttonCancel" Click="ButtonCancel_Click"/>
-        <Image x:Name="ProfilePicture" HorizontalAlignment="Left" Height="256" Margin="564,10,0,0" VerticalAlignment="Top" Width="256" Source="/View/default-user-image.png" />
-        <Button Content="Выбрать фото" HorizontalAlignment="Left" Height="25" Margin="564,271,0,0" VerticalAlignment="Top" Width="100" Click="ChosePhoto"/>
+        <Button Content="Добавить" HorizontalAlignment="Left" Height="25" Margin="347,417,0,0" VerticalAlignment="Top" Width="100" AutomationProperties.Name="ButtonAdd" Click="ButtonAdd_Click"/>
+        <Button Content="Отмена" HorizontalAlignment="Left" Height="25" Margin="453,417,0,0" VerticalAlignment="Top" Width="100" AutomationProperties.Name="ByttonCancel" Click="ButtonCancel_Click"/>
+        <Image x:Name="ProfilePicture" HorizontalAlignment="Left" Height="256" Margin="309,10,0,0" VerticalAlignment="Top" Width="256" Source="/View/default-user-image.png" />
+        <Button Content="Выбрать фото" HorizontalAlignment="Left" Height="25" Margin="309,271,0,0" VerticalAlignment="Top" Width="100" Click="ChosePhoto"/>
     </Grid>
 </Window>
