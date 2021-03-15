@@ -41,5 +41,19 @@
 
         <Button x:Name="ButtonPaymentJournal" Content="Журнал оплат" HorizontalAlignment="Left" Height="20" Margin="523,377,0,0" VerticalAlignment="Top" Width="136" Click="ButtonPaymentJournal_Click" IsEnabled="False"/>
         <Button x:Name="ButtonVisitJournal" Content="Журнал посещений" HorizontalAlignment="Left" Height="20" Margin="677,377,0,0" VerticalAlignment="Top" Width="133" Click="ButtonVisitJournal_Click" IsEnabled="False"/>
+        <ComboBox x:Name="SortOptionsList" HorizontalAlignment="Left" Height="25" Margin="318,29,0,0" VerticalAlignment="Top" Width="200" SelectionChanged="SortOptionsList_SelectionChanged">
+            <ComboBoxItem IsSelected="True">
+                <TextBlock>По алфавиту(возрастанию)</TextBlock>
+            </ComboBoxItem>
+            <ComboBoxItem>
+                <TextBlock>По алфавиту(убывание)</TextBlock>
+            </ComboBoxItem>
+            <ComboBoxItem>
+                <TextBlock>По дате оплате(новые)</TextBlock>
+            </ComboBoxItem>
+            <ComboBoxItem>
+                <TextBlock>По дате оплаты(старые)</TextBlock>
+            </ComboBoxItem>
+        </ComboBox>
     </Grid>
 </Window>
