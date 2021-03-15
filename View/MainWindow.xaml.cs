@@ -165,7 +165,10 @@ namespace ControlPanel
         private void ShowAllClientsShortData(ListBox Box)
         {
             Box.Items.Clear();
-            foreach (ClientModel Client in DB.ClientsModels.ToList())
+
+            ClientModel[] Clients = DB.ClientsModels.ToArray();
+            SortCLientModel(Clients);
+            foreach (ClientModel Client in Clients)
                 Box.Items.Add(new ListBoxShortClientData(Client));
         }
 
@@ -195,6 +198,7 @@ namespace ControlPanel
                     ((ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content).clientModel);
             Window.ShowDialog();
         }
+
         private void butExtendSubscription_Click(object sender, RoutedEventArgs e)
         {
             // если клиент не выбран сообщить
@@ -230,5 +234,21 @@ namespace ControlPanel
             Editor.ShowDialog();
         }
 
+        private void SortCLientModel(ClientModel[] Clients)
+        {
+            if (SortOptionsList.SelectedIndex == 0)
+                Array.Sort(Clients, ClientModel.SortOderAlphabetIncrease());
+            else if (SortOptionsList.SelectedIndex == 1)
+                Array.Sort(Clients, ClientModel.SortOderAlphabetDecrease());
+            else if (SortOptionsList.SelectedIndex == 2)
+                Array.Sort(Clients, ClientModel.SortOderDateLastPaymentNewer());
+            else if (SortOptionsList.SelectedIndex == 3)
+                Array.Sort(Clients, ClientModel.SortOderDateLastPaymentOlder());
+        }
+
+        private void SortOptionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (IsInitialized) ShowAllClientsShortData(lbClients);
+        }
     }
 }

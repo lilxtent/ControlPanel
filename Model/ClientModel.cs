@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using ControlPanel.Exceptions;
 using ControlPanel.Services;
+using System.Collections;
 
 namespace ControlPanel.Model
 {
@@ -22,7 +23,6 @@ namespace ControlPanel.Model
         public string ParentFIO { get; private set; }
         public string ParentPhoneNumber { get; private set; }//Длинна должна быть равна 11 (например 78005553535)
         public DateTime DateLastVisit { get; set; }
-
 
         public string FIO
         {
@@ -57,22 +57,139 @@ namespace ControlPanel.Model
             ParentPhoneNumber = parentPhoneNumber;
             DateLastVisit = dateLastVisit;
         }
+
         public void SetDateLastPayment(DateTime? Date) => DateLastPayment = (DateTime)Date;
-        public void SaveToDB(ApplicationContext DB)
+        public void SaveToDB(ApplicationContext DB) => DB.ClientsModels.Add(this);
+
+        public IEnumerable<PaymentModel> GetPayments() =>
+            (new ApplicationContext()).Payments.ToList().Where(x => x.ID == ID);
+
+        public IEnumerable<VisitModel> GetVisits() =>
+            (new ApplicationContext()).Visits.ToList().Where(x => x.ID == ID);
+
+        public static IComparer SortOderAlphabetIncrease() => new SortOderAlphabetIncreaseHelper();
+        public static IComparer SortOderAlphabetDecrease() => new SortOderAlphabetDecreaseHelper();
+        public static IComparer SortOderDateLastPaymentNewer() => new SortOderDateLastPaymentNewerHelper();
+        public static IComparer SortOderDateLastPaymentOlder() => new SortOderDateLastPaymentOlderHelper();
+
+        private class SortOderAlphabetIncreaseHelper : IComparer
         {
-            DB.ClientsModels.Add(this);
+            int IComparer.Compare(object a, object b)
+            {
+                ClientModel cl1 = a as ClientModel;
+                ClientModel cl2 = b as ClientModel;
+
+                int shortest = cl1.Surname.Length > cl2.Surname.Length ?
+                                               cl2.Surname.Length : cl1.Surname.Length;
+
+                for (int i = 0; i < shortest; i++)
+                {
+                    if (cl1.Surname[i] < cl2.Surname[i])
+                        return -1;
+                    else if (cl1.Surname[i] > cl2.Surname[i])
+                        return 1;
+                }
+
+                shortest = cl1.Name.Length > cl2.Name.Length ?
+                                                       cl2.Name.Length : cl1.Name.Length;
+
+                for (int i = 0; i < shortest; i++)
+                {
+                    if (cl1.Name[i] < cl2.Name[i])
+                        return -1;
+                    else if (cl1.Name[i] > cl2.Name[i])
+                        return 1;
+                }
+
+                shortest = cl1.Patronymic.Length > cl2.Patronymic.Length ?
+                                                       cl2.Patronymic.Length : cl1.Patronymic.Length;
+
+                for (int i = 0; i < shortest; i++)
+                {
+                    if (cl1.Patronymic[i] < cl2.Patronymic[i])
+                        return -1;
+                    else if (cl1.Patronymic[i] > cl2.Patronymic[i])
+                        return 1;
+                }
+
+                return 0;
+            }
         }
 
-        public IEnumerable<PaymentModel> GetPayments()
+        private class SortOderAlphabetDecreaseHelper : IComparer
         {
-            ApplicationContext DB = new();
-            return DB.Payments.ToList().Where(x => x.ID == ID);
+            int IComparer.Compare(object a, object b)
+            {
+                ClientModel cl1 = a as ClientModel;
+                ClientModel cl2 = b as ClientModel;
+
+                int shortest = cl1.Surname.Length > cl2.Surname.Length ?
+                                               cl2.Surname.Length : cl1.Surname.Length;
+
+                for (int i = 0; i < shortest; i++)
+                {
+                    if (cl1.Surname[i] < cl2.Surname[i])
+                        return 1;
+                    else if (cl1.Surname[i] > cl2.Surname[i])
+                        return -1;
+                }
+
+                shortest = cl1.Name.Length > cl2.Name.Length ?
+                                                       cl2.Name.Length : cl1.Name.Length;
+
+                for (int i = 0; i < shortest; i++)
+                {
+                    if (cl1.Name[i] < cl2.Name[i])
+                        return 1;
+                    else if (cl1.Name[i] > cl2.Name[i])
+                        return -1;
+                }
+
+                shortest = cl1.Patronymic.Length > cl2.Patronymic.Length ?
+                                                       cl2.Patronymic.Length : cl1.Patronymic.Length;
+
+                for (int i = 0; i < shortest; i++)
+                {
+                    if (cl1.Patronymic[i] < cl2.Patronymic[i])
+                        return 1;
+                    else if (cl1.Patronymic[i] > cl2.Patronymic[i])
+                        return -1;
+                }
+
+                return 0;
+            }
         }
 
-        public IEnumerable<VisitModel> GetVisits()
+        private class SortOderDateLastPaymentNewerHelper : IComparer
         {
-            ApplicationContext DB = new();
-            return DB.Visits.ToList().Where(x => x.ID == ID);
+            int IComparer.Compare(object a, object b)
+            {
+                ClientModel cl1 = a as ClientModel;
+                ClientModel cl2 = b as ClientModel;
+
+                if (cl1.DateLastPayment > cl2.DateLastPayment)
+                    return -1;
+                else if (cl1.DateLastPayment < cl2.DateLastPayment)
+                    return 1;
+                else
+                    return 0;
+            }
+        }
+
+        private class SortOderDateLastPaymentOlderHelper : IComparer
+        {
+            int IComparer.Compare(object a, object b)
+            {
+                ClientModel cl1 = a as ClientModel;
+                ClientModel cl2 = b as ClientModel;
+
+                if (cl1.DateLastPayment > cl2.DateLastPayment)
+                    return 1;
+                else if (cl1.DateLastPayment < cl2.DateLastPayment)
+                    return -1;
+                else
+                    return 0;
+            }
         }
     }
 
