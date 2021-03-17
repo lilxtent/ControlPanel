@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ControlPanel.Exceptions;
-using ControlPanel.Services;
+﻿using ControlPanel.Services;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ControlPanel.Model
 {
     public class PaymentModel
     {
+        [Key]
+        public int UniqueID { get; set; }//Уникальное поле для базы данных
         public int ID { get; private set; }
         public DateTime DatePayment { get; private set; }
         public DateTime StartPeriod { get; private set; }
@@ -26,6 +24,12 @@ namespace ControlPanel.Model
             StartPeriod = startPeriod;
             EndPeriod = endPeriod;
             Cost = cost;
+        }
+
+        public PaymentModel(int id, DateTime datePayment, DateTime startPeriod,
+                   DateTime endPeriod, float cost, int uniqueID) : this(id,datePayment,startPeriod,endPeriod,cost)
+        {
+            UniqueID = uniqueID;
         }
 
         public void SaveToDB(ApplicationContext DB)
