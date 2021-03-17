@@ -1,14 +1,12 @@
-﻿using ControlPanel.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ControlPanel.Model
 {
     public class VisitModel
     {
+        [Key]
+        public int UniqueID { get; set; }//Уникальное поле для базы данных
         public int ID { get; private set; }
         public DateTime Date { get; private set; }
 
