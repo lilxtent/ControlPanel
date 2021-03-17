@@ -1,10 +1,9 @@
-﻿using System;
+﻿using ControlPanel.Exceptions;
+using ControlPanel.Services;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using ControlPanel.Exceptions;
-using ControlPanel.Services;
-using System.Collections;
 
 namespace ControlPanel.Model
 {
@@ -59,7 +58,17 @@ namespace ControlPanel.Model
         }
 
         public void SetDateLastPayment(DateTime? Date) => DateLastPayment = (DateTime)Date;
+
         public void SaveToDB(ApplicationContext DB) => DB.ClientsModels.Add(this);
+
+        public void RemoveFromDB(ApplicationContext DB)
+        {
+            DB.ClientsModels.Remove(this);
+            var visitsData = DB.Visits.Where(x => x.ID == ID);
+            DB.Visits.RemoveRange(visitsData);
+            var paymentsData = DB.Payments.Where(x => x.ID == ID);
+            DB.Payments.RemoveRange(paymentsData);
+        }
 
         public IEnumerable<PaymentModel> GetPayments() =>
             (new ApplicationContext()).Payments.ToList().Where(x => x.ID == ID);
