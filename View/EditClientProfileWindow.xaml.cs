@@ -138,6 +138,7 @@ namespace ControlPanel.View
 
             if (newClientData.ID != ClientData.ID)
             {
+                ClientData.UpdateIDInDB(DB, newClientData.ID);
                 DB.ClientsModels.Remove(ClientData);
                 DB.ClientsModels.Add(newClientData);
             }

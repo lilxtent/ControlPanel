@@ -64,10 +64,17 @@ namespace ControlPanel.Model
         public void RemoveFromDB(ApplicationContext DB)
         {
             DB.ClientsModels.Remove(this);
-            var visitsData = DB.Visits.Where(x => x.ID == ID);
-            DB.Visits.RemoveRange(visitsData);
-            var paymentsData = DB.Payments.Where(x => x.ID == ID);
-            DB.Payments.RemoveRange(paymentsData);
+            DB.Payments.RemoveRange(GetPayments());
+            DB.Visits.RemoveRange(GetVisits());
+        }
+
+        public void UpdateIDInDB(ApplicationContext DB, int newID)
+        {
+            DB.ClientsModels.Update(this);
+            foreach (var payment in GetPayments())
+                DB.Payments.Update(new PaymentModel(payment, newID));
+            foreach (var visit in GetVisits())
+                DB.Visits.Update(new VisitModel(visit, newID));
         }
 
         public IEnumerable<PaymentModel> GetPayments() =>
