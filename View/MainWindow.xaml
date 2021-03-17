@@ -26,7 +26,6 @@
         <TextBox x:Name="TextBoxSearch" HorizontalAlignment="Left" Height="25" Margin="67,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" TextChanged="TextBoxSearch_TextChanged"/>
 
         <StackPanel x:Name="spPayment" Margin="525,427,373,72" Background="#FFCCCCCC"/>
-        <Button x:Name="UpdateList" Content="Button" Margin="415,644,696,0" Click="UpdateList_Click" VerticalAlignment="Top"/>
         <TabControl Margin="523,36,390,317">
             <TabItem Header="Спортсмен">
                 <StackPanel x:Name="spPersonalArea" Margin="0,0,0,-2" Background="#FFE5E5E5"/>

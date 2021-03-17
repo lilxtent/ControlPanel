@@ -56,6 +56,11 @@ namespace ControlPanel.View
             ProfilePicture.Source = new BitmapImage(new Uri(Client.PhotoPath));
         }
 
+        public EditClientProfile(Window owner, ClientModel Client):this(Client)
+        {
+            Owner = owner;
+        }
+
         private void ChosePhoto(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -150,6 +155,8 @@ namespace ControlPanel.View
             ClientData = newClientData;
             MessageBox.Show("Изменения сохранены");
             Close();
+            //Обновляем информацию о клиентах в главном окне
+            (Owner as MainWindow).UpdateClientsList((Owner as MainWindow).lbClients);
         }
 
         private void DeleteClient(object sender, RoutedEventArgs e)

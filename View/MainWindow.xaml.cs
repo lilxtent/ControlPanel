@@ -1,26 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using ControlPanel.Services;
+﻿using AForge.Video;
+using AForge.Video.DirectShow;
 using ControlPanel.Model;
-using ControlPanel.View;
+using ControlPanel.Services;
 using ControlPanel.Sourses;
-using System.Windows.Threading;
+using ControlPanel.View;
 using ControlPanel.ViewModel;
 using ControlPanel.ViewModel.MainWindow;
-using AForge.Video.DirectShow;
-using AForge.Video;
+using System;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using System.Xml;
 
 namespace ControlPanel
@@ -178,14 +167,9 @@ namespace ControlPanel
             ShowAllClientsShortData(Box);
         }
 
-        private void UpdateList_Click(object sender, RoutedEventArgs e)
-        {
-            UpdateClientsList(lbClients);
-        }
-
         private void ButtonPaymentJournal_Click(object sender, RoutedEventArgs e)
         {
-            PaymentJournalWindow Window = 
+            PaymentJournalWindow Window =
                 new PaymentJournalWindow(
                     ((ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content).clientModel);
             Window.ShowDialog();
@@ -230,7 +214,7 @@ namespace ControlPanel
                 return;
             }
             // инициализируем окно редактирования
-            EditClientProfile Editor = new EditClientProfile(((ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content).clientModel);
+            EditClientProfile Editor = new EditClientProfile(this, ((ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content).clientModel);
             Editor.ShowDialog();
         }
 
