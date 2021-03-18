@@ -1,4 +1,5 @@
 ﻿using ControlPanel.Model;
+using ControlPanel.Sourses;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,11 +18,10 @@ namespace ControlPanel.ViewModel
         /// </summary>
         public ListBoxShortClientData(ClientModel ClientData)
         {
-            Content = new ClientModelInfo(ClientData);
+            Content = new ClientArea(ClientData).getGrid();
             Margin = new Thickness(1);
-            BorderBrush = Brushes.Black;
-            BorderThickness = new Thickness(1);
             Background = FindColor(ClientData);
+            IsManipulationEnabled = false;
         }
         private SolidColorBrush FindColor(ClientModel ClientData)
         {
