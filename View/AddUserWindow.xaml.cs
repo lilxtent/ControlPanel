@@ -32,9 +32,15 @@ namespace ControlPanel.View
             private set { enterdClientData = value; }
         }
 
-        public AddUserWindow()
+        private AddUserWindow()
         {
             InitializeComponent();
+        }
+
+        public AddUserWindow(Window owner)
+        {
+            InitializeComponent();
+            Owner = owner;
         }
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
@@ -111,6 +117,8 @@ namespace ControlPanel.View
             DB.ClientsModels.Add(EnterdClientData);
             DB.SaveChanges();
             Close();
+            //Обновляем информацию о клиентах в главном окне
+            (Owner as MainWindow).UpdateClientsList((Owner as MainWindow).lbClients);
         }
 
         private void ButtonCancel_Click(object sender, RoutedEventArgs e)

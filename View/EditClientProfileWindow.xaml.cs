@@ -30,7 +30,7 @@ namespace ControlPanel.View
             InitializeComponent();
         }
 
-        public EditClientProfile(ClientModel Client)
+        private EditClientProfile(ClientModel Client)
         {
             ClientData = Client;
 

@@ -126,7 +126,7 @@ namespace ControlPanel
 
         private void butAddClient_Click(object sender, RoutedEventArgs e)
         {
-            AddUserWindow userWindow = new AddUserWindow();
+            AddUserWindow userWindow = new AddUserWindow(this);
             userWindow.ShowDialog();
         }
 
@@ -214,7 +214,7 @@ namespace ControlPanel
                 return;
             }
             // инициализируем окно редактирования
-            EditClientProfile Editor = new EditClientProfile((ClientModel)(lbClients.SelectedItem as Grid).DataContext);
+            EditClientProfile Editor = new EditClientProfile(this,(ClientModel)(lbClients.SelectedItem as Grid).DataContext);
             Editor.ShowDialog();
         }
 
