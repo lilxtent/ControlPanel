@@ -41,6 +41,7 @@ namespace ControlPanel
             DB = new ApplicationContext();
             Camera = new CameraModel(DB);
             isEnableAreaExtendSubscripion = false;
+            
         }
 
         private void lbClients_Loaded(object sender, RoutedEventArgs e)
@@ -94,8 +95,8 @@ namespace ControlPanel
                 ButtonVisitJournal.IsEnabled = true; // активируем кнопку журнала посещений
                 butExtendSubscription.IsEnabled = true; // активируем кнопку редактирования
                 butEdit.IsEnabled = true; // активируем кнопку продления абонемента
-
-                var lbi = (ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content;
+                MessageBox.Show(lbClients.SelectedItem.ToString());
+                var lbi = (ClientModel)((lbClients.SelectedItem as Grid).DataContext);
                 // список объектов для общей информации о спортсмене(клиенте)
                 PersonalUnit[] personalObj = {
                 new PersonalAvatar(lbi),
@@ -169,7 +170,7 @@ namespace ControlPanel
             ClientModel[] Clients = DB.ClientsModels.ToArray();
             SortCLientModel(Clients);
             foreach (ClientModel Client in Clients)
-                Box.Items.Add(new ListBoxShortClientData(Client));
+                Box.Items.Add(new ClientArea(Client).getGrid());
         }
 
         public void UpdateClientsList(ListBox Box)
@@ -186,16 +187,15 @@ namespace ControlPanel
         private void ButtonPaymentJournal_Click(object sender, RoutedEventArgs e)
         {
             PaymentJournalWindow Window = 
-                new PaymentJournalWindow(
-                    ((ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content).clientModel);
+                new PaymentJournalWindow((ClientModel)(lbClients.SelectedItem as Grid).DataContext);
             Window.ShowDialog();
         }
 
         private void ButtonVisitJournal_Click(object sender, RoutedEventArgs e)
         {
             VisitJournalWindow Window =
-                new VisitJournalWindow(
-                    ((ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content).clientModel);
+                new VisitJournalWindow((ClientModel)(lbClients.SelectedItem as Grid).DataContext);
+
             Window.ShowDialog();
         }
 
@@ -230,7 +230,7 @@ namespace ControlPanel
                 return;
             }
             // инициализируем окно редактирования
-            EditClientProfile Editor = new EditClientProfile(((ClientModelInfo)(lbClients.SelectedItem as ListBoxItem).Content).clientModel);
+            EditClientProfile Editor = new EditClientProfile((ClientModel)(lbClients.SelectedItem as Grid).DataContext);
             Editor.ShowDialog();
         }
 

@@ -19,15 +19,15 @@
             </MenuItem>
         </Menu>
 
-        <ListBox x:Name="lbClients" Margin="12,59,682,72" Loaded="lbClients_Loaded" SelectionChanged="lbClients_SelectionChanged"/>
-        <Button x:Name="butSetupCamera" Content="camera" HorizontalAlignment="Left" Margin="1087,607,0,0" VerticalAlignment="Top" Height="33" Width="60" Click="butSetupCamera_Click"/>
-        <Button x:Name="butAddClient" Content="добавить клиента" HorizontalAlignment="Left" Margin="963,607,0,0" VerticalAlignment="Top" Width="119" Click="butAddClient_Click" Height="33"/>
+        <ListBox x:Name="lbClients" Margin="12,59,553,72" Loaded="lbClients_Loaded" SelectionChanged="lbClients_SelectionChanged"/>
+        <Button x:Name="butSetupCamera" Content="camera" HorizontalAlignment="Left" Margin="136,631,0,0" VerticalAlignment="Top" Height="33" Width="60" Click="butSetupCamera_Click"/>
+        <Button x:Name="butAddClient" Content="добавить клиента" HorizontalAlignment="Left" Margin="12,631,0,0" VerticalAlignment="Top" Width="119" Click="butAddClient_Click" Height="33"/>
         <Label Content="Поиск:" HorizontalAlignment="Left" Height="25" Margin="12,29,0,0" VerticalAlignment="Top" Width="50"/>
         <TextBox x:Name="TextBoxSearch" HorizontalAlignment="Left" Height="25" Margin="67,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" TextChanged="TextBoxSearch_TextChanged"/>
 
-        <StackPanel x:Name="spPayment" Margin="525,427,373,72" Background="#FFCCCCCC"/>
+        <StackPanel x:Name="spPayment" Margin="677,427,221,72" Background="#FFCCCCCC"/>
         <Button x:Name="UpdateList" Content="Button" Margin="415,644,696,0" Click="UpdateList_Click" VerticalAlignment="Top"/>
-        <TabControl Margin="523,36,390,317">
+        <TabControl Margin="675,36,238,317">
             <TabItem Header="Спортсмен">
                 <StackPanel x:Name="spPersonalArea" Margin="0,0,0,-2" Background="#FFE5E5E5"/>
             </TabItem>
@@ -36,11 +36,11 @@
 
             </TabItem>
         </TabControl>
-        <Button x:Name="butExtendSubscription" Content="Продлить абонемент" HorizontalAlignment="Left" Margin="523,402,0,0" VerticalAlignment="Top" Width="136" Click="butExtendSubscription_Click" IsEnabled="False"/>
-        <Button x:Name="butEdit" Content="Редактировать" HorizontalAlignment="Left" Margin="677,402,0,0" VerticalAlignment="Top" Width="133" Click="butEdit_Click" IsEnabled="False"/>
+        <Button x:Name="butExtendSubscription" Content="Продлить абонемент" HorizontalAlignment="Left" Margin="675,402,0,0" VerticalAlignment="Top" Width="136" Click="butExtendSubscription_Click" IsEnabled="False"/>
+        <Button x:Name="butEdit" Content="Редактировать" HorizontalAlignment="Left" Margin="829,402,0,0" VerticalAlignment="Top" Width="133" Click="butEdit_Click" IsEnabled="False"/>
 
-        <Button x:Name="ButtonPaymentJournal" Content="Журнал оплат" HorizontalAlignment="Left" Height="20" Margin="523,377,0,0" VerticalAlignment="Top" Width="136" Click="ButtonPaymentJournal_Click" IsEnabled="False"/>
-        <Button x:Name="ButtonVisitJournal" Content="Журнал посещений" HorizontalAlignment="Left" Height="20" Margin="677,377,0,0" VerticalAlignment="Top" Width="133" Click="ButtonVisitJournal_Click" IsEnabled="False"/>
+        <Button x:Name="ButtonPaymentJournal" Content="Журнал оплат" HorizontalAlignment="Left" Height="20" Margin="675,377,0,0" VerticalAlignment="Top" Width="136" Click="ButtonPaymentJournal_Click" IsEnabled="False"/>
+        <Button x:Name="ButtonVisitJournal" Content="Журнал посещений" HorizontalAlignment="Left" Height="20" Margin="829,377,0,0" VerticalAlignment="Top" Width="133" Click="ButtonVisitJournal_Click" IsEnabled="False"/>
         <ComboBox x:Name="SortOptionsList" HorizontalAlignment="Left" Height="25" Margin="318,29,0,0" VerticalAlignment="Top" Width="200" SelectionChanged="SortOptionsList_SelectionChanged">
             <ComboBoxItem IsSelected="True">
                 <TextBlock>По алфавиту(возрастанию)</TextBlock>
@@ -55,5 +55,6 @@
                 <TextBlock>По дате оплаты(старые)</TextBlock>
             </ComboBoxItem>
         </ComboBox>
+        <Separator HorizontalAlignment="Left" Margin="924,0,0,0" VerticalAlignment="Center"/>
     </Grid>
 </Window>
