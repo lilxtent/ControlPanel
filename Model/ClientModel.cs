@@ -209,38 +209,4 @@ namespace ControlPanel.Model
         }
     }
 
-    class ClientModelInfo
-    {
-        public ClientModel clientModel { get; private set; }
-        public ClientModelInfo(ClientModel model)
-        {
-            clientModel = model;
-        }
-        private string RestOfDaysStr()
-        {
-            string answer = "не оплачено";
-            if (clientModel.DateLastPayment == default)
-                return answer;
-            int diffDays = (clientModel.DateLastPayment - DateTime.Today).Days;
-            if (diffDays < 0)
-            {
-                answer = $" просрочено {Math.Abs(diffDays)} день";
-            }
-            else if (diffDays < 30)
-            {
-                answer = $"{diffDays} день";
-            }
-            else
-            {
-                answer = $"более 30 дней";
-            }
-            return answer;
-        }
-        public override string ToString()
-        {
-            return $"{clientModel.Surname} {clientModel.Name} " +
-                $"{clientModel.Patronymic} телефон: {clientModel.PhoneNumber} оплата: {RestOfDaysStr()}";
-        }
-
-    }
 }

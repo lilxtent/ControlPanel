@@ -12,9 +12,9 @@ namespace ControlPanel.Sourses
     class AdditionalInfoParent : PersonalUnit
     {
         private ClientModel ClientData {get;set;}
-        public AdditionalInfoParent(ClientModelInfo Client)
+        public AdditionalInfoParent(ClientModel Client)
         {
-            ClientData = Client.clientModel;
+            ClientData = Client;
         }
         public override Grid getGrid()
         {

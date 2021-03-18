@@ -52,8 +52,7 @@ namespace ControlPanel.ViewModel.MainWindow
         {
             this.CurrWindow = CurrWindow;
             DB = new();
-            ListBoxItem lbi = ((CurrWindow.lbClients as ListBox).SelectedItem as ListBoxItem);
-            currClient = (lbi.Content as ClientModelInfo).clientModel;
+            ClientModel currClient = (ClientModel)((CurrWindow.lbClients.SelectedItem as Grid).DataContext);
 
             Grid = new Grid();
             // разметили сетку 6 строк на 2 колонки

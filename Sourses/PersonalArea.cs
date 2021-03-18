@@ -27,20 +27,21 @@ namespace ControlPanel.Sourses
         private string Name { get; set; }
         private string Patronymic { get; set; }
 
-        public PersonalFIO(ClientModelInfo client)
+        public PersonalFIO(ClientModel client)
         {
-            Surname = client.clientModel.Surname;
-            Name = client.clientModel.Name;
-            Patronymic = client.clientModel.Patronymic;
+            Surname = client.Surname;
+            Name = client.Name;
+            Patronymic = client.Patronymic;
         }
         public override Grid getGrid()
         {
-            Grid grid = new Grid();
-            grid.Children.Add(new Label() { Content = $"{Surname} {Name} {Patronymic}",
+            Grid GridData = new Grid();
+
+            GridData.Children.Add(new Label() { Content = $"{Surname} {Name} {Patronymic}",
                 FontWeight = FontWeights.Bold,
             });
 
-            return grid;
+            return GridData;
         }
     }
 
@@ -48,13 +49,13 @@ namespace ControlPanel.Sourses
     {
         private string ImagePath { get; set; }
 
-        public PersonalAvatar(ClientModelInfo client)
+        public PersonalAvatar(ClientModel client)
         {
-            ImagePath = client.clientModel.PhotoPath;
+            ImagePath = client.PhotoPath;
         }
         public override Grid getGrid()
         {
-            Grid grid = new Grid() {};
+            Grid GridData = new Grid() {};
             Image ImageContainer = new Image()
             {
                 Width = 140,
@@ -70,94 +71,94 @@ namespace ControlPanel.Sourses
                 image = new BitmapImage(new Uri(ImagePath, UriKind.Absolute));
 
             ImageContainer.Source = image;
-            grid.Children.Add(ImageContainer);
+            GridData.Children.Add(ImageContainer);
 
-            return grid;
+            return GridData;
         }
     }
     class PersonalPhone : PersonalUnit
     {
         private string Phone { get; set; }
-        public PersonalPhone(ClientModelInfo client)
+        public PersonalPhone(ClientModel client)
         {
-            Phone = client.clientModel.PhoneNumber;
+            Phone = client.PhoneNumber;
         }
         public override Grid getGrid()
         {
-            Grid grid = new Grid();
-            grid.Children.Add(new Label() { Content = $"Телефон: {Phone}" });
+            Grid GridData = new Grid();
+            GridData.Children.Add(new Label() { Content = $"Телефон: {Phone}" });
 
-            return grid;
+            return GridData;
         }
     }
     class PersonalSection : PersonalUnit
     {
         private string section { get; set; }
-        public PersonalSection(ClientModelInfo client)
+        public PersonalSection(ClientModel client)
         {
-            section = client.clientModel.Section;
+            section = client.Section;
         }
         public override Grid getGrid()
         {
-            Grid grid = new Grid();
+            Grid GridData = new Grid();
             if (section == default) section = "не указано";
-            grid.Children.Add(new Label() { Content = $"Секция: {section}" });
+            GridData.Children.Add(new Label() { Content = $"Секция: {section}" });
 
-            return grid;
+            return GridData;
         }
     }
 
     class PersonalBirthDate : PersonalUnit
     {
         private DateTime BirthDate { get; set; }
-        public PersonalBirthDate(ClientModelInfo client)
+        public PersonalBirthDate(ClientModel client)
         {
-            BirthDate = client.clientModel.BirthDate;
+            BirthDate = client.BirthDate;
         }
         public override Grid getGrid()
         {
-            Grid grid = new Grid();
-            grid.Children.Add(new Label() { Content = $"Дата рождения: {BirthDate.ToShortDateString()}" });
+            Grid GridData = new Grid();
+            GridData.Children.Add(new Label() { Content = $"Дата рождения: {BirthDate.ToShortDateString()}" });
 
-            return grid;
+            return GridData;
         }
     }
     class PersonalLastPay : PersonalUnit
     {
         private DateTime LastPay { get; set; }
-        public PersonalLastPay(ClientModelInfo client)
+        public PersonalLastPay(ClientModel client)
         {
-            LastPay = client.clientModel.DateLastPayment;
+            LastPay = client.DateLastPayment;
         }
         public override Grid getGrid()
         {
-            Grid grid = new Grid();
+            Grid GridData = new Grid();
             string lastPay = "нет оплат";
             if (LastPay != default)
                 lastPay = LastPay.ToLongDateString();
 
-            grid.Children.Add(new Label() { Content = $"Оплачено до: {lastPay}" });
+            GridData.Children.Add(new Label() { Content = $"Оплачено до: {lastPay}" });
 
-            return grid;
+            return GridData;
         }
     }
     class PersonalLastVisit : PersonalUnit
     {
         private DateTime LastVisit { get; set; }
-        public PersonalLastVisit(ClientModelInfo client)
+        public PersonalLastVisit(ClientModel client)
         {
-            LastVisit = client.clientModel.DateLastVisit;
+            LastVisit = client.DateLastVisit;
         }
         public override Grid getGrid()
         {
-            Grid grid = new Grid();
+            Grid GridData = new Grid();
             string lastPay = "нет посещеинй";
             if (LastVisit != default)
                 lastPay = LastVisit.ToLongDateString();
 
-            grid.Children.Add(new Label() { Content = $"Последний раз был: {lastPay}" });
+            GridData.Children.Add(new Label() { Content = $"Последний раз был: {lastPay}" });
 
-            return grid;
+            return GridData;
         }
     }
 }
