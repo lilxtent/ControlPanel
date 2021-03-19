@@ -64,13 +64,18 @@ namespace ControlPanel.Sourses
                 VerticalAlignment = VerticalAlignment.Top,
                 Margin = new Thickness(4, 4, 0, 0)
             };
-            ImageSource image;
-            if (ImagePath is null)
-                image = new BitmapImage(new Uri(@"C:\Users\ksh19\Desktop\Shadow\ControlPanel\Sourses\Images\default-user-image.png", UriKind.Absolute));
-            else
-                image = new BitmapImage(new Uri(ImagePath, UriKind.Absolute));
-
-            ImageContainer.Source = image;
+            ImageSource Image;
+            BitmapImage MapImage = new BitmapImage(new Uri(@"Images\default-user-image.png", UriKind.Relative));
+            try
+            {
+                MapImage = new BitmapImage(new Uri(ImagePath, UriKind.Absolute));
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                MapImage = new BitmapImage(new Uri("pack://application:,,,/View/default-user-image.png"));
+            }
+            Image = MapImage;
+            ImageContainer.Source = Image;
             GridData.Children.Add(ImageContainer);
 
             return GridData;

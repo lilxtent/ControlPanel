@@ -69,15 +69,23 @@ namespace ControlPanel.Model
             }
             xDoc.Save(@"C:\Users\ksh19\Desktop\Shadow\ControlPanel\Config.xml");
         }
-
+        
         public void startVideo()
         {
+            
             // если выбранная камера отличается от камеры в конфигурации мы перезаписываем конфигурацию
             if (windowCurr.lbCams.SelectedItem.ToString() != ConfigurationManager.AppSettings["CameraName"].ToString())
             {
+                // до перезаписи нам надо очистить предыдущий new frame
+                if (videoSource is not null)
+                {
+                    videoSource.NewFrame -= new NewFrameEventHandler(videoNewFrame);
+                    videoSource.SignalToStop();
+                }
+                    
                 SetCameraInConfig(windowCurr.lbCams.SelectedItem.ToString());
-
             }
+            
             videoSource = new VideoCaptureDevice(videoDevices[windowCurr.lbCams.SelectedIndex].MonikerString);
             videoSource.NewFrame += new NewFrameEventHandler(videoNewFrame);
             videoSource.Start();

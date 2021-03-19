@@ -21,6 +21,9 @@
     <Compile Update="View\PaymentJournalWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\PhotoCameraWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\PopUpWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -39,6 +42,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\PaymentJournalWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\PhotoCameraWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\PopUpWindow.xaml">

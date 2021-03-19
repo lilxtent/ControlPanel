@@ -16,6 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="AForge">
+      <HintPath>Libs\AForge.dll</HintPath>
+    </Reference>
+    <Reference Include="AForge.Imaging">
+      <HintPath>Libs\AForge.Imaging.dll</HintPath>
+    </Reference>
     <Reference Include="AForge.Video">
       <HintPath>Libs\AForge.Video.dll</HintPath>
     </Reference>
@@ -35,6 +41,10 @@
     <None Update="Database\clients.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Photos\" />
   </ItemGroup>
 
 </Project>
