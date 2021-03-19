@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1200"
+        Title="MainWindow" Height="700" Width="1200" MinWidth="1200" MinHeight="700"
         >
     <Grid x:Name="mainGrid" Margin="0,0,0,0" Background="#FFE5E5E5">
         <Menu HorizontalAlignment="Left" VerticalAlignment="Top" Width="117">
@@ -55,5 +55,12 @@
             </ComboBoxItem>
         </ComboBox>
         <Separator HorizontalAlignment="Left" Margin="924,0,0,0" VerticalAlignment="Center"/>
+        <DataGrid x:Name="TodayVisits" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="308" Margin="967,59,0,0" VerticalAlignment="Top" Width="225">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Фио" Binding="{Binding Path=ShortFIO}" Width="100"/>
+                <DataGridTextColumn Header="Дата посещения" Binding="{Binding Path=VisitTime}" Width="117"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content="Посещения за сегодня:" HorizontalAlignment="Left" Height="25" Margin="967,29,0,0" VerticalAlignment="Top" Width="140"/>
     </Grid>
 </Window>
