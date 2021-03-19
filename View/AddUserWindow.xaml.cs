@@ -12,13 +12,14 @@ using System.Windows.Shapes;
 using ControlPanel.Model;
 using ControlPanel.Services;
 using Microsoft.Win32;
+using ControlPanel.Sourses;
 
 namespace ControlPanel.View
 {
     /// <summary>
     /// Логика взаимодействия для AddUserWindow.xaml
     /// </summary>
-    public partial class AddUserWindow : Window
+    public partial class AddUserWindow : Window, IPhoto<Window>
     {
         private ClientModel enterdClientData { get; set; }
         public ClientModel EnterdClientData
@@ -42,6 +43,15 @@ namespace ControlPanel.View
             InitializeComponent();
             Owner = owner;
         }
+        Image IPhoto<Window>.getImageConteiner()
+        {
+            return ProfilePicture;
+        }
+        TextBox IPhoto<Window>.getIdConteiner()
+        {
+            return ID;
+        }
+
 
         private void ButtonAdd_Click(object sender, RoutedEventArgs e)
         {
@@ -141,5 +151,13 @@ namespace ControlPanel.View
                 ProfilePicture.Source = new BitmapImage(new Uri(dialog.FileName));
             }
         }
+
+        private void ButtonPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            PhotoCameraWindow PhotoCamera = new(this);
+            PhotoCamera.ShowDialog();
+        }
+
+        
     }
 }

@@ -6,10 +6,10 @@
         xmlns:local="clr-namespace:ControlPanel.View"
         mc:Ignorable="d"
         Title="CamWindow" Height="238" Width="465" ResizeMode="NoResize">
-    <Grid Margin="0,0,0,-6" Background="#FFE5E5E5">
+    <Grid Margin="0,0,0,0" Background="#FFE5E5E5">
         <ListBox x:Name="lbCams" Margin="10,21,276,68" Loaded="lbCams_Loaded"/>
-        <Button x:Name="butONCam" Content="выбрать" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top" Height="19" Width="58" Click="butONCam_Click" FontSize="10"/>
-        <Image x:Name="imageDefault" Margin="260,7,88,54" Width="117" Source="C:\Users\ksh19\Desktop\Shadow\ControlPanel\Sourses\Images\camera-icon.png"/>
+        <Button x:Name="butONCam" Content="выбрать" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Height="19" Width="58" Click="butONCam_Click" FontSize="10"/>
+        <Image x:Name="imageDefault" Margin="251,7,97,54" Width="117" Source="C:\Users\ksh19\Desktop\Shadow\ControlPanel\Sourses\Images\camera-icon.png"/>
         <Image x:Name="imageCam" HorizontalAlignment="Left" Height="137" VerticalAlignment="Top" Width="239" Margin="200,21,0,0"/>
 
     </Grid>

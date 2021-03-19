@@ -80,11 +80,12 @@ namespace ControlPanel
         {
             if (lbClients.SelectedIndex != -1)
             {
+                isEnableAreaExtendSubscripion = false; // деактивируем продление абонемента
+
                 ButtonPaymentJournal.IsEnabled = true; // активируем кнопку журнала оплат
                 ButtonVisitJournal.IsEnabled = true; // активируем кнопку журнала посещений
                 butExtendSubscription.IsEnabled = true; // активируем кнопку редактирования
                 butEdit.IsEnabled = true; // активируем кнопку продления абонемента
-                MessageBox.Show(lbClients.SelectedItem.ToString());
                 var lbi = (ClientModel)((lbClients.SelectedItem as Grid).DataContext);
                 // список объектов для общей информации о спортсмене(клиенте)
                 PersonalUnit[] personalObj = {
@@ -159,7 +160,13 @@ namespace ControlPanel
             ClientModel[] Clients = DB.ClientsModels.ToArray();
             SortCLientModel(Clients);
             foreach (ClientModel Client in Clients)
-                Box.Items.Add(new ClientArea(Client).getGrid());
+            {
+                Grid CurrGrid = new ClientArea(Client).getGrid();
+                CurrGrid.Width = 1;
+                CurrGrid.ClearValue(GridViewColumn.WidthProperty);
+                Box.Items.Add(CurrGrid);
+            }
+
         }
 
         public void UpdateClientsList(ListBox Box)

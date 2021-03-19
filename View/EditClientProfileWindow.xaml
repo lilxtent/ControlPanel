@@ -52,5 +52,6 @@
         <Image x:Name="ProfilePicture" HorizontalAlignment="Left" Height="256" Margin="262,10,0,0" VerticalAlignment="Top" Width="256" Source="/View/default-user-image.png" Grid.Column="1" />
         <Button Content="Выбрать фото" HorizontalAlignment="Left" Height="25" Margin="262,271,0,0" VerticalAlignment="Top" Width="100" Click="ChosePhoto" Grid.Column="1"/>
         <Button Content="Удалить" Grid.Column="1" HorizontalAlignment="Left" Height="25" Margin="347,415,0,0" VerticalAlignment="Top" Width="100" Click="DeleteClient"/>
+        <Button x:Name="ButtonPhoto" Content="Сделать фото" HorizontalAlignment="Left" Margin="367,271,0,0" VerticalAlignment="Top" Width="100" Height="25" Click="ButtonPhoto_Click" Grid.Column="1"/>
     </Grid>
 </Window>

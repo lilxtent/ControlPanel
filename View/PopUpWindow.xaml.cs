@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using ControlPanel.Model;
 using ControlPanel.Services;
+using ControlPanel.Sourses;
 
 namespace ControlPanel.View
 {
@@ -57,7 +58,7 @@ namespace ControlPanel.View
 
                 labelFIO.Content = $"{Client.Surname} {Client.Name} {Client.Patronymic}";
                 imagePhoto.Source = new BitmapImage(new Uri(Client.PhotoPath, UriKind.Absolute));
-                this.Background = new SolidColorBrush(Color.FromArgb(255, 0, 244, 137));
+                this.Background = ClientMethods.FindColor(Client);
 
                 SaveVisitInDB(); // сохраняем информацию о посещении
             }

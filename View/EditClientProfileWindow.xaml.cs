@@ -5,13 +5,15 @@ using System;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using ControlPanel.Sourses;
+using System.Windows.Controls;
 
 namespace ControlPanel.View
 {
     /// <summary>
     /// Логика взаимодействия для EditClientProfile.xaml
     /// </summary>
-    public partial class EditClientProfile : Window
+    public partial class EditClientProfile : Window, IPhoto<Window>
     {
         private ClientModel clientData { get; set; }
         public ClientModel ClientData
@@ -60,7 +62,14 @@ namespace ControlPanel.View
         {
             Owner = owner;
         }
-
+        Image IPhoto<Window>.getImageConteiner()
+        {
+            return ProfilePicture;
+        }
+        TextBox IPhoto<Window>.getIdConteiner()
+        {
+            return ID;
+        }
         private void ChosePhoto(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
@@ -178,6 +187,11 @@ namespace ControlPanel.View
         private void ThisFieldCantBeEmpty(string fieldName)
         {
             MessageBox.Show(this, $"Это поле не может быть пустым: {fieldName}", "Ошибка");
+        }
+        private void ButtonPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            PhotoCameraWindow PhotoCamera = new(this);
+            PhotoCamera.ShowDialog();
         }
     }
 }

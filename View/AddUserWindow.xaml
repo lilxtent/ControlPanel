@@ -47,5 +47,6 @@
         <Button Content="Отмена" HorizontalAlignment="Left" Height="25" Margin="453,417,0,0" VerticalAlignment="Top" Width="100" AutomationProperties.Name="ByttonCancel" Click="ButtonCancel_Click"/>
         <Image x:Name="ProfilePicture" HorizontalAlignment="Left" Height="256" Margin="309,10,0,0" VerticalAlignment="Top" Width="256" Source="/View/default-user-image.png" />
         <Button Content="Выбрать фото" HorizontalAlignment="Left" Height="25" Margin="309,271,0,0" VerticalAlignment="Top" Width="100" Click="ChosePhoto"/>
+        <Button x:Name="ButtonPhoto" Content="Сделать фото" HorizontalAlignment="Left" Margin="414,271,0,0" VerticalAlignment="Top" Width="100" Height="25" Click="ButtonPhoto_Click"/>
     </Grid>
 </Window>

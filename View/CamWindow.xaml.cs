@@ -71,20 +71,5 @@ namespace ControlPanel.View
                 lbCams.SelectedIndex = FindIndexCameraInConfig(Camera.videoDevices);
             }
         }
-        public string FindClient(string code)
-        {
-            string answer = "None";
-            List<ClientModel> clients = DB.ClientsModels.ToList();
-            string startStr = "https://pay-tomsk.ru/qr/01CA433100";
-            for (int i = 0; i < clients.Count; i++)
-            {
-                if (startStr + clients[i].ID.ToString() == code)
-                {
-                    answer = $"{clients[i].Surname} {clients[i].Name} {clients[i].PhoneNumber}";
-                    break;
-                }
-            }
-            return answer;
-        }
     }
 }

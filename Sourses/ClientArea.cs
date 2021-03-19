@@ -29,11 +29,13 @@ namespace ControlPanel.Sourses
         }
         public Grid getGrid()
         {
-
+            
             // разбиваем grid на колонки
             // первая колонка фиксированной длины
-            GridData.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(200) });
-            int nColumn = 5;
+            GridData.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(280) });
+            GridData.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(25) });
+
+            int nColumn = 4;
             for (int i = 0; i < nColumn; i++)
                 GridData.ColumnDefinitions.Add(new ColumnDefinition());
             Label[] LabelsForGrid = {
@@ -72,7 +74,7 @@ namespace ControlPanel.Sourses
                 Height = 20,
                 Width = 20,
                 RenderTransform = new RotateTransform(90),
-                Margin = new Thickness(50, 0, -28, 0)
+                Margin = new Thickness(0, 0, -50, 0)
         };
             return LocalSeparator;
         }
@@ -87,7 +89,9 @@ namespace ControlPanel.Sourses
         }
         private Label CreatePhone()
         {
-            Label LocalData = (new Label() { Content = $"{Client.PhoneNumber}", FontSize = 12});
+            string phone = Client.PhoneNumber;
+            string phoneNumberView = phone[0] + "-" + phone[1..4] + "-" + phone[4..6] + "-" + phone[6..8] + "-" + phone[8..];
+            Label LocalData = (new Label() { Content = $"{phoneNumberView}", FontSize = 12});
             return LocalData;
         }
         private Label CreateHeaderBalance()
@@ -98,7 +102,7 @@ namespace ControlPanel.Sourses
         private Label CreateBalance()
         {
             Label LocalData = (new Label() { Content = $"{RestOfDaysStr()}", Background = FindColor(Client),
-            Width = 100, HorizontalAlignment = HorizontalAlignment.Center});
+            Width = 100, HorizontalAlignment = HorizontalAlignment.Right});
             return LocalData;
         }
         private SolidColorBrush FindColor(ClientModel ClientData)

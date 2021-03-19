@@ -52,7 +52,7 @@ namespace ControlPanel.ViewModel.MainWindow
         {
             this.CurrWindow = CurrWindow;
             DB = new();
-            ClientModel currClient = (ClientModel)((CurrWindow.lbClients.SelectedItem as Grid).DataContext);
+            currClient = (ClientModel)((CurrWindow.lbClients.SelectedItem as Grid).DataContext);
 
             Grid = new Grid();
             // разметили сетку 6 строк на 2 колонки
@@ -62,7 +62,7 @@ namespace ControlPanel.ViewModel.MainWindow
             for (int i = 0; i < NRow; i++)
                 Grid.RowDefinitions.Add(new RowDefinition());
 
-            // инициализировани объекты с датой
+            // инициализация объекты с датой
             DateStartPeriod = new DatePicker() {
                 SelectedDate = currClient.DateLastPayment == default ? DateTime.Today : currClient.DateLastPayment};
             dateEndPeriod = new DatePicker() { };
@@ -86,7 +86,7 @@ namespace ControlPanel.ViewModel.MainWindow
             foreach (string content in mounths)
                 comboBox.Items.Add(new Label() { Content = content });
             // инициализируем окно ввода суммы оплаты
-           costTextBox = new() { Margin = new Thickness(0, 3, 3, 3) };
+            costTextBox = new() { Margin = new Thickness(0, 3, 3, 3) };
             // иницализируем кнопку продлить
             Button ButSave = new Button() { Content = "продлить", Margin = new Thickness(0, 3, 3, 3) };
             ButSave.Click += new RoutedEventHandler(butExtend_Click);
@@ -143,9 +143,9 @@ namespace ControlPanel.ViewModel.MainWindow
         {
             int[] multMounth = { 1, 2, 3, 6, 12 };
             int index = (sender as ComboBox).SelectedIndex;
-            if (index != -1 && index != comboBoxAnotherIndex)
+            if (index != -1 && index != comboBoxAnotherIndex && DateStartPeriod.SelectedDate is not null)
             {
-                DateTime start = DateStartPeriod.DisplayDate;
+                DateTime start = (DateTime)DateStartPeriod.SelectedDate;
                 dateEndPeriod.SelectedDate = start.AddMonths(multMounth[index]);
             }
 
@@ -189,7 +189,8 @@ namespace ControlPanel.ViewModel.MainWindow
                 return false;
             }
             // смотрим пытаемся ли мы оплатить уже оплаченный период дей
-            if (currClient.DateLastPayment > DateStartPeriod.SelectedDate)
+            
+            if (currClient.DateLastPayment != default && currClient.DateLastPayment > DateStartPeriod.SelectedDate)
             {
                 MessageBox.Show($"В период который вы оплачиваете входят оплаченные дни!", "Ошибка");
                 return false;
