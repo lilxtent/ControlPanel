@@ -20,7 +20,6 @@ namespace ControlPanel
     public partial class MainWindow : Window
     {
         private bool isEnableAreaExtendSubscripion;
-
         private ApplicationContext DB { get; set; }
         private CameraModel Camera { get; set; }
 
@@ -30,7 +29,9 @@ namespace ControlPanel
             DB = new ApplicationContext();
             Camera = new CameraModel(DB);
             isEnableAreaExtendSubscripion = false;
-            
+            TodayVisits.ItemsSource = new TodayVisitsList();
+            Camera.NewClientArrived += x =>
+                (TodayVisits.ItemsSource as TodayVisitsList).Add(new ShortVisitViewModel(x.FIO, x.DateLastVisit));
         }
 
         private void lbClients_Loaded(object sender, RoutedEventArgs e)

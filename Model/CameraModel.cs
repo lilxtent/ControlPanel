@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AForge.Video;
+﻿using AForge.Video;
 using AForge.Video.DirectShow;
+using ControlPanel.Services;
+using ControlPanel.View;
+using System.Collections.Generic;
+using System.Configuration;
 using System.Drawing;
 using System.IO;
-using ControlPanel;
-using System.Windows.Threading;
-using System.Windows.Media.Imaging;
-using ControlPanel.View;
-using System.Configuration;
-using System.Windows;
-using ControlPanel.Services;
 using System.Linq;
+using System.Windows;
+using System.Windows.Media.Imaging;
 using System.Xml;
 
 namespace ControlPanel.Model
@@ -29,6 +25,8 @@ namespace ControlPanel.Model
         public bool isPopUpWindowActive;
         public bool isCameraStart;
 
+        public delegate void ArrivedClient(ClientModel Client);
+        public event ArrivedClient NewClientArrived;
 
         delegate void SetImageDelegate(Bitmap parameter);
 
@@ -97,7 +95,9 @@ namespace ControlPanel.Model
                 {
                     Application.Current.Dispatcher.Invoke(() =>
                     {
-                        var popupWindow = new PopUpWindow(FindClient(result.Text), this) { Name = "popupWindow" };
+                        var ArrivedClient = FindClient(result.Text);
+                        var popupWindow = new PopUpWindow(ArrivedClient, this) { Name = "popupWindow" };
+                        NewClientArrived?.Invoke(ArrivedClient);
                         popupWindow.Show();
                     });
 
