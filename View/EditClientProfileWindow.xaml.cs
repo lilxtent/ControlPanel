@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using ControlPanel.Sourses;
 using System.Windows.Controls;
+using System.IO;
 
 namespace ControlPanel.View
 {
@@ -54,8 +55,10 @@ namespace ControlPanel.View
                 if (parentFIO.Length > 2) ClientParentPatronymic.Text = parentFIO[2];
             }
             ClientParentPhoneNumber.Text = Client.ParentPhoneNumber;
-
-            ProfilePicture.Source = new BitmapImage(new Uri(Client.PhotoPath));
+            Uri UriPath = new Uri("pack://application:,,,/View/default-user-image.png");
+            if (File.Exists(Client.PhotoPath))
+                UriPath = new Uri(Client.PhotoPath, UriKind.Absolute);
+            ProfilePicture.Source = new BitmapImage(UriPath);
         }
 
         public EditClientProfile(Window owner, ClientModel Client):this(Client)

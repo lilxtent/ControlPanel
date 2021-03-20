@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -57,7 +58,12 @@ namespace ControlPanel.View
             {
 
                 labelFIO.Content = $"{Client.Surname} {Client.Name} {Client.Patronymic}";
-                imagePhoto.Source = new BitmapImage(new Uri(Client.PhotoPath, UriKind.Absolute));
+                Uri UriPath = new Uri("pack://application:,,,/View/default-user-image.png");
+                if (File.Exists(Client.PhotoPath))
+                    UriPath = new Uri(Client.PhotoPath, UriKind.Absolute);
+
+                imagePhoto.Source = new BitmapImage(UriPath);
+
                 this.Background = ClientMethods.FindColor(Client);
 
                 SaveVisitInDB(); // сохраняем информацию о посещении
