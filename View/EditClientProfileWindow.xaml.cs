@@ -179,6 +179,8 @@ namespace ControlPanel.View
                 ClientData.RemoveFromDB(DB);
                 DB.SaveChanges();
                 Close();
+                //Обновляем информацию о клиентах в главном окне
+                (Owner as MainWindow).UpdateClientsList((Owner as MainWindow).lbClients);
             }
         }
 
