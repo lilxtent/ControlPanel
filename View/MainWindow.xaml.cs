@@ -31,7 +31,10 @@ namespace ControlPanel
             isEnableAreaExtendSubscripion = false;
             TodayVisits.ItemsSource = new TodayVisitsList();
             Camera.NewClientArrived += x =>
+            {
                 (TodayVisits.ItemsSource as TodayVisitsList).Add(new ShortVisitViewModel(x.FIO, x.DateLastVisit));
+                TodayVisits.Items.Refresh();
+            };
         }
 
         private void lbClients_Loaded(object sender, RoutedEventArgs e)
