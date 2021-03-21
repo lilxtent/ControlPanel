@@ -65,14 +65,14 @@ namespace ControlPanel.Sourses
                 Margin = new Thickness(4, 4, 0, 0)
             };
             ImageSource Image;
-            BitmapImage MapImage = new BitmapImage(new Uri(@"Images\default-user-image.png", UriKind.Relative));
+            BitmapImage MapImage;
             try
             {
-                MapImage = new BitmapImage(new Uri(ImagePath, UriKind.Absolute));
+                MapImage = new BitmapImage(new Uri(ClientMethods.ConvertRelativeToAbsolutePath(ImagePath), UriKind.Absolute));
             }
             catch (System.IO.FileNotFoundException)
             {
-                MapImage = new BitmapImage(new Uri("pack://application:,,,/View/default-user-image.png"));
+                MapImage = new BitmapImage(new Uri(ClientMethods.GetDefaultImagePathAbsolute()));
             }
             Image = MapImage;
             ImageContainer.Source = Image;

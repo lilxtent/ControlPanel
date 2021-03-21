@@ -21,7 +21,7 @@ namespace ControlPanel
     {
         private bool isEnableAreaExtendSubscripion;
         private ApplicationContext DB { get; set; }
-        private CameraModel Camera { get; set; }
+        public CameraModel Camera { get; private set; }
 
         public MainWindow()
         {
@@ -29,12 +29,14 @@ namespace ControlPanel
             DB = new ApplicationContext();
             Camera = new CameraModel(DB);
             isEnableAreaExtendSubscripion = false;
+            CheckBoxCameraOn.Background = ClientMethods.GetRedColorBrush();
             TodayVisits.ItemsSource = new TodayVisitsList();
             Camera.NewClientArrived += x =>
             {
                 (TodayVisits.ItemsSource as TodayVisitsList).Add(new ShortVisitViewModel(x.FIO, x.DateLastVisit));
                 TodayVisits.Items.Refresh();
             };
+
         }
 
         private void lbClients_Loaded(object sender, RoutedEventArgs e)
@@ -44,6 +46,7 @@ namespace ControlPanel
 
         private void miSetupCamera_Click(object sender, RoutedEventArgs e)
         {
+            CheckBoxCameraOn.IsChecked = false; // при переключении в настройки камеры выключаем камеру
             var camWindow = new CamWindow(Camera);
             camWindow.ShowDialog();
         }
@@ -244,6 +247,61 @@ namespace ControlPanel
         private void SortOptionsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (IsInitialized) ShowAllClientsShortData(lbClients);
+        }
+        public void ClearSelectedClient()
+        {
+            lbClients.SelectedIndex = -1;
+        }
+
+
+
+        private void CheckBoxCameraOn_Unchecked(object sender, RoutedEventArgs e)
+        {
+            CheckBoxCameraOn.Content = "Камера выключена";
+            CheckBoxCameraOn.Background = ClientMethods.GetRedColorBrush();
+            Camera.stopVideo();
+            
+        }
+
+        private void CheckBoxCameraOn_Checked(object sender, RoutedEventArgs e)
+        {
+
+            // Выгружаем название камеры из конфигураций
+            string cameraNameInConfig = ClientMethods.GetCameraNameConfig();
+            // ищем камеру с таким же названием среди Devices
+            int indexCamera = -1;
+            for (int i = 0; i < Camera.videoDevices.Count; i++)
+                if (cameraNameInConfig == Camera.videoDevices[i].Name)
+                {
+                    indexCamera = i;
+                    break;
+                }
+            // после нахождения инициализируем съемку
+            if (indexCamera != -1)
+            {
+                Camera.videoSource = new VideoCaptureDevice(Camera.videoDevices[indexCamera].MonikerString);
+                Camera.videoSource.NewFrame += new NewFrameEventHandler(Camera.videoNewFrame);
+                Camera.videoSource.Start();
+                Camera.isCameraStart = true;
+                CheckBoxCameraOn.Content = "Камера включена";
+                CheckBoxCameraOn.Background = ClientMethods.GetGreenColorBrush();
+
+            }
+            // если не нашли выводим предупреждение
+            else
+            {
+                MessageBox.Show("Указанной камеры по умолчанию не существует\nЗайдите в раздел Настройки->Камера",
+                    "Предупреждение");
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (Camera.videoSource is not null)
+            {
+                Camera.videoSource.NewFrame -= new NewFrameEventHandler(Camera.videoNewFrame);
+                Camera.videoSource.SignalToStop();
+            }
         }
     }
 }

@@ -19,6 +19,7 @@ using System.IO;
 using System.ComponentModel;
 using System.Configuration;
 using System.Xml;
+using ControlPanel.Sourses;
 
 namespace ControlPanel.View
 {
@@ -46,13 +47,7 @@ namespace ControlPanel.View
         }
         private int FindIndexCameraInConfig(FilterInfoCollection Devises)
         {
-            string cameraNameInConfig = "";
-            XmlDocument xDoc = new XmlDocument();
-            xDoc.Load(@"C:\Users\ksh19\Desktop\Shadow\ControlPanel\Config.xml");
-
-            foreach (XmlNode xNode in xDoc.ChildNodes)
-                if (xNode.Name == "Camera")
-                    cameraNameInConfig = xNode.InnerText;
+            string cameraNameInConfig = ClientMethods.GetCameraNameConfig();
 
             for (int i = 0; i < Devises.Count; i++)
                 if (cameraNameInConfig == Devises[i].Name)
@@ -70,6 +65,11 @@ namespace ControlPanel.View
                 }
                 lbCams.SelectedIndex = FindIndexCameraInConfig(Camera.videoDevices);
             }
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            Camera.stopVideo();
         }
     }
 }

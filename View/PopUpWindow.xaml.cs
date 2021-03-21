@@ -58,12 +58,11 @@ namespace ControlPanel.View
             {
 
                 labelFIO.Content = $"{Client.Surname} {Client.Name} {Client.Patronymic}";
-                Uri UriPath = new Uri("pack://application:,,,/View/default-user-image.png");
-                if (File.Exists(Client.PhotoPath))
-                    UriPath = new Uri(Client.PhotoPath, UriKind.Absolute);
+                Uri UriPath = new Uri(ClientMethods.GetDefaultImagePathAbsolute());
+                if (File.Exists(ClientMethods.ConvertRelativeToAbsolutePath(Client.PhotoPath)))
+                    UriPath = new Uri(ClientMethods.ConvertRelativeToAbsolutePath(Client.PhotoPath), UriKind.Absolute);
 
                 imagePhoto.Source = new BitmapImage(UriPath);
-
                 this.Background = ClientMethods.FindColor(Client);
 
                 SaveVisitInDB(); // сохраняем информацию о посещении
@@ -71,8 +70,7 @@ namespace ControlPanel.View
             // иначе информируем об обратном
             else
             {
-                imagePhoto.Source = new BitmapImage(new Uri(@"C:\Users\ksh19\Desktop\Shadow\ControlPanel\Sourses\Images\default-user-image.png",
-                    UriKind.Absolute));
+                imagePhoto.Source = new BitmapImage(new Uri(ClientMethods.GetDefaultImagePathAbsolute()));
                 this.Background = new SolidColorBrush(Color.FromArgb(255, 254, 244, 137));
             }
         }

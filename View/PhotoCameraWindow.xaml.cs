@@ -1,7 +1,6 @@
 ﻿using AForge.Video;
 using AForge.Video.DirectShow;
 using AForge.Imaging;
-
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -36,8 +35,12 @@ namespace ControlPanel.View
         private IPhoto<Window> PhotoInterface { get; set; }
         private System.Windows.Controls.Image ImageConteiner { get; set; }
         private TextBox IdConteiner { get; set; }
+        private bool isGoodImage { get; set; }
+
 
         delegate void SetImageDelegate(Bitmap parameter);
+        delegate void SetEnableDelegate(bool parameter);
+
 
 
         public PhotoCameraWindow(Window currWindow)
@@ -48,12 +51,24 @@ namespace ControlPanel.View
             PhotoInterface = (IPhoto<Window>)CurrWindow;
             ImageConteiner = PhotoInterface.getImageConteiner();
             IdConteiner = PhotoInterface.getIdConteiner();
-            ImageConteiner.Source = new BitmapImage(new Uri("pack://application:,,,/View/default-user-image.png"));
+            ImageConteiner.Source = new BitmapImage(new Uri(ClientMethods.GetDefaultImagePathAbsolute()));
+            isGoodImage = false; // проверка изображения с камеры на подходящий размер
+            PhotoInterface.setChangedCameraStatus(false); // если мы выключали основную камеру пока фотались
 
 
         }
         private void butONCam_Click(object sender, RoutedEventArgs e)
         {
+            // если для фото мы выбрали ту же камеру то приостанавливаем на время фото
+            bool isCameraCheck = (CurrWindow.Owner as MainWindow).Camera.isCameraStart;
+            if (!PhotoInterface.getChangedCameraStatus() && isCameraCheck && lbCams.SelectedItem.ToString() == ClientMethods.GetCameraNameConfig())
+            {
+                (CurrWindow.Owner as MainWindow).CheckBoxCameraOn.IsChecked = false;
+                PhotoInterface.setChangedCameraStatus(true);
+                MessageBox.Show("Вы выбрали текущую камеру для считывания кода!\n" +
+                    "Её работа временно приостановленна до закрытия окна редактирования", "Предупреждение");
+            }
+                
             startVideo();
         }
         private void lbCams_Loaded(object sender, RoutedEventArgs e)
@@ -69,19 +84,38 @@ namespace ControlPanel.View
         }
         public void startVideo()
         {
+            imageCam.Source = null; // обнуляем картинку
+            isGoodImage = false;
+            ButPhotoSave.IsEnabled = false;
+
+            // очищаем предыдущий 
             if (VideoSource is not null)
             {
                 VideoSource.NewFrame -= new NewFrameEventHandler(videoNewFrame);
                 VideoSource.SignalToStop();
             }
+            
             VideoSource = new VideoCaptureDevice(VideoDevices[lbCams.SelectedIndex].MonikerString);
             VideoSource.NewFrame += new NewFrameEventHandler(videoNewFrame);
             VideoSource.Start();
         }
         public void videoNewFrame(object sender, NewFrameEventArgs eventArgs)
         {
-            
+
             Cadr = (Bitmap)eventArgs.Frame.Clone();
+            // если ширина изображения будет больше 50 пикселей то мы разрешаем фотать
+            if (!isGoodImage && Cadr.Width >= 50)
+            {
+                SetEnableSave(true);
+                isGoodImage = true;
+            }
+            // и наоборот
+            else if (isGoodImage && Cadr.Width < 50)
+            {
+                SetEnableSave(false);
+                isGoodImage = false;
+            }
+                
             // соотношение 3/4 * w/h 
             double mult = Cadr.Width / Cadr.Height * 0.75;
             double multForSplit = (1 - mult) / 2;
@@ -109,16 +143,24 @@ namespace ControlPanel.View
             else
                 this.Dispatcher.Invoke(new SetImageDelegate(SetImageCam), new object[] { bitmap });
         }
+        private void SetEnableSave(bool flag)
+        {
+            if (this.CheckAccess())
+                ButPhotoSave.IsEnabled = flag;
+            else
+                this.Dispatcher.Invoke(new SetEnableDelegate(SetEnableSave), new object[] { flag });
+        }
         private void ButPhotoSave_Click(object sender, RoutedEventArgs e)
         {
             
-            string path = Environment.CurrentDirectory + @"\..\..\..\Photos\pic"+ IdConteiner.Text + ".png";
-            Cadr.Save(path, ImageFormat.Png);
+            string path = @"\Photos\pic" + IdConteiner.Text + ".jpg";
+            Cadr.Save(Environment.CurrentDirectory + path, ImageFormat.Jpeg);
             // выключаем камеру
             VideoSource.NewFrame -= new NewFrameEventHandler(videoNewFrame);
             VideoSource.SignalToStop();
             // меняем изображение
-            ImageConteiner.Source = new BitmapImage(new Uri(path, UriKind.Absolute)); 
+            ImageConteiner.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + path, UriKind.Absolute));
+            ImageConteiner.DataContext = path;
             this.Close(); // закрываем окно
         }
 
@@ -128,6 +170,15 @@ namespace ControlPanel.View
             VideoSource.NewFrame -= new NewFrameEventHandler(videoNewFrame);
             VideoSource.SignalToStop();
             this.Close(); // закрываем окно
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (VideoSource is not null)
+            {
+                VideoSource.NewFrame -= new NewFrameEventHandler(videoNewFrame);
+                VideoSource.SignalToStop();
+            }
         }
     }
 }
