@@ -1,6 +1,7 @@
 ﻿using AForge.Video;
 using AForge.Video.DirectShow;
 using ControlPanel.Services;
+using ControlPanel.Sourses;
 using ControlPanel.View;
 using System.Collections.Generic;
 using System.Configuration;
@@ -57,7 +58,7 @@ namespace ControlPanel.Model
         private void SetCameraInConfig(string newCameraName)
         {
             XmlDocument xDoc = new XmlDocument();
-            xDoc.Load(@"C:\Users\ksh19\Desktop\Shadow\ControlPanel\Config.xml");
+            xDoc.Load(ClientMethods.ConvertRelativeToAbsolutePath(@"\Config.xml"));
             foreach (XmlNode xNode in xDoc.ChildNodes)
             {
                 if(xNode.Name == "Camera")
@@ -65,7 +66,7 @@ namespace ControlPanel.Model
                     xNode.InnerText = newCameraName;
                 }
             }
-            xDoc.Save(@"C:\Users\ksh19\Desktop\Shadow\ControlPanel\Config.xml");
+            xDoc.Save(ClientMethods.ConvertRelativeToAbsolutePath(@"\Config.xml"));
         }
         
         public void startVideo()
@@ -88,6 +89,15 @@ namespace ControlPanel.Model
             videoSource.NewFrame += new NewFrameEventHandler(videoNewFrame);
             videoSource.Start();
             isCameraStart = true;
+        }
+        public void stopVideo()
+        {
+            if (videoSource is not null)
+            {
+                videoSource.NewFrame -= new NewFrameEventHandler(videoNewFrame);
+                videoSource.SignalToStop();
+            }
+            
         }
         public void videoNewFrame(object sender, NewFrameEventArgs eventArgs)
         {

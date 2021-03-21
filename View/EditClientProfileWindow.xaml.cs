@@ -17,6 +17,7 @@ namespace ControlPanel.View
     public partial class EditClientProfile : Window, IPhoto<Window>
     {
         private ClientModel clientData { get; set; }
+        public bool isChangedCameraStatus { get; set; }
         public ClientModel ClientData
         {
             get
@@ -55,15 +56,17 @@ namespace ControlPanel.View
                 if (parentFIO.Length > 2) ClientParentPatronymic.Text = parentFIO[2];
             }
             ClientParentPhoneNumber.Text = Client.ParentPhoneNumber;
-            Uri UriPath = new Uri("pack://application:,,,/View/default-user-image.png");
-            if (File.Exists(Client.PhotoPath))
-                UriPath = new Uri(Client.PhotoPath, UriKind.Absolute);
+            Uri UriPath = new Uri(ClientMethods.ConvertRelativeToAbsolutePath(@"\Photos\default-user-image.png"));
+            if (File.Exists(ClientMethods.ConvertRelativeToAbsolutePath(Client.PhotoPath)))
+                UriPath = new Uri(ClientMethods.ConvertRelativeToAbsolutePath(Client.PhotoPath), UriKind.Absolute);
             ProfilePicture.Source = new BitmapImage(UriPath);
+            ProfilePicture.DataContext = Client.PhotoPath;
         }
-
         public EditClientProfile(Window owner, ClientModel Client):this(Client)
         {
             Owner = owner;
+            (owner as MainWindow).ClearSelectedClient();
+            ProfilePicture.DataContext = Client.PhotoPath;
         }
         Image IPhoto<Window>.getImageConteiner()
         {
@@ -73,14 +76,34 @@ namespace ControlPanel.View
         {
             return ID;
         }
+        bool IPhoto<Window>.getChangedCameraStatus()
+        {
+            return isChangedCameraStatus;
+        }
+        void IPhoto<Window>.setChangedCameraStatus(bool flag)
+        {
+            isChangedCameraStatus = flag;
+        }
         private void ChosePhoto(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
+
             dialog.Filter = "jpg files (*.jpg)|*.jpg|png files (*.png)|*.png";
             dialog.Title = "Выберите фотографию клиента";
             if (dialog.ShowDialog() ?? false)
             {
-                ProfilePicture.Source = new BitmapImage(new Uri(dialog.FileName));
+                BitmapImage TempBtm = new BitmapImage(new Uri(dialog.FileName));
+                var encoder = new JpegBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(TempBtm));
+                string photoPath = @"\Photos\" + ClientMethods.GetOnlyFileName(dialog.FileName.ToString());
+                using (FileStream filestream = new(ClientMethods.ConvertRelativeToAbsolutePath(photoPath), FileMode.Create))
+                {
+                    encoder.Save(filestream);
+                }
+                ProfilePicture.Source = new BitmapImage(new Uri(ClientMethods.ConvertRelativeToAbsolutePath(photoPath)));
+                ProfilePicture.DataContext = photoPath;
+                MessageBox.Show(ClientMethods.GetOnlyFileName(dialog.FileName.ToString()));
+
             }
         }
 
@@ -145,7 +168,7 @@ namespace ControlPanel.View
                                                ClientPhoneNumber.Text.Trim(' '),
                                                ClientData.DateLastPayment,
                                                ClientSection.Text.Trim(' '),
-                                               ProfilePicture.Source.ToString(),
+                                               ProfilePicture.DataContext.ToString(), // мы берем относительный путь
                                                ClientParentType.Text.Trim(' '),
                                                ClientParentSurname.Text.Trim(' ') + " " + ClientParentName.Text.Trim(' ') + " " + ClientParentPatronymic.Text.Trim(' '),
                                                ClientParentPhoneNumber.Text.Trim(' '),
@@ -197,6 +220,12 @@ namespace ControlPanel.View
         {
             PhotoCameraWindow PhotoCamera = new(this);
             PhotoCamera.ShowDialog();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (isChangedCameraStatus)
+                (Owner as MainWindow).CheckBoxCameraOn.IsChecked = true;
         }
     }
 }

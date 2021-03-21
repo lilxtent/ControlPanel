@@ -12,6 +12,8 @@ namespace ControlPanel.Sourses
     {
         Image getImageConteiner();
         TextBox getIdConteiner();
+        bool getChangedCameraStatus();
+        void setChangedCameraStatus(bool flag);
 
     }
 }

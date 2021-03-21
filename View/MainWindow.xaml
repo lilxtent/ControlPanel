@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1200" MinWidth="1200" MinHeight="700"
+        Title="MainWindow" Height="700" Width="1200" MinWidth="1200" MinHeight="700" Closing="Window_Closing"
         >
     <Grid x:Name="mainGrid" Margin="0,0,0,0" Background="#FFE5E5E5">
         <Menu HorizontalAlignment="Left" VerticalAlignment="Top" Width="117">
@@ -20,8 +20,6 @@
         </Menu>
 
         <ListBox x:Name="lbClients" Margin="12,59,553,72" Loaded="lbClients_Loaded" SelectionChanged="lbClients_SelectionChanged"/>
-        <Button x:Name="butSetupCamera" Content="camera" HorizontalAlignment="Left" Margin="136,631,0,0" VerticalAlignment="Top" Height="33" Width="60" Click="butSetupCamera_Click"/>
-        <Button x:Name="butAddClient" Content="добавить клиента" HorizontalAlignment="Left" Margin="12,631,0,0" VerticalAlignment="Top" Width="119" Click="butAddClient_Click" Height="33"/>
         <Label Content="Поиск:" HorizontalAlignment="Left" Height="25" Margin="12,29,0,0" VerticalAlignment="Top" Width="50"/>
         <TextBox x:Name="TextBoxSearch" HorizontalAlignment="Left" Height="25" Margin="67,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" TextChanged="TextBoxSearch_TextChanged"/>
 
@@ -40,7 +38,7 @@
 
         <Button x:Name="ButtonPaymentJournal" Content="Журнал оплат" HorizontalAlignment="Left" Height="20" Margin="675,377,0,0" VerticalAlignment="Top" Width="136" Click="ButtonPaymentJournal_Click" IsEnabled="False"/>
         <Button x:Name="ButtonVisitJournal" Content="Журнал посещений" HorizontalAlignment="Left" Height="20" Margin="829,377,0,0" VerticalAlignment="Top" Width="133" Click="ButtonVisitJournal_Click" IsEnabled="False"/>
-        <ComboBox x:Name="SortOptionsList" HorizontalAlignment="Left" Height="25" Margin="318,29,0,0" VerticalAlignment="Top" Width="200" SelectionChanged="SortOptionsList_SelectionChanged">
+        <ComboBox x:Name="SortOptionsList" HorizontalAlignment="Left" Height="25" Margin="302,29,0,0" VerticalAlignment="Top" Width="200" SelectionChanged="SortOptionsList_SelectionChanged">
             <ComboBoxItem IsSelected="True">
                 <TextBlock>По алфавиту(возрастанию)</TextBlock>
             </ComboBoxItem>
@@ -62,5 +60,6 @@
             </DataGrid.Columns>
         </DataGrid>
         <Label Content="Посещения за сегодня:" HorizontalAlignment="Left" Height="25" Margin="967,29,0,0" VerticalAlignment="Top" Width="140"/>
+        <CheckBox x:Name="CheckBoxCameraOn" Content="Камера выключена" HorizontalAlignment="Left" Margin="525,36,0,0" VerticalAlignment="Top" Checked="CheckBoxCameraOn_Checked" Unchecked="CheckBoxCameraOn_Unchecked" Height="23" Width="145"/>
     </Grid>
 </Window>

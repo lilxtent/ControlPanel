@@ -13,6 +13,8 @@ using ControlPanel.Model;
 using ControlPanel.Services;
 using Microsoft.Win32;
 using ControlPanel.Sourses;
+using System.Drawing;
+using System.IO;
 
 namespace ControlPanel.View
 {
@@ -22,6 +24,7 @@ namespace ControlPanel.View
     public partial class AddUserWindow : Window, IPhoto<Window>
     {
         private ClientModel enterdClientData { get; set; }
+        public bool isChangedCameraStatus { get; set; }
         public ClientModel EnterdClientData
         {
             get
@@ -42,14 +45,25 @@ namespace ControlPanel.View
         {
             InitializeComponent();
             Owner = owner;
+            (owner as MainWindow).ClearSelectedClient();
+            ProfilePicture.DataContext = ClientMethods.GetDefaultImagePathRelative();
         }
-        Image IPhoto<Window>.getImageConteiner()
+        // интерфейс IPhoto
+        System.Windows.Controls.Image IPhoto<Window>.getImageConteiner()
         {
             return ProfilePicture;
         }
         TextBox IPhoto<Window>.getIdConteiner()
         {
             return ID;
+        }
+        bool IPhoto<Window>.getChangedCameraStatus()
+        {
+            return isChangedCameraStatus;
+        }
+        void IPhoto<Window>.setChangedCameraStatus(bool flag)
+        {
+            isChangedCameraStatus = flag;
         }
 
 
@@ -112,7 +126,7 @@ namespace ControlPanel.View
                                                ClientPhoneNumber.Text.Trim(' '),
                                                default(DateTime),
                                                ClientSection.Text.Trim(' '),
-                                               ProfilePicture.Source.ToString(),
+                                               ProfilePicture.DataContext.ToString(),
                                                ClientParentType.Text.Trim(' '),
                                                ClientParentSurname.Text.Trim(' ') + " " + ClientParentName.Text.Trim(' ') + " " + ClientParentPatronymic.Text.Trim(' '),
                                                ClientParentPhoneNumber.Text.Trim(' '),
@@ -144,11 +158,23 @@ namespace ControlPanel.View
         private void ChosePhoto(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
+            
             dialog.Filter = "jpg files (*.jpg)|*.jpg|png files (*.png)|*.png";
             dialog.Title = "Выберите фотографию клиента";
             if (dialog.ShowDialog() ?? false)
             {
-                ProfilePicture.Source = new BitmapImage(new Uri(dialog.FileName));
+                BitmapImage TempBtm = new BitmapImage(new Uri(dialog.FileName));
+                var encoder = new JpegBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(TempBtm));
+                string photoPath = @"\Photos\" + ClientMethods.GetOnlyFileName(dialog.FileName.ToString());
+                using (FileStream filestream = new(ClientMethods.ConvertRelativeToAbsolutePath(photoPath), FileMode.Create))
+                {
+                    encoder.Save(filestream);
+                }
+                ProfilePicture.Source = new BitmapImage(new Uri(ClientMethods.ConvertRelativeToAbsolutePath(photoPath)));
+                ProfilePicture.DataContext = photoPath;
+                MessageBox.Show(ClientMethods.GetOnlyFileName(dialog.FileName.ToString()));
+
             }
         }
 
@@ -158,6 +184,10 @@ namespace ControlPanel.View
             PhotoCamera.ShowDialog();
         }
 
-        
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (isChangedCameraStatus)
+                (Owner as MainWindow).CheckBoxCameraOn.IsChecked = true;
+        }
     }
 }
