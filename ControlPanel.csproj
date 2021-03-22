@@ -44,6 +44,9 @@
     <None Update="Database\clients.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Photos\default-user-image.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Photos\pic.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
