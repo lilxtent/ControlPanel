@@ -3,6 +3,7 @@ using AForge.Video.DirectShow;
 using ControlPanel.Services;
 using ControlPanel.Sourses;
 using ControlPanel.View;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
@@ -27,21 +28,20 @@ namespace ControlPanel.Model
         public bool isCameraStart;
 
         public delegate void ArrivedClient(ClientModel Client);
-        public event ArrivedClient NewClientArrived;
-
         delegate void SetImageDelegate(Bitmap parameter);
+        public event ArrivedClient NewClientArrived;
 
         public CamWindow WindowCurr
         {
             get { return windowCurr; }
             set { windowCurr = value; }
         }
+
         public System.Windows.Controls.Image ImageContainer
         {
             get { return imageContainer; }
             set { imageContainer = value; }
         }
-
 
         public CameraModel(ApplicationContext DB)
         {
@@ -55,6 +55,7 @@ namespace ControlPanel.Model
             isPopUpWindowActive = false;
             isCameraStart = false;
         }
+
         private void SetCameraInConfig(string newCameraName)
         {
             XmlDocument xDoc = new XmlDocument();
@@ -90,6 +91,7 @@ namespace ControlPanel.Model
             videoSource.Start();
             isCameraStart = true;
         }
+
         public void stopVideo()
         {
             if (videoSource is not null)
@@ -99,6 +101,7 @@ namespace ControlPanel.Model
             }
             
         }
+
         public void videoNewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             if (!isPopUpWindowActive)
@@ -114,14 +117,16 @@ namespace ControlPanel.Model
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         var ArrivedClient = FindClient(result.Text);
+                        DateTime LastVisitDate = ArrivedClient.DateLastVisit;
                         var popupWindow = new PopUpWindow(ArrivedClient, this) { Name = "popupWindow" };
-                        NewClientArrived?.Invoke(ArrivedClient);
+                        if (LastVisitDate != ArrivedClient.DateLastVisit)
+                            NewClientArrived?.Invoke(ArrivedClient);
                         popupWindow.Show();
                     });
-
                 }
             }
         }
+
         private ClientModel FindClient(string id)
         {
             int idClient;
@@ -144,6 +149,7 @@ namespace ControlPanel.Model
             }
             return null;
         }
+
         public BitmapImage ConvertBitmapToImage(Bitmap src)
         {
             MemoryStream ms = new MemoryStream();
@@ -155,6 +161,7 @@ namespace ControlPanel.Model
             image.EndInit();
             return image;
         }
+
         public static BitmapImage ToBitmapImage(Bitmap bitmap)
         {
             MemoryStream ms = new MemoryStream();
@@ -167,7 +174,6 @@ namespace ControlPanel.Model
             return image;
 
         }
-
 
         private void SetImageCam(Bitmap bitmap)
         {
