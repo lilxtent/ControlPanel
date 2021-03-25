@@ -26,6 +26,7 @@ namespace ControlPanel.View
         private DispatcherTimer timer { get; set; }
         private ClientModel Client { get; set; }
         private CameraModel Camera { get; set; }
+
         public PopUpWindow(ClientModel Client, CameraModel Camera)
         {
                 
@@ -44,12 +45,14 @@ namespace ControlPanel.View
             timer.Interval = new TimeSpan(0, 0, 5);
             timer.Start();
         }
+
         private void timerTick(object sender, EventArgs e)
         {
             timer.Stop();
             Camera.isPopUpWindowActive = false;
             this.Hide();
         }
+
         private void InitializeClientInfo()
         {
             labelFIO.HorizontalContentAlignment = HorizontalAlignment.Center;
@@ -74,14 +77,15 @@ namespace ControlPanel.View
                 this.Background = new SolidColorBrush(Color.FromArgb(255, 254, 244, 137));
             }
         }
+
         private void SaveVisitInDB()
         {
             // мы считаем разницу между текущим временем и временем посещения только в случе если клиент
             // уже посещал клуб
             if (Client.DateLastVisit != default)
             {
-                double diff = (DateTime.Now - Client.DateLastVisit).TotalHours;
-                if (diff >= 1) return; // если в течении предыдущего часа вы уже отмечались, то вас не запишет снова
+                double diff = (DateTime.Now - Client.DateLastVisit).TotalSeconds;
+                if (diff >= 60) return; // если в течении предыдущего часа вы уже отмечались, то вас не запишет снова
             }
             ApplicationContext DB = new();
             DB.Visits.Add(new VisitModel(Client.ID, DateTime.Now));
