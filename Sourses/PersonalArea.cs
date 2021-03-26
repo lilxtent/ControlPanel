@@ -44,7 +44,26 @@ namespace ControlPanel.Sourses
             return GridData;
         }
     }
+    class PersonalTrainer : PersonalUnit
+    {
+        private string Trainer { get; set; }
 
+        public PersonalTrainer(ClientModel client)
+        {
+            Trainer = client.Trainer;
+        }
+        public override Grid getGrid()
+        {
+            Grid GridData = new Grid();
+
+            GridData.Children.Add(new Label()
+            {
+                Content = $"Тренер: {Trainer}",
+            });
+
+            return GridData;
+        }
+    }
     class PersonalAvatar : PersonalUnit
     {
         private string ImagePath { get; set; }
@@ -91,10 +110,12 @@ namespace ControlPanel.Sourses
         public override Grid getGrid()
         {
             Grid GridData = new Grid();
-            GridData.Children.Add(new Label() { Content = $"Телефон: {Phone}" });
+            GridData.Children.Add(new Label() { Content = $"Телефон: {ConvPhone()}" });
 
             return GridData;
         }
+
+        private string ConvPhone() => $"{Phone[0]}-{Phone[1..4]}-{Phone[4..6]}-{Phone[6..8]}-{Phone[8..]}";
     }
     class PersonalSection : PersonalUnit
     {

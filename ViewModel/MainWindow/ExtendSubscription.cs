@@ -11,27 +11,6 @@ using System.Windows.Media;
 
 namespace ControlPanel.ViewModel.MainWindow
 {
-    class ButtonExtendSubscription
-    {
-        private Button LocalButton { get; set; }
-        private ControlPanel.MainWindow CurrWindow { get; set; }
-
-        public ButtonExtendSubscription(ControlPanel.MainWindow CurrWindow)
-        {
-            this.CurrWindow = CurrWindow;
-
-            LocalButton = new Button()
-            {
-                Content = $"продлить абонемент",
-                Margin = new Thickness(0, 0, 5, 0),
-                Background = new SolidColorBrush(Color.FromArgb(255, 0, 244, 137)),
-            };
-            LocalButton.Click += new RoutedEventHandler(butExtendSubscription_Click);
-        }
-        private void butExtendSubscription_Click(object sender, RoutedEventArgs e)
-        {
-        }
-    }
     public class ExtendSubscription
     {
         public Grid Grid { get; private set; }
@@ -88,7 +67,7 @@ namespace ControlPanel.ViewModel.MainWindow
             // инициализируем окно ввода суммы оплаты
             costTextBox = new() { Margin = new Thickness(0, 3, 3, 3) };
             // иницализируем кнопку продлить
-            Button ButSave = new Button() { Content = "продлить", Margin = new Thickness(0, 3, 3, 3) };
+            Button ButSave = new Button() { Content = "продлить", Margin = new Thickness(3, 3, 3, 3)};
             ButSave.Click += new RoutedEventHandler(butExtend_Click);
 
             Grid.Children.Add(nameLable);

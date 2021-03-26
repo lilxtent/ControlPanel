@@ -13,6 +13,7 @@ namespace ControlPanel.Services
         public DbSet<ClientModel> ClientsModels { get; private set; }
         public DbSet<PaymentModel> Payments { get; private set; }
         public DbSet<VisitModel> Visits { get; private set; }
+        public DbSet<TrainerModel> Trainers { get; private set; }
         
         public ApplicationContext()
         {

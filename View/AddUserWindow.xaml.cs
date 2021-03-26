@@ -15,6 +15,7 @@ using Microsoft.Win32;
 using ControlPanel.Sourses;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 namespace ControlPanel.View
 {
@@ -47,6 +48,15 @@ namespace ControlPanel.View
             Owner = owner;
             (owner as MainWindow).ClearSelectedClient();
             ProfilePicture.DataContext = ClientMethods.GetDefaultImagePathRelative();
+            InitTrainers(); // заполняем ComboBoxTrainer тренерами
+
+        }
+        // инициализируем список тренеров
+        private void InitTrainers()
+        {
+            ApplicationContext DB = new();
+            foreach (TrainerModel trainer in DB.Trainers?.ToList())
+                ComboBoxTrainer.Items.Add(new Label() { Content = trainer.ShortFullname });
         }
         // интерфейс IPhoto
         System.Windows.Controls.Image IPhoto<Window>.getImageConteiner()
@@ -119,6 +129,12 @@ namespace ControlPanel.View
                 return;
             }
 
+            if (ComboBoxTrainer.SelectedIndex == -1) 
+            {
+                ThisFieldCantBeEmpty("Тренер");
+                return;
+            }
+
             EnterdClientData = new ClientModel(Convert.ToInt32(ID.Text.Trim(' ')),
                                                ClientSurname.Text.Trim(' '), ClientName.Text.Trim(' '),
                                                ClientPatronymic.Text.Trim(' '),
@@ -130,7 +146,7 @@ namespace ControlPanel.View
                                                ClientParentType.Text.Trim(' '),
                                                ClientParentSurname.Text.Trim(' ') + " " + ClientParentName.Text.Trim(' ') + " " + ClientParentPatronymic.Text.Trim(' '),
                                                ClientParentPhoneNumber.Text.Trim(' '),
-                                               default(DateTime)
+                                               default(DateTime), (ComboBoxTrainer.SelectedItem as Label).Content.ToString()
                                                );
             ApplicationContext DB = new ApplicationContext();
             if (DB.ClientsModels.Find(new object[] { EnterdClientData.ID }) is not null)

@@ -19,11 +19,12 @@ namespace ControlPanel.Sourses
         public override Grid getGrid()
         {
             Grid Grid = new();
+            // 2 строки
             Grid.RowDefinitions.Add(new RowDefinition());
             Grid.RowDefinitions.Add(new RowDefinition());
             string parentType = ClientData.ParentType != "" ? ClientData.ParentType : "Pодитель";
             string parentFIO = ClientData.ParentFIO.Trim(' ') != "" ? ClientData.ParentFIO : "не указано";
-            string parentPhone = ClientData.ParentPhoneNumber != "" ? ClientData.ParentPhoneNumber : "не указано";
+            string parentPhone = ClientData.ParentPhoneNumber != "" ? ConvPhone(ClientData.ParentPhoneNumber) : "не указано";
 
             // заголовок
             string infoParentHead = "Информация о родителях:";
@@ -43,6 +44,43 @@ namespace ControlPanel.Sourses
 
             Grid.Children.Add(InfoParent);
             Grid.SetRow(InfoParent, 1);
+
+            return Grid;
+        }
+        private string ConvPhone(string phone) => $"{phone[0]}-{phone[1..4]}-{phone[4..6]}-{phone[6..8]}-{phone[8..]}";
+
+    }
+    class AdditionalInfo : PersonalUnit
+    {
+        private ClientModel ClientData { get; set; }
+        public AdditionalInfo(ClientModel Client)
+        {
+            ClientData = Client;
+        }
+        public override Grid getGrid()
+        {
+            Grid Grid = new();
+            // 2 строки
+            Grid.RowDefinitions.Add(new RowDefinition());
+            Grid.RowDefinitions.Add(new RowDefinition());
+
+            string idCard = ClientData.ID.ToString();
+            // заголовок
+            string infoHead = "Дополнительно:";
+            Label InfoHead = new Label()
+            {
+                Content = infoHead,
+                FontWeight = FontWeights.Bold,
+                Height = 25
+            };
+            Grid.Children.Add(InfoHead);
+            Grid.SetRow(InfoHead, 0);
+
+            // родитель
+            string infoIdCard = $"id карты: {idCard}";
+            Label InfoIdCard = new Label() { Content = infoIdCard };
+            Grid.Children.Add(InfoIdCard);
+            Grid.SetRow(InfoIdCard, 1);
 
             return Grid;
         }
