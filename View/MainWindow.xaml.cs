@@ -36,7 +36,18 @@ namespace ControlPanel
                 (TodayVisits.ItemsSource as TodayVisitsList).Add(new ShortVisitViewModel(x.FIO, x.DateLastVisit));
                 TodayVisits.Items.Refresh();
             };
-
+            UpdateTrainers(); // инициализируем список тренеров
+        }
+        // инициализируем список тренеров
+        public void UpdateTrainers()
+        {
+            ComboBoxTrainers.Items.Clear(); // очищаем
+            ApplicationContext DB = new();
+            // первый элемент это любой тренер
+            ComboBoxTrainers.Items.Add(new Label() { Content = "Любой тренер" });
+            foreach (TrainerModel trainer in DB.Trainers.ToList())
+                ComboBoxTrainers.Items.Add(new Label() { Content = trainer.ShortFullname });
+            ComboBoxTrainers.SelectedIndex = 0; // выбираем "Любой тренер" по умолчанию
         }
 
         private void lbClients_Loaded(object sender, RoutedEventArgs e)
@@ -53,12 +64,7 @@ namespace ControlPanel
         private void butSetupCamera_Click(object sender, RoutedEventArgs e)
         {
             // Выгружаем название камеры из конфигураций
-            string cameraNameInConfig = "";
-            XmlDocument xDoc = new XmlDocument();
-            xDoc.Load(@"C:\Users\ksh19\Desktop\Shadow\ControlPanel\Config.xml");
-            foreach (XmlNode xNode in xDoc.ChildNodes)
-                if (xNode.Name == "Camera")
-                    cameraNameInConfig = xNode.InnerText;
+            string cameraNameInConfig = ClientMethods.GetCameraNameConfig();
             // ищем камеру с таким же названием среди Devices
             int indexCamera = -1;
             for (int i = 0; i < Camera.videoDevices.Count; i++)
@@ -93,12 +99,15 @@ namespace ControlPanel
                 ButtonVisitJournal.IsEnabled = true; // активируем кнопку журнала посещений
                 butExtendSubscription.IsEnabled = true; // активируем кнопку редактирования
                 butEdit.IsEnabled = true; // активируем кнопку продления абонемента
+                ButtonVisit.IsEnabled = true; // активируем кнопку отметить посещение
+
                 var lbi = (ClientModel)((lbClients.SelectedItem as Grid).DataContext);
                 // список объектов для общей информации о спортсмене(клиенте)
                 PersonalUnit[] personalObj = {
                 new PersonalAvatar(lbi),
                 new PersonalFIO(lbi),
                 new PersonalSection(lbi),
+                new PersonalTrainer(lbi),
                 new PersonalPhone(lbi),
                 new PersonalBirthDate(lbi),
                 new PersonalLastPay(lbi),
@@ -113,7 +122,8 @@ namespace ControlPanel
 
                 // список объектов для дополнительной информации
                 PersonalUnit[] AdditionalInfoObj = {
-                new AdditionalInfoParent(lbi)
+                new AdditionalInfoParent(lbi),
+                new AdditionalInfo(lbi)
                 };
                 foreach (var el in AdditionalInfoObj)
                     spAdditionalInfo.Children.Add(el.getGrid());
@@ -124,6 +134,7 @@ namespace ControlPanel
                 ButtonVisitJournal.IsEnabled = false; // деактивируем кнопку журнала посещений
                 butExtendSubscription.IsEnabled = false; // деактивируем кнопку редактирования
                 butEdit.IsEnabled = false; // деактивируем кнопку продления абонемента
+                ButtonVisit.IsEnabled = false; // деактивируем кнопку отметить посещение
 
 
                 spPersonalArea.Children.Clear();
@@ -163,8 +174,13 @@ namespace ControlPanel
         private void ShowAllClientsShortData(ListBox Box)
         {
             Box.Items.Clear();
+            ClientModel[] Clients;
+            // если мы выбрали тренера 
+            if (ComboBoxTrainers.SelectedIndex > 0)
+                Clients = DB.ClientsModels.ToList().Where(x => x.Trainer == ComboBoxTrainers.SelectedItem.ToString()).ToArray();
+            else
+                Clients = DB.ClientsModels.ToArray();
 
-            ClientModel[] Clients = DB.ClientsModels.ToArray();
             SortCLientModel(Clients);
             foreach (ClientModel Client in Clients)
             {
@@ -302,6 +318,23 @@ namespace ControlPanel
                 Camera.videoSource.NewFrame -= new NewFrameEventHandler(Camera.videoNewFrame);
                 Camera.videoSource.SignalToStop();
             }
+        }
+
+        private void ButtonAddTrainer_Click(object sender, RoutedEventArgs e)
+        {
+            AddTrainerWindow TrainerWondow = new(this);
+            TrainerWondow.ShowDialog();
+        }
+
+        private void ComboBoxTrainers_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ShowAllClientsShortData(lbClients);
+        }
+
+        private void ButtonVisit_Click(object sender, RoutedEventArgs e)
+        {
+            PopUpWindow popupWindow = new((lbClients.SelectedItem as Grid).DataContext as ClientModel, Camera);
+            popupWindow.Show();
         }
     }
 }

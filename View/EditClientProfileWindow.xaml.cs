@@ -39,6 +39,7 @@ namespace ControlPanel.View
             ClientData = Client;
 
             InitializeComponent();
+            InitTrainers();
             ClientSurname.Text = Client.Surname;
             ClientName.Text = Client.Name;
             ClientPatronymic.Text = Client.Patronymic;
@@ -61,12 +62,31 @@ namespace ControlPanel.View
                 UriPath = new Uri(ClientMethods.ConvertRelativeToAbsolutePath(Client.PhotoPath), UriKind.Absolute);
             ProfilePicture.Source = new BitmapImage(UriPath);
             ProfilePicture.DataContext = Client.PhotoPath;
+            ComboBoxTrainer.SelectedIndex = FindIndexTrainer(Client);
+        }
+        private int FindIndexTrainer(ClientModel Client)
+        {
+            var Trainers = (new ApplicationContext()).Trainers.ToList();
+            for (int i = 0; i < Trainers.Count; i++)
+            {
+                if (Trainers[i].ShortFullname == Client.Trainer)
+                    return i;
+            }
+            return -1;
         }
         public EditClientProfile(Window owner, ClientModel Client):this(Client)
         {
             Owner = owner;
             (owner as MainWindow).ClearSelectedClient();
             ProfilePicture.DataContext = Client.PhotoPath;
+        }
+
+        // инициализируем список тренеров
+        private void InitTrainers()
+        {
+            ApplicationContext DB = new();
+            foreach (TrainerModel trainer in DB.Trainers?.ToList())
+                ComboBoxTrainer.Items.Add(new Label() { Content = trainer.ShortFullname });
         }
         Image IPhoto<Window>.getImageConteiner()
         {
@@ -161,6 +181,12 @@ namespace ControlPanel.View
                 return;
             }
 
+            if (ComboBoxTrainer.SelectedIndex == -1)
+            {
+                ThisFieldCantBeEmpty("Тренер");
+                return;
+            }
+
             ClientModel newClientData = new ClientModel(Convert.ToInt32(ID.Text.Trim(' ')),
                                                ClientSurname.Text.Trim(' '), ClientName.Text.Trim(' '),
                                                ClientPatronymic.Text.Trim(' '),
@@ -172,7 +198,8 @@ namespace ControlPanel.View
                                                ClientParentType.Text.Trim(' '),
                                                ClientParentSurname.Text.Trim(' ') + " " + ClientParentName.Text.Trim(' ') + " " + ClientParentPatronymic.Text.Trim(' '),
                                                ClientParentPhoneNumber.Text.Trim(' '),
-                                               ClientData.DateLastVisit
+                                               ClientData.DateLastVisit,
+                                               (ComboBoxTrainer.SelectedItem as Label).Content.ToString()
                                                );
 
 

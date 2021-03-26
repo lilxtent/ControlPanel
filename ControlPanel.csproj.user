@@ -10,6 +10,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="View\AddTrainerWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\AddUserWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -33,6 +36,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="View\AddTrainerWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="View\AddUserWindow.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -7,29 +7,33 @@
         mc:Ignorable="d"
         Title="Добавление клиента" Height="500" Width="590" ResizeMode="NoResize" Closing="Window_Closing">
     <Grid>
-        <GroupBox Header="Клиент" HorizontalAlignment="Left" Height="240" Margin="10,10,0,0" VerticalAlignment="Top" Width="265">
+        <GroupBox Header="Клиент" HorizontalAlignment="Left" Height="274" Margin="10,10,0,0" VerticalAlignment="Top" Width="265">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="243*"/>
+                    <ColumnDefinition Width="28*"/>
+                    <ColumnDefinition Width="39*"/>
+                    <ColumnDefinition Width="176*"/>
                     <ColumnDefinition Width="10*"/>
                 </Grid.ColumnDefinitions>
-                <Label Content="Фамилия:" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="65"/>
-                <TextBox x:Name="ClientSurname"  HorizontalAlignment="Left" Height="25" Margin="120,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" AutomationProperties.IsRequiredForForm="True" Grid.ColumnSpan="2"/>
-                <Label Content="Имя: " HorizontalAlignment="Left" Height="25" Margin="10,40,0,0" VerticalAlignment="Top" Width="65"/>
-                <TextBox x:Name="ClientName" HorizontalAlignment="Left" Height="25" Margin="120,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" AutomationProperties.IsRequiredForForm="True" Grid.ColumnSpan="2"/>
-                <Label Content="Отчество:" HorizontalAlignment="Left" Height="25" Margin="10,70,0,0" VerticalAlignment="Top" Width="65"/>
-                <TextBox x:Name="ClientPatronymic" HorizontalAlignment="Left" Height="25" Margin="120,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" AutomationProperties.IsRequiredForForm="True" Grid.ColumnSpan="2"/>
-                <Label Content="Дата Рождения:" HorizontalAlignment="Left" Height="25" Margin="10,100,0,0" VerticalAlignment="Top" Width="100"/>
-                <DatePicker x:Name="ClientBirthDate" HorizontalAlignment="Left" Height="26" Margin="120,101,0,0" VerticalAlignment="Top" Width="130" FirstDayOfWeek="Monday" AutomationProperties.IsRequiredForForm="True" Grid.ColumnSpan="2"/>
-                <Label Content="Номер телефона:" HorizontalAlignment="Left" Height="25" Margin="10,130,0,0" VerticalAlignment="Top" Width="105"/>
-                <TextBox x:Name="ClientPhoneNumber" HorizontalAlignment="Left" Height="25" Margin="120,132,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" AutomationProperties.IsRequiredForForm="True" InputScope="Default" Grid.ColumnSpan="2" />
-                <Label Content="ID карты:" HorizontalAlignment="Left" Height="25" Margin="10,160,0,0" VerticalAlignment="Top" Width="105"/>
-                <TextBox x:Name="ID" HorizontalAlignment="Left" Height="25" Margin="120,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" AutomationProperties.IsRequiredForForm="True"/>
-                <Label Content="Секция:" HorizontalAlignment="Left" Height="25" Margin="10,190,0,0" VerticalAlignment="Top" Width="65"/>
-                <TextBox x:Name="ClientSection" HorizontalAlignment="Left" Height="25" Margin="120,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2"/>
+                <Label Content="Фамилия:" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="65" Grid.ColumnSpan="3"/>
+                <TextBox x:Name="ClientSurname"  HorizontalAlignment="Left" Height="25" Margin="53,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" AutomationProperties.IsRequiredForForm="True" Grid.ColumnSpan="2" Grid.Column="2"/>
+                <Label Content="Имя: " HorizontalAlignment="Left" Height="25" Margin="10,40,0,0" VerticalAlignment="Top" Width="65" Grid.ColumnSpan="3"/>
+                <TextBox x:Name="ClientName" HorizontalAlignment="Left" Height="25" Margin="53,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" AutomationProperties.IsRequiredForForm="True" Grid.ColumnSpan="2" Grid.Column="2"/>
+                <Label Content="Отчество:" HorizontalAlignment="Left" Height="25" Margin="10,70,0,0" VerticalAlignment="Top" Width="65" Grid.ColumnSpan="3"/>
+                <TextBox x:Name="ClientPatronymic" HorizontalAlignment="Left" Height="25" Margin="53,70,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" AutomationProperties.IsRequiredForForm="True" Grid.ColumnSpan="2" Grid.Column="2"/>
+                <Label Content="Дата Рождения:" HorizontalAlignment="Left" Height="25" Margin="10,100,0,0" VerticalAlignment="Top" Width="100" Grid.ColumnSpan="3"/>
+                <DatePicker x:Name="ClientBirthDate" HorizontalAlignment="Left" Height="26" Margin="53,101,0,0" VerticalAlignment="Top" Width="130" FirstDayOfWeek="Monday" AutomationProperties.IsRequiredForForm="True" Grid.ColumnSpan="2" Grid.Column="2"/>
+                <Label Content="Номер телефона:" HorizontalAlignment="Left" Height="25" Margin="10,130,0,0" VerticalAlignment="Top" Width="105" Grid.ColumnSpan="3"/>
+                <TextBox x:Name="ClientPhoneNumber" HorizontalAlignment="Left" Height="25" Margin="53,132,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" AutomationProperties.IsRequiredForForm="True" InputScope="Default" Grid.ColumnSpan="2" Grid.Column="2" />
+                <Label Content="ID карты:" HorizontalAlignment="Left" Height="25" Margin="10,160,0,0" VerticalAlignment="Top" Width="105" Grid.ColumnSpan="3"/>
+                <TextBox x:Name="ID" HorizontalAlignment="Left" Height="25" Margin="53,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" AutomationProperties.IsRequiredForForm="True" Grid.Column="2"/>
+                <Label Content="Секция:" HorizontalAlignment="Left" Height="25" Margin="10,190,0,0" VerticalAlignment="Top" Width="65" Grid.ColumnSpan="3"/>
+                <TextBox x:Name="ClientSection" HorizontalAlignment="Left" Height="25" Margin="53,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" Grid.Column="2"/>
+                <Label Content="Тренер:" HorizontalAlignment="Left" Height="25" Margin="10,220,0,0" VerticalAlignment="Top" Width="65" Grid.ColumnSpan="3"/>
+                <ComboBox x:Name="ComboBoxTrainer" Grid.Column="2" HorizontalAlignment="Left" Margin="53,222,0,0" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" Height="24"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Родитель" HorizontalAlignment="Left" Height="185" Margin="10,257,0,0" VerticalAlignment="Top" Width="265">
+        <GroupBox Header="Родитель" HorizontalAlignment="Left" Height="185" Margin="10,289,0,0" VerticalAlignment="Top" Width="265">
             <Grid>
                 <Label Content="Кто:" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
                 <TextBox x:Name="ClientParentType" HorizontalAlignment="Left" Height="25" Margin="120,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>

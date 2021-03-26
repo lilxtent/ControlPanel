@@ -14,14 +14,15 @@ namespace ControlPanel.Model
         public string Name { get; private set; }
         public string Patronymic { get; private set; }
         public DateTime BirthDate { get; private set; }
-        public string PhoneNumber { get; private set; }//Длинна должна быть равна 11 (например 78005553535)
+        public string PhoneNumber { get; private set; } //Длинна должна быть равна 11 (например 78005553535)
         public DateTime DateLastPayment { get; private set; }
         public string Section { get; private set; }
         public string PhotoPath { get; private set; }
         public string ParentType { get; private set; }
         public string ParentFIO { get; private set; }
-        public string ParentPhoneNumber { get; private set; }//Длинна должна быть равна 11 (например 78005553535)
+        public string ParentPhoneNumber { get; private set; } //Длинна должна быть равна 11 (например 78005553535)
         public DateTime DateLastVisit { get; set; }
+        public string Trainer { get; private set; }
 
         public string FIO
         {
@@ -35,7 +36,8 @@ namespace ControlPanel.Model
                            DateTime dateLastPayment = default(DateTime),
                            string section = default,
                            string photoPath = null, string parentType = null,
-                           string parentFIO = null, string parentPhoneNumber = null, DateTime dateLastVisit = default(DateTime))
+                           string parentFIO = null, string parentPhoneNumber = null, DateTime dateLastVisit = default(DateTime),
+                           string trainer = null)
         {
             if (surname is null || name is null || patronymic is null || phoneNumber is null)
                 throw new ArgumentNullException();
@@ -55,6 +57,7 @@ namespace ControlPanel.Model
             ParentFIO = parentFIO;
             ParentPhoneNumber = parentPhoneNumber;
             DateLastVisit = dateLastVisit;
+            Trainer = trainer;
         }
 
         public void SetDateLastPayment(DateTime? Date) => DateLastPayment = (DateTime)Date;
