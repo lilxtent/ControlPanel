@@ -64,12 +64,7 @@ namespace ControlPanel
         private void butSetupCamera_Click(object sender, RoutedEventArgs e)
         {
             // Выгружаем название камеры из конфигураций
-            string cameraNameInConfig = "";
-            XmlDocument xDoc = new XmlDocument();
-            xDoc.Load(@"C:\Users\ksh19\Desktop\Shadow\ControlPanel\Config.xml");
-            foreach (XmlNode xNode in xDoc.ChildNodes)
-                if (xNode.Name == "Camera")
-                    cameraNameInConfig = xNode.InnerText;
+            string cameraNameInConfig = ClientMethods.GetCameraNameConfig();
             // ищем камеру с таким же названием среди Devices
             int indexCamera = -1;
             for (int i = 0; i < Camera.videoDevices.Count; i++)
