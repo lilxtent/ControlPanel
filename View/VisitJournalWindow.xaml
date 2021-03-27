@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel.View"
         mc:Ignorable="d"
-        Title="VisitJournalWindow" Height="450" Width="800">
-    <Grid>
-        <DataGrid x:Name="VisitJournalTable" AutoGenerateColumns="False" HorizontalAlignment="Center" Height="414" VerticalAlignment="Center" Width="780">
+        Title="VisitJournalWindow" Height="485" Width="200">
+    <Grid Margin="0,0,10,18">
+        <DataGrid x:Name="VisitJournalTable" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="416" VerticalAlignment="Top" Width="160" Margin="10,10,0,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Дата посещения" Binding="{Binding Path=Date}" Width="150"/>
             </DataGrid.Columns>
