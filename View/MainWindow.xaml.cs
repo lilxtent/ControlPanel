@@ -6,11 +6,12 @@ using ControlPanel.Sourses;
 using ControlPanel.View;
 using ControlPanel.ViewModel;
 using ControlPanel.ViewModel.MainWindow;
+using Microsoft.Win32;
 using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Xml;
 
 namespace ControlPanel
 {
@@ -26,7 +27,15 @@ namespace ControlPanel
         public MainWindow()
         {
             InitializeComponent();
+
             DB = new ApplicationContext();
+
+            if (!File.Exists(DB.PathToDataBase))
+            {
+                MessageBox.Show("Указан неверный путь к базе данных. Укажите новый.");
+                ShowDialogPathToDB();
+            }
+
             Camera = new CameraModel(DB);
             isEnableAreaExtendSubscripion = false;
             CheckBoxCameraOn.Background = ClientMethods.GetRedColorBrush();
@@ -194,7 +203,6 @@ namespace ControlPanel
 
         public void UpdateClientsList(ListBox Box)
         {
-            DB = new ApplicationContext();
             ShowAllClientsShortData(Box);
         }
 
@@ -335,6 +343,26 @@ namespace ControlPanel
         {
             PopUpWindow popupWindow = new((lbClients.SelectedItem as Grid).DataContext as ClientModel, Camera);
             popupWindow.Show();
+        }
+
+        private void ChoosePathToDB(object sender, RoutedEventArgs e)
+        {
+            ShowDialogPathToDB();
+        }
+
+        private void ShowDialogPathToDB()
+        {
+            OpenFileDialog dlg = new();
+            dlg.DefaultExt = ".db";
+            dlg.Filter = "Файл базы данных (.db)|*.db";
+
+            if (dlg.ShowDialog() is true)
+            {
+                DB.PathToDataBase = dlg.FileName;
+                DB = new ApplicationContext();
+                ShowAllClientsShortData(lbClients);
+                TodayVisits.ItemsSource = new TodayVisitsList();
+            }
         }
     }
 }

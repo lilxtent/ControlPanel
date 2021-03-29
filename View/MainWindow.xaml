@@ -23,6 +23,7 @@
             <MenuItem Header="Настройки">
                 <MenuItem x:Name="miSetupCamera" Header="Камера" Click="miSetupCamera_Click"></MenuItem>
                 <MenuItem Header="Окно посетителя"></MenuItem>
+                <MenuItem Header="Путь к базе данных" Click="ChoosePathToDB"></MenuItem>
             </MenuItem>
         </Menu>
         <ComboBox Grid.Column="0" x:Name="SortOptionsList" HorizontalAlignment="Left" Height="25" Margin="272,29,0,0" VerticalAlignment="Top" Width="196" SelectionChanged="SortOptionsList_SelectionChanged">
