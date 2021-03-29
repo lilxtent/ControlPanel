@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="VisitJournalWindow" Height="485" Width="200">
     <Grid Margin="0,0,10,18">
-        <DataGrid x:Name="VisitJournalTable" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="416" VerticalAlignment="Top" Width="160" Margin="10,10,0,0">
+        <DataGrid x:Name="VisitJournalTable" AutoGenerateColumns="False" IsReadOnly="True" HorizontalAlignment="Left" Height="416" VerticalAlignment="Top" Width="160" Margin="10,10,0,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Дата посещения" Binding="{Binding Path=Date}" Width="150"/>
             </DataGrid.Columns>
