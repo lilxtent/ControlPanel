@@ -85,7 +85,6 @@ namespace ControlPanel.Model
                     
                 SetCameraInConfig(windowCurr.lbCams.SelectedItem.ToString());
             }
-            MessageBox.Show(videoDevices[windowCurr.lbCams.SelectedIndex].MonikerString);
             videoSource = new VideoCaptureDevice(videoDevices[windowCurr.lbCams.SelectedIndex].MonikerString);
             videoSource.NewFrame += new NewFrameEventHandler(videoNewFrame);
             videoSource.Start();
