@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using ControlPanel.Sourses;
 using System.Windows.Controls;
 using System.IO;
+using System.Configuration;
 
 namespace ControlPanel.View
 {
@@ -57,9 +58,10 @@ namespace ControlPanel.View
                 if (parentFIO.Length > 2) ClientParentPatronymic.Text = parentFIO[2];
             }
             ClientParentPhoneNumber.Text = Client.ParentPhoneNumber;
-            Uri UriPath = new Uri(ClientMethods.ConvertRelativeToAbsolutePath(@"\Photos\default-user-image.png"));
-            if (File.Exists(ClientMethods.ConvertRelativeToAbsolutePath(Client.PhotoPath)))
-                UriPath = new Uri(ClientMethods.ConvertRelativeToAbsolutePath(Client.PhotoPath), UriKind.Absolute);
+            string pathToPhotosDir = ConfigurationManager.AppSettings["PhotosDirPath"].ToString();
+            Uri UriPath = new Uri($"{pathToPhotosDir}default-user-image.png");
+            if (File.Exists(Client.PhotoPath))
+                UriPath = new Uri(Client.PhotoPath);
             ProfilePicture.Source = new BitmapImage(UriPath);
             ProfilePicture.DataContext = Client.PhotoPath;
             ComboBoxTrainer.SelectedIndex = FindIndexTrainer(Client);
@@ -123,17 +125,17 @@ namespace ControlPanel.View
             dialog.Title = "Выберите фотографию клиента";
             if (dialog.ShowDialog() ?? false)
             {
+                string pathToPhotosDir = ConfigurationManager.AppSettings["PhotosDirPath"].ToString();
                 BitmapImage TempBtm = new BitmapImage(new Uri(dialog.FileName));
                 var encoder = new JpegBitmapEncoder();
                 encoder.Frames.Add(BitmapFrame.Create(TempBtm));
-                string photoPath = @"\Photos\" + ClientMethods.GetOnlyFileName(dialog.FileName.ToString());
-                using (FileStream filestream = new(ClientMethods.ConvertRelativeToAbsolutePath(photoPath), FileMode.Create))
+                string photoPath = pathToPhotosDir + ClientMethods.GetOnlyFileName(dialog.FileName.ToString());
+                using (FileStream filestream = new(photoPath, FileMode.Create))
                 {
                     encoder.Save(filestream);
                 }
-                ProfilePicture.Source = new BitmapImage(new Uri(ClientMethods.ConvertRelativeToAbsolutePath(photoPath)));
-                ProfilePicture.DataContext = photoPath;
-                MessageBox.Show(ClientMethods.GetOnlyFileName(dialog.FileName.ToString()));
+                ProfilePicture.Source = new BitmapImage(new Uri(photoPath));
+                ProfilePicture.DataContext = ClientMethods.GetOnlyFileName(photoPath);
 
             }
         }
