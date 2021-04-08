@@ -29,7 +29,7 @@ namespace ControlPanel.Model
         /// <summary>
         /// Использовать только при обновлении ID у клиента
         /// </summary>
-        public PaymentModel(PaymentModel ModelWithOldID, int newID) : 
+        public PaymentModel(PaymentModel ModelWithOldID, int newID) :
             this(newID,
             ModelWithOldID.DatePayment, ModelWithOldID.StartPeriod, ModelWithOldID.EndPeriod, ModelWithOldID.Cost)
         {

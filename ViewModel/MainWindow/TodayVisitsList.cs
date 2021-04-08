@@ -11,7 +11,8 @@ namespace ControlPanel.ViewModel.MainWindow
         public List<ShortVisitViewModel> Visits { get; set; }
         private Dictionary<int, string> ClientsFIO { get; set; }
 
-        public TodayVisitsList() {
+        public TodayVisitsList()
+        {
             ClientsFIO = new();
             Visits = new();
             ApplicationContext DB = new();

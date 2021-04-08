@@ -1,9 +1,5 @@
 ﻿using ControlPanel.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -29,7 +25,7 @@ namespace ControlPanel.Sourses
         }
         public Grid getGrid()
         {
-            
+
             // разбиваем grid на колонки
             // первая колонка фиксированной длины
             GridData.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(280) });
@@ -75,7 +71,7 @@ namespace ControlPanel.Sourses
                 Width = 20,
                 RenderTransform = new RotateTransform(90),
                 Margin = new Thickness(0, 0, -50, 0)
-        };
+            };
             return LocalSeparator;
         }
         private Label CreateHeaderPhone()
@@ -91,18 +87,23 @@ namespace ControlPanel.Sourses
         {
             string phone = Client.PhoneNumber;
             string phoneNumberView = phone[0] + "-" + phone[1..4] + "-" + phone[4..6] + "-" + phone[6..8] + "-" + phone[8..];
-            Label LocalData = (new Label() { Content = $"{phoneNumberView}", FontSize = 12});
+            Label LocalData = (new Label() { Content = $"{phoneNumberView}", FontSize = 12 });
             return LocalData;
         }
         private Label CreateHeaderBalance()
         {
-            Label LocalData = (new Label() { Content = "Баланс:", FontWeight = FontWeights.Bold});
+            Label LocalData = (new Label() { Content = "Баланс:", FontWeight = FontWeights.Bold });
             return LocalData;
         }
         private Label CreateBalance()
         {
-            Label LocalData = (new Label() { Content = $"{RestOfDaysStr()}", Background = FindColor(Client),
-            Width = 115, HorizontalAlignment = HorizontalAlignment.Right});
+            Label LocalData = (new Label()
+            {
+                Content = $"{RestOfDaysStr()}",
+                Background = FindColor(Client),
+                Width = 115,
+                HorizontalAlignment = HorizontalAlignment.Right
+            });
             return LocalData;
         }
         private SolidColorBrush FindColor(ClientModel ClientData)

@@ -1,11 +1,6 @@
 ﻿using ControlPanel.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
-using System.Windows;
 using System.Xml;
 
 namespace ControlPanel.Sourses
@@ -52,7 +47,7 @@ namespace ControlPanel.Sourses
 
         public static string ConvertRelativeToAbsolutePath(string pathRelative) =>
             Environment.CurrentDirectory + pathRelative;
-        
+
         public static string GetOnlyFileName(string path)
         {
             string[] pathSplittedArr = path.Split(@"\");

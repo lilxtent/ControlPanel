@@ -1,13 +1,8 @@
 ﻿using ControlPanel.Model;
 using ControlPanel.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace ControlPanel.ViewModel.MainWindow
 {
@@ -42,8 +37,10 @@ namespace ControlPanel.ViewModel.MainWindow
                 Grid.RowDefinitions.Add(new RowDefinition());
 
             // инициализация объекты с датой
-            DateStartPeriod = new DatePicker() {
-                SelectedDate = currClient.DateLastPayment == default ? DateTime.Today : currClient.DateLastPayment};
+            DateStartPeriod = new DatePicker()
+            {
+                SelectedDate = currClient.DateLastPayment == default ? DateTime.Today : currClient.DateLastPayment
+            };
             dateEndPeriod = new DatePicker() { };
             DateStartPeriod.SelectedDateChanged += new EventHandler<SelectionChangedEventArgs>(DatePicker_SelectedDateChanged);
             dateEndPeriod.SelectedDateChanged += new EventHandler<SelectionChangedEventArgs>(DatePicker_SelectedDateChanged);
@@ -67,7 +64,7 @@ namespace ControlPanel.ViewModel.MainWindow
             // инициализируем окно ввода суммы оплаты
             costTextBox = new() { Margin = new Thickness(0, 3, 3, 3) };
             // иницализируем кнопку продлить
-            Button ButSave = new Button() { Content = "продлить", Margin = new Thickness(3, 3, 3, 3)};
+            Button ButSave = new Button() { Content = "продлить", Margin = new Thickness(3, 3, 3, 3) };
             ButSave.Click += new RoutedEventHandler(butExtend_Click);
 
             Grid.Children.Add(nameLable);
@@ -168,7 +165,7 @@ namespace ControlPanel.ViewModel.MainWindow
                 return false;
             }
             // смотрим пытаемся ли мы оплатить уже оплаченный период дей
-            
+
             if (currClient.DateLastPayment != default && currClient.DateLastPayment > DateStartPeriod.SelectedDate)
             {
                 MessageBox.Show($"В период который вы оплачиваете входят оплаченные дни!", "Ошибка");
@@ -181,7 +178,7 @@ namespace ControlPanel.ViewModel.MainWindow
         private void butExtend_Click(object sender, RoutedEventArgs e)
         {
             if (!CheckAllError()) return;
-            
+
             int id = currClient.ID;
 
             DateTime timePayment = DateTime.Today;
@@ -205,5 +202,5 @@ namespace ControlPanel.ViewModel.MainWindow
         public void Show() => CurrWindow.spPayment.Children.Add(Grid);
 
     }
-    
+
 }

@@ -1,25 +1,15 @@
-﻿using AForge.Video;
+﻿using AForge.Imaging.Filters;
+using AForge.Video;
 using AForge.Video.DirectShow;
-using AForge.Imaging;
+using ControlPanel.Sourses;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Drawing.Imaging;
-using ControlPanel.Sourses;
-using AForge.Imaging.Filters;
 
 namespace ControlPanel.View
 {
@@ -68,7 +58,7 @@ namespace ControlPanel.View
                 MessageBox.Show("Вы выбрали текущую камеру для считывания кода!\n" +
                     "Её работа временно приостановленна до закрытия окна редактирования", "Предупреждение");
             }
-                
+
             startVideo();
         }
         private void lbCams_Loaded(object sender, RoutedEventArgs e)
@@ -94,7 +84,7 @@ namespace ControlPanel.View
                 VideoSource.NewFrame -= new NewFrameEventHandler(videoNewFrame);
                 VideoSource.SignalToStop();
             }
-            
+
             VideoSource = new VideoCaptureDevice(VideoDevices[lbCams.SelectedIndex].MonikerString);
             VideoSource.NewFrame += new NewFrameEventHandler(videoNewFrame);
             VideoSource.Start();
@@ -115,7 +105,7 @@ namespace ControlPanel.View
                 SetEnableSave(false);
                 isGoodImage = false;
             }
-                
+
             // соотношение 3/4 * w/h 
             double mult = Cadr.Width / Cadr.Height * 0.75;
             double multForSplit = (1 - mult) / 2;

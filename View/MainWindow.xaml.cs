@@ -194,7 +194,7 @@ namespace ControlPanel
             // если мы выбрали группу
             if (ComboBoxGroups.SelectedIndex > 0)
                 Clients = Clients.ToList().Where(x => x.Group == (ComboBoxGroups.SelectedItem as Label).Content.ToString()).ToArray();
-            
+
 
             SortCLientModel(Clients);
             foreach (ClientModel Client in Clients)
@@ -213,7 +213,7 @@ namespace ControlPanel
 
         private void ButtonPaymentJournal_Click(object sender, RoutedEventArgs e)
         {
-            PaymentJournalWindow Window = 
+            PaymentJournalWindow Window =
                 new PaymentJournalWindow((ClientModel)(lbClients.SelectedItem as Grid).DataContext);
             Window.ShowDialog();
         }
@@ -257,7 +257,7 @@ namespace ControlPanel
                 return;
             }
             // инициализируем окно редактирования
-            EditClientProfile Editor = new EditClientProfile(this,(ClientModel)(lbClients.SelectedItem as Grid).DataContext);
+            EditClientProfile Editor = new EditClientProfile(this, (ClientModel)(lbClients.SelectedItem as Grid).DataContext);
             Editor.ShowDialog();
         }
 

@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using ControlPanel.Model;
+﻿using ControlPanel.Model;
 using ControlPanel.Services;
-using Microsoft.Win32;
 using ControlPanel.Sourses;
-using System.Drawing;
+using Microsoft.Win32;
+using System;
+using System.Configuration;
 using System.IO;
 using System.Linq;
-using System.Configuration;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 
 namespace ControlPanel.View
 {
@@ -112,7 +104,7 @@ namespace ControlPanel.View
                 return;
             }
 
-            if(ID.Text is null || ID.Text.Trim(' ') == "")
+            if (ID.Text is null || ID.Text.Trim(' ') == "")
             {
                 ThisFieldCantBeEmpty("ID");
                 return;
@@ -130,7 +122,7 @@ namespace ControlPanel.View
                 return;
             }
 
-            if (ComboBoxTrainer.SelectedIndex == -1) 
+            if (ComboBoxTrainer.SelectedIndex == -1)
             {
                 ThisFieldCantBeEmpty("Тренер");
                 return;

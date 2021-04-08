@@ -18,8 +18,8 @@ namespace ControlPanel.Model
 
     public class CameraModel
     {
-        public FilterInfoCollection videoDevices { get;  set; }
-        public VideoCaptureDevice videoSource { get;  set; }
+        public FilterInfoCollection videoDevices { get; set; }
+        public VideoCaptureDevice videoSource { get; set; }
         private ZXing.BarcodeReader reader { get; set; }
         private CamWindow windowCurr;
         private System.Windows.Controls.Image imageContainer;
@@ -62,17 +62,17 @@ namespace ControlPanel.Model
             xDoc.Load(ClientMethods.ConvertRelativeToAbsolutePath(@"\Config.xml"));
             foreach (XmlNode xNode in xDoc.ChildNodes)
             {
-                if(xNode.Name == "Camera")
+                if (xNode.Name == "Camera")
                 {
                     xNode.InnerText = newCameraName;
                 }
             }
             xDoc.Save(ClientMethods.ConvertRelativeToAbsolutePath(@"\Config.xml"));
         }
-        
+
         public void startVideo()
         {
-            
+
             // если выбранная камера отличается от камеры в конфигурации мы перезаписываем конфигурацию
             if (windowCurr.lbCams.SelectedItem.ToString() != ConfigurationManager.AppSettings["CameraName"].ToString())
             {
@@ -82,7 +82,7 @@ namespace ControlPanel.Model
                     videoSource.NewFrame -= new NewFrameEventHandler(videoNewFrame);
                     videoSource.SignalToStop();
                 }
-                    
+
                 SetCameraInConfig(windowCurr.lbCams.SelectedItem.ToString());
             }
             videoSource = new VideoCaptureDevice(videoDevices[windowCurr.lbCams.SelectedIndex].MonikerString);
@@ -98,7 +98,7 @@ namespace ControlPanel.Model
                 videoSource.NewFrame -= new NewFrameEventHandler(videoNewFrame);
                 videoSource.SignalToStop();
             }
-            
+
         }
 
         public void videoNewFrame(object sender, NewFrameEventArgs eventArgs)
@@ -106,7 +106,7 @@ namespace ControlPanel.Model
             if (!isPopUpWindowActive)
             {
                 Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
-                
+
                 SetImageCam(bitmap);
 
                 ZXing.Result result = reader.Decode((Bitmap)eventArgs.Frame.Clone());
@@ -160,7 +160,7 @@ namespace ControlPanel.Model
             else
                 return id[2..];
         }
-        
+
 
         public BitmapImage ConvertBitmapToImage(Bitmap src)
         {

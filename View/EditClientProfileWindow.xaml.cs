@@ -1,14 +1,14 @@
 ﻿using ControlPanel.Model;
 using ControlPanel.Services;
+using ControlPanel.Sourses;
 using Microsoft.Win32;
 using System;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Windows;
-using System.Windows.Media.Imaging;
-using ControlPanel.Sourses;
 using System.Windows.Controls;
-using System.IO;
-using System.Configuration;
+using System.Windows.Media.Imaging;
 
 namespace ControlPanel.View
 {
@@ -58,7 +58,7 @@ namespace ControlPanel.View
                 if (parentFIO.Length > 2) ClientParentPatronymic.Text = parentFIO[2];
             }
             ClientParentPhoneNumber.Text = Client.ParentPhoneNumber;
-            
+
             Uri UriPath;
             if (File.Exists(Client.PhotoPath))
             {
@@ -94,7 +94,7 @@ namespace ControlPanel.View
             }
             return -1;
         }
-        public EditClientProfile(Window owner, ClientModel Client):this(Client)
+        public EditClientProfile(Window owner, ClientModel Client) : this(Client)
         {
             Owner = owner;
             (owner as MainWindow).ClearSelectedClient();

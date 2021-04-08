@@ -1,9 +1,4 @@
 ﻿using ControlPanel.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -11,7 +6,7 @@ namespace ControlPanel.Sourses
 {
     class AdditionalInfoParent : PersonalUnit
     {
-        private ClientModel ClientData {get;set;}
+        private ClientModel ClientData { get; set; }
         public AdditionalInfoParent(ClientModel Client)
         {
             ClientData = Client;
@@ -39,7 +34,7 @@ namespace ControlPanel.Sourses
 
             // родитель
             string infoParent = $"{parentType}: {parentFIO}\nТелефон: {parentPhone}";
-            
+
             Label InfoParent = new Label() { Content = infoParent };
 
             Grid.Children.Add(InfoParent);

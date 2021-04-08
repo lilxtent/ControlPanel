@@ -1,25 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using ControlPanel.Services;
+﻿using AForge.Video.DirectShow;
 using ControlPanel.Model;
-using AForge.Video;
-using AForge.Video.DirectShow;
-using System.Drawing;
-using System.IO;
-using System.ComponentModel;
-using System.Configuration;
-using System.Xml;
+using ControlPanel.Services;
 using ControlPanel.Sourses;
+using System.ComponentModel;
+using System.Windows;
 
 namespace ControlPanel.View
 {
@@ -54,7 +38,7 @@ namespace ControlPanel.View
                     return i;
             return 0;
         }
-        
+
         private void lbCams_Loaded(object sender, RoutedEventArgs e)
         {
             if (Camera.videoDevices.Count > 0)

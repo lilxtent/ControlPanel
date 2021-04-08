@@ -1,20 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using System.Windows.Threading;
-using ControlPanel.Model;
+﻿using ControlPanel.Model;
 using ControlPanel.Services;
 using ControlPanel.Sourses;
+using System;
+using System.IO;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 
 namespace ControlPanel.View
 {
@@ -29,13 +21,13 @@ namespace ControlPanel.View
 
         public PopUpWindow(ClientModel Client, CameraModel Camera)
         {
-                
-            
+
+
             this.Client = Client;
             this.Camera = Camera;
             InitializeComponent();
             InitializeClientInfo();
-            
+
             Camera.isPopUpWindowActive = true;
             this.Top = 10;
             this.Left = 20;

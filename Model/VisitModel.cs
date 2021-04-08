@@ -21,7 +21,7 @@ namespace ControlPanel.Model
         /// <summary>
         /// Использовать только при обновлении ID у клиента
         /// </summary>
-        public VisitModel(VisitModel ModelWithOldID, int newID):this(newID, ModelWithOldID.Date)
+        public VisitModel(VisitModel ModelWithOldID, int newID) : this(newID, ModelWithOldID.Date)
         {
             UniqueID = ModelWithOldID.UniqueID;
         }

@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ControlPanel.Model;
+using ControlPanel.Services;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using ControlPanel.Model;
-using ControlPanel.Services;
 
 namespace ControlPanel.View
 {
@@ -67,7 +57,7 @@ namespace ControlPanel.View
                 return;
             if (MessageBox.Show(this, "Вы уверенны, что хотите удалить тренера? Все группы принадлежащие этому тренеру также " +
                 "будут удалены", "Удадение тренера", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-            { 
+            {
                 ApplicationContext DB = new();
                 // удаляем самого тренера
                 var TrainerForDelete = DB.Trainers.Where(x => x.ShortFullname == (CbTrainers.SelectedItem as Label).Content.ToString()).ToArray();
