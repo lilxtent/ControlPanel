@@ -85,7 +85,7 @@ namespace ControlPanel.View
             if (Client.DateLastVisit != default)
             {
                 double diff = (DateTime.Now - Client.DateLastVisit).TotalSeconds;
-                if (diff >= 60) return; // если в течении предыдущего часа вы уже отмечались, то вас не запишет снова
+                if (diff <= 1) return; // если в течении предыдущей минуты вы уже отмечались, то вас не запишет снова
             }
             ApplicationContext DB = new();
             DB.Visits.Add(new VisitModel(Client.ID, DateTime.Now));
