@@ -78,5 +78,6 @@
         <Label x:Name="LabelTrainer" Content="Тернер:" HorizontalAlignment="Left" Margin="12,59,0,0" VerticalAlignment="Top" Width="55"/>
         <Label x:Name="LabelGroup" Content="Группа:" HorizontalAlignment="Left" Margin="243,59,0,0" VerticalAlignment="Top" Width="55"/>
         <Label x:Name="labelSort" Content="Сортировка:" HorizontalAlignment="Left" Margin="272,28,0,0" VerticalAlignment="Top" Width="78"/>
+        <Button Content="Обновить" Click="UpdateButton_Click" HorizontalAlignment="Left" Height="25" Margin="547,61,0,0" VerticalAlignment="Top" Width="125"/>
     </Grid>
 </Window>

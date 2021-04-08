@@ -421,5 +421,11 @@ namespace ControlPanel
                 ConfigurationManager.RefreshSection("appSettings");
             }
         }
+
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowAllClientsShortData(lbClients);
+            TodayVisits.ItemsSource = new TodayVisitsList();
+        }
     }
 }
