@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ControlPanel.Model;
+using System;
+using System.Configuration;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using ControlPanel.Model;
-using System.Windows.Media;
-using ControlPanel.View;
-using ControlPanel.Services;
 using System.Windows.Media.Imaging;
-using ControlPanel.ViewModel.MainWindow;
 
 namespace ControlPanel.Sourses
 {
@@ -37,7 +33,9 @@ namespace ControlPanel.Sourses
         {
             Grid GridData = new Grid();
 
-            GridData.Children.Add(new Label() { Content = $"{Surname} {Name} {Patronymic}",
+            GridData.Children.Add(new Label()
+            {
+                Content = $"{Surname} {Name} {Patronymic}",
                 FontWeight = FontWeights.Bold,
             });
 
@@ -64,6 +62,7 @@ namespace ControlPanel.Sourses
             return GridData;
         }
     }
+
     class PersonalAvatar : PersonalUnit
     {
         private string ImagePath { get; set; }
@@ -72,34 +71,38 @@ namespace ControlPanel.Sourses
         {
             ImagePath = client.PhotoPath;
         }
+
         public override Grid getGrid()
-        {
-            Grid GridData = new Grid() {};
-            Image ImageContainer = new Image()
+        { 
+            Uri UriToProfileImage;
+
+            if (File.Exists(ImagePath))
+            {
+                UriToProfileImage = new Uri(Path.GetFullPath(ImagePath));
+            }
+            else
+            {
+                string pathToDefaultPhoto = ConfigurationManager.AppSettings["DefaultPhotoPath"].ToString();
+                UriToProfileImage = new Uri(Path.GetFullPath(pathToDefaultPhoto));
+            }
+
+            Image ImageContainer = new()
             {
                 Width = 140,
                 Height = 120,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Top,
-                Margin = new Thickness(4, 4, 0, 0)
+                Margin = new Thickness(4, 4, 0, 0),
+                Source = new BitmapImage(UriToProfileImage)
             };
-            ImageSource Image;
-            BitmapImage MapImage;
-            try
-            {
-                MapImage = new BitmapImage(new Uri(ClientMethods.ConvertRelativeToAbsolutePath(ImagePath), UriKind.Absolute));
-            }
-            catch (System.IO.FileNotFoundException)
-            {
-                MapImage = new BitmapImage(new Uri(ClientMethods.GetDefaultImagePathAbsolute()));
-            }
-            Image = MapImage;
-            ImageContainer.Source = Image;
+
+            Grid GridData = new();
             GridData.Children.Add(ImageContainer);
 
             return GridData;
         }
     }
+
     class PersonalPhone : PersonalUnit
     {
         private string Phone { get; set; }

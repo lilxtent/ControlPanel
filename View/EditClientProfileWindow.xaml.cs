@@ -8,6 +8,7 @@ using System.Windows.Media.Imaging;
 using ControlPanel.Sourses;
 using System.Windows.Controls;
 using System.IO;
+using System.Configuration;
 
 namespace ControlPanel.View
 {
@@ -57,7 +58,8 @@ namespace ControlPanel.View
                 if (parentFIO.Length > 2) ClientParentPatronymic.Text = parentFIO[2];
             }
             ClientParentPhoneNumber.Text = Client.ParentPhoneNumber;
-            Uri UriPath = new Uri(ClientMethods.ConvertRelativeToAbsolutePath(@"\Photos\default-user-image.png"));
+            string pathToPhotosDir = ConfigurationManager.AppSettings["PhotosDirPath"].ToString();
+            Uri UriPath = new Uri(ClientMethods.ConvertRelativeToAbsolutePath($"{pathToPhotosDir}default-user-image.png"));
             if (File.Exists(ClientMethods.ConvertRelativeToAbsolutePath(Client.PhotoPath)))
                 UriPath = new Uri(ClientMethods.ConvertRelativeToAbsolutePath(Client.PhotoPath), UriKind.Absolute);
             ProfilePicture.Source = new BitmapImage(UriPath);

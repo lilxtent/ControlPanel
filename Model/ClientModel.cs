@@ -3,6 +3,7 @@ using ControlPanel.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 
 namespace ControlPanel.Model
@@ -17,7 +18,18 @@ namespace ControlPanel.Model
         public string PhoneNumber { get; private set; } //Длинна должна быть равна 11 (например 78005553535)
         public DateTime DateLastPayment { get; private set; }
         public string Section { get; private set; }
-        public string PhotoPath { get; private set; }
+        private string photoPath;
+
+        public string PhotoPath
+        {
+            get
+            {
+                string pathToPhotosDir = ConfigurationManager.AppSettings["PhotosDirPath"].ToString();
+                return pathToPhotosDir + photoPath;
+            }
+            set => photoPath = value;
+        }
+
         public string ParentType { get; private set; }
         public string ParentFIO { get; private set; }
         public string ParentPhoneNumber { get; private set; } //Длинна должна быть равна 11 (например 78005553535)
@@ -35,7 +47,7 @@ namespace ControlPanel.Model
                            DateTime birthDate, string phoneNumber,
                            DateTime dateLastPayment = default(DateTime),
                            string section = default,
-                           string photoPath = null, string parentType = null,
+                           string photoName = null, string parentType = null,
                            string parentFIO = null, string parentPhoneNumber = null, DateTime dateLastVisit = default(DateTime),
                            string trainer = null)
         {
@@ -44,6 +56,9 @@ namespace ControlPanel.Model
 
             if (phoneNumber.Length != 11 || ((parentPhoneNumber is not null && parentPhoneNumber != "") && parentPhoneNumber.Length != 11))
                 throw new PhoneNumberException("Номер имеет некорректную длину");
+
+            string pathToPhotosDir = ConfigurationManager.AppSettings["PhotosDirPath"].ToString();
+
             ID = id;
             Surname = surname;
             Name = name;
@@ -52,7 +67,8 @@ namespace ControlPanel.Model
             PhoneNumber = phoneNumber;
             DateLastPayment = dateLastPayment;
             Section = section;
-            PhotoPath = photoPath is null ? @"..\..\..\Sourses\Images\default-user-image.png" : photoPath;
+            PhotoPath = photoName is null ?
+                $"{pathToPhotosDir}default-user-image.png" : pathToPhotosDir + photoName;
             ParentType = parentType;
             ParentFIO = parentFIO;
             ParentPhoneNumber = parentPhoneNumber;

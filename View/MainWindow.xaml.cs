@@ -8,6 +8,7 @@ using ControlPanel.ViewModel;
 using ControlPanel.ViewModel.MainWindow;
 using Microsoft.Win32;
 using System;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -70,6 +71,7 @@ namespace ControlPanel
             var camWindow = new CamWindow(Camera);
             camWindow.ShowDialog();
         }
+
         private void butSetupCamera_Click(object sender, RoutedEventArgs e)
         {
             // Выгружаем название камеры из конфигураций
@@ -198,7 +200,6 @@ namespace ControlPanel
                 CurrGrid.ClearValue(GridViewColumn.WidthProperty);
                 Box.Items.Add(CurrGrid);
             }
-
         }
 
         public void UpdateClientsList(ListBox Box)
@@ -284,7 +285,6 @@ namespace ControlPanel
             CheckBoxCameraOn.Content = "Камера выключена";
             CheckBoxCameraOn.Background = ClientMethods.GetRedColorBrush();
             Camera.stopVideo();
-            
         }
 
         private void CheckBoxCameraOn_Checked(object sender, RoutedEventArgs e)
@@ -350,6 +350,11 @@ namespace ControlPanel
             ShowDialogPathToDB();
         }
 
+        private void ChoosePathToPhotosDir(object sender, RoutedEventArgs e)
+        {
+            ShowDialogPathToPhotosDir();
+        }
+
         private void ShowDialogPathToDB()
         {
             OpenFileDialog dlg = new();
@@ -362,6 +367,22 @@ namespace ControlPanel
                 DB = new ApplicationContext();
                 ShowAllClientsShortData(lbClients);
                 TodayVisits.ItemsSource = new TodayVisitsList();
+            }
+        }
+
+        private void ShowDialogPathToPhotosDir()
+        {
+            OpenFileDialog dlg = new();
+            dlg.DefaultExt = ".jpg|.png";
+            dlg.Filter = "Фоток клиентов (.jpg, .png)|*.jpg;*.png";
+
+            if (dlg.ShowDialog() is true)
+            {
+                Configuration configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                int pathLength = dlg.FileName.LastIndexOf(@"\") + 1;
+                configuration.AppSettings.Settings["PhotosDirPath"].Value = dlg.FileName.Substring(0, pathLength);
+                configuration.Save();
+                ConfigurationManager.RefreshSection("appSettings");
             }
         }
     }
