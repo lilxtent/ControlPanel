@@ -152,14 +152,15 @@ namespace ControlPanel.View
         }
         private void ButPhotoSave_Click(object sender, RoutedEventArgs e)
         {
-            
-            string path = @"\Photos\pic" + IdConteiner.Text + ".jpg";
-            Cadr.Save(Environment.CurrentDirectory + path, ImageFormat.Jpeg);
+            string pathToPhotosDir = ConfigurationManager.AppSettings["PhotosDirPath"].ToString();
+
+            string path = "pic" + IdConteiner.Text + ".jpg";
+            Cadr.Save(pathToPhotosDir + path, ImageFormat.Jpeg);
             // выключаем камеру
             VideoSource.NewFrame -= new NewFrameEventHandler(videoNewFrame);
             VideoSource.SignalToStop();
             // меняем изображение
-            ImageConteiner.Source = new BitmapImage(new Uri(Environment.CurrentDirectory + path, UriKind.Absolute));
+            ImageConteiner.Source = new BitmapImage(new Uri(pathToPhotosDir + path, UriKind.Absolute));
             ImageConteiner.DataContext = path;
             this.Close(); // закрываем окно
         }

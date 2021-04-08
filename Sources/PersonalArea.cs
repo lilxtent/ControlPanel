@@ -75,7 +75,6 @@ namespace ControlPanel.Sourses
         public override Grid getGrid()
         { 
             Uri UriToProfileImage;
-
             if (File.Exists(ImagePath))
             {
                 UriToProfileImage = new Uri(Path.GetFullPath(ImagePath));
