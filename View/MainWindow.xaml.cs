@@ -344,10 +344,16 @@ namespace ControlPanel
 
         private void ButtonVisit_Click(object sender, RoutedEventArgs e)
         {
-            PopUpWindow popupWindow = new((lbClients.SelectedItem as Grid).DataContext as ClientModel, Camera);
-            popupWindow.Show();
-        }
+            if (MessageBox.Show(this, "Отметить посещение?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                ClientModel Client = (lbClients.SelectedItem as Grid).DataContext as ClientModel;
+                PopUpWindow popupWindow = new(Client, Camera);
+                popupWindow.Show();
 
+                (TodayVisits.ItemsSource as TodayVisitsList).Add(new ShortVisitViewModel(Client.FIO, Client.DateLastVisit));
+                TodayVisits.Items.Refresh();
+            }
+        }
         private void ComboBoxGroups_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ShowAllClientsShortData(lbClients);
