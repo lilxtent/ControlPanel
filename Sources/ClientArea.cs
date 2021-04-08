@@ -102,7 +102,7 @@ namespace ControlPanel.Sourses
         private Label CreateBalance()
         {
             Label LocalData = (new Label() { Content = $"{RestOfDaysStr()}", Background = FindColor(Client),
-            Width = 100, HorizontalAlignment = HorizontalAlignment.Right});
+            Width = 115, HorizontalAlignment = HorizontalAlignment.Right});
             return LocalData;
         }
         private SolidColorBrush FindColor(ClientModel ClientData)
@@ -145,7 +145,7 @@ namespace ControlPanel.Sourses
             int diffDays = (Client.DateLastPayment - DateTime.Today).Days;
             if (diffDays < 0)
             {
-                answer = $" просрочено {Math.Abs(diffDays)} день";
+                answer = $" просроч. {Math.Abs(diffDays)} день";
             }
             else if (diffDays < 30)
             {

@@ -199,6 +199,7 @@ namespace ControlPanel.ViewModel.MainWindow
             CurrWindow.spPayment.Children.Clear();
             MessageBox.Show("Абонемент успешно продлен");
             CurrWindow.UpdateClientsList(CurrWindow.lbClients); // обновляем листбокс
+            CurrWindow.ShowAllClientsShortData(CurrWindow.lbClients);
 
         }
         public void Show() => CurrWindow.spPayment.Children.Add(Grid);

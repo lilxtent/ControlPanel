@@ -134,7 +134,11 @@ namespace ControlPanel.View
                 ThisFieldCantBeEmpty("Тренер");
                 return;
             }
-
+            if (ComboBoxGroup.SelectedIndex == -1)
+            {
+                ThisFieldCantBeEmpty("Группа");
+                return;
+            }
             EnterdClientData = new ClientModel(Convert.ToInt32(ID.Text.Trim(' ')),
                                                ClientSurname.Text.Trim(' '), ClientName.Text.Trim(' '),
                                                ClientPatronymic.Text.Trim(' '),
@@ -146,7 +150,8 @@ namespace ControlPanel.View
                                                ClientParentType.Text.Trim(' '),
                                                ClientParentSurname.Text.Trim(' ') + " " + ClientParentName.Text.Trim(' ') + " " + ClientParentPatronymic.Text.Trim(' '),
                                                ClientParentPhoneNumber.Text.Trim(' '),
-                                               default(DateTime), (ComboBoxTrainer.SelectedItem as Label).Content.ToString()
+                                               default(DateTime), (ComboBoxTrainer.SelectedItem as Label).Content.ToString(),
+                                               (ComboBoxGroup.SelectedItem as Label).Content.ToString()
                                                );
             ApplicationContext DB = new ApplicationContext();
             if (DB.ClientsModels.Find(new object[] { EnterdClientData.ID }) is not null)
@@ -204,6 +209,13 @@ namespace ControlPanel.View
         {
             if (isChangedCameraStatus)
                 (Owner as MainWindow).CheckBoxCameraOn.IsChecked = true;
+        }
+
+        private void ComboBoxTrainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplicationContext DB = new ApplicationContext();
+            foreach (GroupModel group in DB.Groups?.ToList().Where(x => x.Trainer == (ComboBoxTrainer.SelectedItem as Label).Content.ToString()))
+                ComboBoxGroup.Items.Add(new Label() { Content = group.Group });
         }
     }
 }

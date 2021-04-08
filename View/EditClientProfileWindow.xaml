@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel.View"
         mc:Ignorable="d"
-        Title="Редактирование профиля" Height="500" Width="590" ResizeMode="NoResize" Closing="Window_Closing">
+        Title="Редактирование профиля" Height="554" Width="590" ResizeMode="NoResize" Closing="Window_Closing">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="47*"/>
             <ColumnDefinition Width="803*"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Header="Клиент" HorizontalAlignment="Left" Height="274" Margin="10,10,0,0" VerticalAlignment="Top" Width="265" Grid.ColumnSpan="2">
+        <GroupBox Header="Клиент" HorizontalAlignment="Left" Height="304" Margin="10,10,0,0" VerticalAlignment="Top" Width="265" Grid.ColumnSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="243*"/>
@@ -32,10 +32,12 @@
                 <Label Content="Секция:" HorizontalAlignment="Left" Height="25" Margin="10,190,0,0" VerticalAlignment="Top" Width="65"/>
                 <TextBox x:Name="ClientSection" HorizontalAlignment="Left" Height="25" Margin="120,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2"/>
                 <Label Content="Тренер:" HorizontalAlignment="Left" Height="25" Margin="10,220,0,0" VerticalAlignment="Top" Width="65"/>
-                <ComboBox x:Name="ComboBoxTrainer" HorizontalAlignment="Left" Margin="120,222,0,0" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" Height="24"/>
+                <ComboBox x:Name="ComboBoxTrainer" HorizontalAlignment="Left" Margin="120,222,0,0" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" Height="24" SelectionChanged="ComboBoxTrainer_SelectionChanged"/>
+                <Label Content="Группа:" HorizontalAlignment="Left" Height="25" Margin="10,249,0,0" VerticalAlignment="Top" Width="65"/>
+                <ComboBox x:Name="ComboBoxGroup" HorizontalAlignment="Left" Margin="120,251,0,0" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" Height="24"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Родитель" HorizontalAlignment="Left" Height="185" Margin="10,289,0,0" VerticalAlignment="Top" Width="265" Grid.ColumnSpan="2">
+        <GroupBox Header="Родитель" HorizontalAlignment="Left" Height="185" Margin="10,319,0,0" VerticalAlignment="Top" Width="265" Grid.ColumnSpan="2">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="91*"/>
@@ -44,7 +46,7 @@
                 <Label Content="Кто:" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="100" Grid.ColumnSpan="2"/>
                 <TextBox x:Name="ClientParentType" HorizontalAlignment="Left" Height="25" Margin="29,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Grid.Column="1"/>
                 <Label Content="Номер телефона:" HorizontalAlignment="Left" Height="25" Margin="10,130,0,0" VerticalAlignment="Top" Width="104" Visibility="Visible" Grid.ColumnSpan="2"/>
-                <TextBox x:Name="ClientParentPhoneNumber" HorizontalAlignment="Left" Height="25" Margin="29,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="133" Grid.Column="1"/>
+                <TextBox x:Name="ClientParentPhoneNumber" HorizontalAlignment="Left" Height="25" Margin="29,130,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Grid.Column="1"/>
                 <Label Content="Фамилия:" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" Width="100" Height="25" Grid.ColumnSpan="2"/>
                 <TextBox x:Name="ClientParentSurname" HorizontalAlignment="Left" Height="25" Margin="29,40,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Grid.Column="1"/>
                 <Label Content="Имя:" HorizontalAlignment="Left" Height="25" Margin="10,70,0,0" VerticalAlignment="Top" Width="100" Grid.ColumnSpan="2"/>

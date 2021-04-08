@@ -10,6 +10,9 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="View\AddGroupWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\AddTrainerWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -17,6 +20,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\CamWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\DeleteTrainerWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\EditClientProfileWindow.xaml.cs">
@@ -36,6 +42,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="View\AddGroupWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="View\AddTrainerWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
@@ -43,6 +52,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\CamWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\DeleteTrainerWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\EditClientProfileWindow.xaml">

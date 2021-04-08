@@ -23,6 +23,7 @@ namespace ControlPanel.Model
         public string ParentPhoneNumber { get; private set; } //Длинна должна быть равна 11 (например 78005553535)
         public DateTime DateLastVisit { get; set; }
         public string Trainer { get; private set; }
+        public string Group { get; private set; }
 
         public string FIO
         {
@@ -37,7 +38,7 @@ namespace ControlPanel.Model
                            string section = default,
                            string photoPath = null, string parentType = null,
                            string parentFIO = null, string parentPhoneNumber = null, DateTime dateLastVisit = default(DateTime),
-                           string trainer = null)
+                           string trainer = null, string group = null)
         {
             if (surname is null || name is null || patronymic is null || phoneNumber is null)
                 throw new ArgumentNullException();
@@ -58,6 +59,7 @@ namespace ControlPanel.Model
             ParentPhoneNumber = parentPhoneNumber;
             DateLastVisit = dateLastVisit;
             Trainer = trainer;
+            Group = group;
         }
 
         public void SetDateLastPayment(DateTime? Date) => DateLastPayment = (DateTime)Date;

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel.View"
         mc:Ignorable="d"
-        Title="Добавить тренера" Height="195" Width="284">
+        Title="Добавить тренера" Height="216" Width="300">
     <Grid>
         <GroupBox Header="Тренер" HorizontalAlignment="Left" Height="133" Margin="10,10,0,0" VerticalAlignment="Top" Width="265">
             <Grid Height="97">

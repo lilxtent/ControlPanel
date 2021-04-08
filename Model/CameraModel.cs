@@ -85,7 +85,7 @@ namespace ControlPanel.Model
                     
                 SetCameraInConfig(windowCurr.lbCams.SelectedItem.ToString());
             }
-            
+            MessageBox.Show(videoDevices[windowCurr.lbCams.SelectedIndex].MonikerString);
             videoSource = new VideoCaptureDevice(videoDevices[windowCurr.lbCams.SelectedIndex].MonikerString);
             videoSource.NewFrame += new NewFrameEventHandler(videoNewFrame);
             videoSource.Start();
@@ -117,9 +117,11 @@ namespace ControlPanel.Model
                     Application.Current.Dispatcher.Invoke(() =>
                     {
                         var ArrivedClient = FindClient(result.Text);
-                        DateTime LastVisitDate = ArrivedClient.DateLastVisit;
+                        DateTime LastVisitDate = default(DateTime);
+                        if (ArrivedClient is not null)
+                            LastVisitDate = ArrivedClient.DateLastVisit;
                         var popupWindow = new PopUpWindow(ArrivedClient, this) { Name = "popupWindow" };
-                        if (LastVisitDate != ArrivedClient.DateLastVisit)
+                        if (ArrivedClient is not null && LastVisitDate != ArrivedClient.DateLastVisit)
                             NewClientArrived?.Invoke(ArrivedClient);
                         popupWindow.Show();
                     });
@@ -129,10 +131,11 @@ namespace ControlPanel.Model
 
         private ClientModel FindClient(string id)
         {
+            string idWithoutPrefix = ConvIdWithoutPrefix(id);
             int idClient;
-            if (int.TryParse(id, out idClient))
+            if (int.TryParse(idWithoutPrefix, out idClient))
             {
-                idClient = int.Parse(id);
+                idClient = int.Parse(idWithoutPrefix);
             }
             else
             {
@@ -149,6 +152,16 @@ namespace ControlPanel.Model
             }
             return null;
         }
+
+        private string ConvIdWithoutPrefix(string id)
+        {
+            string prefix = "SW";
+            if (id[..2] != prefix)
+                return null;
+            else
+                return id[2..];
+        }
+        
 
         public BitmapImage ConvertBitmapToImage(Bitmap src)
         {

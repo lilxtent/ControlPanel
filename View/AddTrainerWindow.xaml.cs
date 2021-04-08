@@ -21,11 +21,11 @@ namespace ControlPanel.View
     /// </summary>
     public partial class AddTrainerWindow : Window
     {
-        private MainWindow Owner { get; set; }
+        private MainWindow OwnerWindow { get; set; }
         public AddTrainerWindow(MainWindow owner)
         {
             InitializeComponent();
-            Owner = owner;
+            OwnerWindow = owner;
         }
 
         private void TrimAllTextBox()
@@ -74,7 +74,7 @@ namespace ControlPanel.View
             ApplicationContext DB = new();
             DB.Trainers.Add(Trainer);
             DB.SaveChanges();
-            Owner.UpdateTrainers(); // обновляем тренеров
+            OwnerWindow.UpdateTrainers(); // обновляем тренеров
             this.Close();
         }
     }

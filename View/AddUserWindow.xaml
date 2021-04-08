@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel.View"
         mc:Ignorable="d"
-        Title="Добавление клиента" Height="500" Width="590" ResizeMode="NoResize" Closing="Window_Closing">
+        Title="Добавление клиента" Height="551" Width="590" ResizeMode="NoResize" Closing="Window_Closing">
     <Grid>
-        <GroupBox Header="Клиент" HorizontalAlignment="Left" Height="274" Margin="10,10,0,0" VerticalAlignment="Top" Width="265">
+        <GroupBox Header="Клиент" HorizontalAlignment="Left" Height="304" Margin="10,10,0,0" VerticalAlignment="Top" Width="265">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="28*"/>
@@ -30,10 +30,12 @@
                 <Label Content="Секция:" HorizontalAlignment="Left" Height="25" Margin="10,190,0,0" VerticalAlignment="Top" Width="65" Grid.ColumnSpan="3"/>
                 <TextBox x:Name="ClientSection" HorizontalAlignment="Left" Height="25" Margin="53,192,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" Grid.Column="2"/>
                 <Label Content="Тренер:" HorizontalAlignment="Left" Height="25" Margin="10,220,0,0" VerticalAlignment="Top" Width="65" Grid.ColumnSpan="3"/>
-                <ComboBox x:Name="ComboBoxTrainer" Grid.Column="2" HorizontalAlignment="Left" Margin="53,222,0,0" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" Height="24"/>
+                <ComboBox x:Name="ComboBoxTrainer" Grid.Column="2" HorizontalAlignment="Left" Margin="53,222,0,0" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" Height="24" SelectionChanged="ComboBoxTrainer_SelectionChanged"/>
+                <Label Content="Группа:" HorizontalAlignment="Left" Height="25" Margin="10,250,0,0" VerticalAlignment="Top" Width="65" Grid.ColumnSpan="3"/>
+                <ComboBox x:Name="ComboBoxGroup" Grid.Column="2" HorizontalAlignment="Left" Margin="53,251,0,0" VerticalAlignment="Top" Width="130" Grid.ColumnSpan="2" Height="24"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Родитель" HorizontalAlignment="Left" Height="185" Margin="10,289,0,0" VerticalAlignment="Top" Width="265">
+        <GroupBox Header="Родитель" HorizontalAlignment="Left" Height="185" Margin="10,319,0,0" VerticalAlignment="Top" Width="265">
             <Grid>
                 <Label Content="Кто:" HorizontalAlignment="Left" Height="25" Margin="10,10,0,0" VerticalAlignment="Top" Width="100"/>
                 <TextBox x:Name="ClientParentType" HorizontalAlignment="Left" Height="25" Margin="120,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="130"/>
