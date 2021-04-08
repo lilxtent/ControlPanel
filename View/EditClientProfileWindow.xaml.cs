@@ -58,10 +58,17 @@ namespace ControlPanel.View
                 if (parentFIO.Length > 2) ClientParentPatronymic.Text = parentFIO[2];
             }
             ClientParentPhoneNumber.Text = Client.ParentPhoneNumber;
-            string pathToPhotosDir = ConfigurationManager.AppSettings["PhotosDirPath"].ToString();
-            Uri UriPath = new Uri($"{pathToPhotosDir}default-user-image.png");
+            
+            Uri UriPath;
             if (File.Exists(Client.PhotoPath))
-                UriPath = new Uri(Client.PhotoPath);
+            {
+                UriPath = new Uri(Path.GetFullPath(Client.PhotoPath));
+            }
+            else
+            {
+                string pathToDefaultPhoto = ConfigurationManager.AppSettings["DefaultPhotoPath"].ToString();
+                UriPath = new Uri(Path.GetFullPath(pathToDefaultPhoto));
+            }
             ProfilePicture.Source = new BitmapImage(UriPath);
             ProfilePicture.DataContext = Client.PhotoPath;
             ComboBoxTrainer.SelectedIndex = FindIndexTrainer(Client);
