@@ -22,14 +22,13 @@ namespace ControlPanel
     public partial class MainWindow : Window
     {
         private bool isEnableAreaExtendSubscripion;
-        private ApplicationContext DB { get; set; }
         public CameraModel Camera { get; private set; }
 
         public MainWindow()
         {
             InitializeComponent();
 
-            DB = new ApplicationContext();
+            var DB = new ApplicationContext();
 
             if (!File.Exists(DB.PathToDataBase))
             {
@@ -163,6 +162,7 @@ namespace ControlPanel
 
         private void TextBoxSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
+            var DB = new ApplicationContext();
             if (TextBoxSearch.Text is null || TextBoxSearch.Text.Trim(' ') is "")
             {
                 ShowAllClientsShortData(lbClients);
@@ -185,6 +185,7 @@ namespace ControlPanel
         /// </summary>
         public void ShowAllClientsShortData(ListBox Box)
         {
+            var DB = new ApplicationContext();
             Box.Items.Clear();
             ClientModel[] Clients = DB.ClientsModels.ToArray();
             // если мы выбрали тренера 
@@ -276,12 +277,11 @@ namespace ControlPanel
         {
             if (IsInitialized) ShowAllClientsShortData(lbClients);
         }
+
         public void ClearSelectedClient()
         {
             lbClients.SelectedIndex = -1;
         }
-
-
 
         private void CheckBoxCameraOn_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -339,6 +339,7 @@ namespace ControlPanel
 
         private void ComboBoxTrainers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            var DB = new ApplicationContext();
             ShowAllClientsShortData(lbClients);
             // группы
             ComboBoxGroups.Items.Clear();
@@ -365,7 +366,6 @@ namespace ControlPanel
         private void ComboBoxGroups_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ShowAllClientsShortData(lbClients);
-
         }
 
         private void ButtonAddGroup_Click(object sender, RoutedEventArgs e)
@@ -392,6 +392,7 @@ namespace ControlPanel
 
         private void ShowDialogPathToDB()
         {
+            var DB = new ApplicationContext();
             OpenFileDialog dlg = new();
             dlg.DefaultExt = ".db";
             dlg.Filter = "Файл базы данных (.db)|*.db";
