@@ -27,6 +27,7 @@ namespace ControlPanel.Services
         public DbSet<PaymentModel> Payments { get; private set; }
         public DbSet<VisitModel> Visits { get; private set; }
         public DbSet<TrainerModel> Trainers { get; private set; }
+        public DbSet<GroupModel> Groups { get; private set; }
 
         public ApplicationContext()
         {

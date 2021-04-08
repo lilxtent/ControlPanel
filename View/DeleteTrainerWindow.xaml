@@ -1,0 +1,18 @@
+﻿<Window x:Class="ControlPanel.View.DeleteTrainerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ControlPanel.View"
+        mc:Ignorable="d"
+        Title="DeleteTrainerWindow" Height="137" Width="459">
+    <Grid>
+        <Label x:Name="LabelTrainer" Content="Выберите тренера:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <ComboBox x:Name="CbTrainers" HorizontalAlignment="Left" Margin="147,14,0,0" VerticalAlignment="Top" Width="120" SelectionChanged="CbTrainers_SelectionChanged"/>
+        <Label x:Name="labelNameGroup" Content="Выберите группу:" HorizontalAlignment="Left" Margin="10,44,0,0" VerticalAlignment="Top" FontSize="14"/>
+        <ComboBox x:Name="CbGroups" HorizontalAlignment="Left" Margin="147,51,0,0" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="ButtonDeleteTrainer" Content="удалить тренера" HorizontalAlignment="Left" Margin="290,14,0,0" VerticalAlignment="Top" Width="110" Height="22" Click="ButtonDeleteTrainer_Click"/>
+        <Button x:Name="ButtonDeleteGroup" Content="удалить группу" HorizontalAlignment="Left" Margin="290,51,0,0" VerticalAlignment="Top" Width="110" Height="22" Click="ButtonDeleteGroup_Click"/>
+
+    </Grid>
+</Window>

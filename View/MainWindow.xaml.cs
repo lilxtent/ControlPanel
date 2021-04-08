@@ -117,6 +117,7 @@ namespace ControlPanel
                 new PersonalFIO(lbi),
                 new PersonalSection(lbi),
                 new PersonalTrainer(lbi),
+                new PersonalGroup(lbi),
                 new PersonalPhone(lbi),
                 new PersonalBirthDate(lbi),
                 new PersonalLastPay(lbi),
@@ -180,15 +181,17 @@ namespace ControlPanel
         /// <summary>
         /// Очищает переданный ListBox и выводит в нем краткую информацию о всех клиентах
         /// </summary>
-        private void ShowAllClientsShortData(ListBox Box)
+        public void ShowAllClientsShortData(ListBox Box)
         {
             Box.Items.Clear();
-            ClientModel[] Clients;
+            ClientModel[] Clients = DB.ClientsModels.ToArray();
             // если мы выбрали тренера 
             if (ComboBoxTrainers.SelectedIndex > 0)
-                Clients = DB.ClientsModels.ToList().Where(x => x.Trainer == ComboBoxTrainers.SelectedItem.ToString()).ToArray();
-            else
-                Clients = DB.ClientsModels.ToArray();
+                Clients = DB.ClientsModels.ToList().Where(x => x.Trainer == (ComboBoxTrainers.SelectedItem as Label).Content.ToString()).ToArray();
+            // если мы выбрали группу
+            if (ComboBoxGroups.SelectedIndex > 0)
+                Clients = Clients.ToList().Where(x => x.Group == (ComboBoxGroups.SelectedItem as Label).Content.ToString()).ToArray();
+            
 
             SortCLientModel(Clients);
             foreach (ClientModel Client in Clients)
@@ -330,19 +333,51 @@ namespace ControlPanel
 
         private void ButtonAddTrainer_Click(object sender, RoutedEventArgs e)
         {
-            AddTrainerWindow TrainerWondow = new(this);
-            TrainerWondow.ShowDialog();
+            AddTrainerWindow TrainerWindow = new(this);
+            TrainerWindow.ShowDialog();
         }
 
         private void ComboBoxTrainers_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ShowAllClientsShortData(lbClients);
+            // группы
+            ComboBoxGroups.Items.Clear();
+            ComboBoxGroups.Items.Add(new Label() { Content = "все группы" });
+            foreach (var group in DB.Groups.ToList().Where(x => x?.Trainer == (ComboBoxTrainers.SelectedItem as Label)?.Content.ToString()))
+            {
+                ComboBoxGroups.Items.Add(new Label() { Content = group.Group });
+            }
+            ComboBoxGroups.SelectedIndex = 0; // изначально выбираем первую
         }
 
         private void ButtonVisit_Click(object sender, RoutedEventArgs e)
         {
-            PopUpWindow popupWindow = new((lbClients.SelectedItem as Grid).DataContext as ClientModel, Camera);
-            popupWindow.Show();
+            if (MessageBox.Show(this, "Отметить посещение?", "Подтверждение", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                ClientModel Client = (lbClients.SelectedItem as Grid).DataContext as ClientModel;
+                PopUpWindow popupWindow = new(Client, Camera);
+                popupWindow.Show();
+
+                (TodayVisits.ItemsSource as TodayVisitsList).Add(new ShortVisitViewModel(Client.FIO, Client.DateLastVisit));
+                TodayVisits.Items.Refresh();
+            }
+        }
+        private void ComboBoxGroups_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ShowAllClientsShortData(lbClients);
+
+        }
+
+        private void ButtonAddGroup_Click(object sender, RoutedEventArgs e)
+        {
+            AddGroupWindow GroupWindow = new(this);
+            GroupWindow.ShowDialog();
+        }
+
+        private void ButtonDeleteTrainer_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteTrainerWindow DeleteTrainer = new(this);
+            DeleteTrainer.ShowDialog();
         }
 
         private void ChoosePathToDB(object sender, RoutedEventArgs e)

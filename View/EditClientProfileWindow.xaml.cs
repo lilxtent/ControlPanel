@@ -63,6 +63,7 @@ namespace ControlPanel.View
             ProfilePicture.Source = new BitmapImage(UriPath);
             ProfilePicture.DataContext = Client.PhotoPath;
             ComboBoxTrainer.SelectedIndex = FindIndexTrainer(Client);
+            ComboBoxGroup.SelectedIndex = FindIndexGroup(Client);
         }
         private int FindIndexTrainer(ClientModel Client)
         {
@@ -70,6 +71,16 @@ namespace ControlPanel.View
             for (int i = 0; i < Trainers.Count; i++)
             {
                 if (Trainers[i].ShortFullname == Client.Trainer)
+                    return i;
+            }
+            return -1;
+        }
+        private int FindIndexGroup(ClientModel Client)
+        {
+            var Groups = (new ApplicationContext()).Groups.ToList();
+            for (int i = 0; i < Groups.Count; i++)
+            {
+                if (Groups[i].Trainer == Client.Trainer && Groups[i].Group == Client.Group)
                     return i;
             }
             return -1;
@@ -186,7 +197,11 @@ namespace ControlPanel.View
                 ThisFieldCantBeEmpty("Тренер");
                 return;
             }
-
+            if (ComboBoxGroup.SelectedIndex == -1)
+            {
+                ThisFieldCantBeEmpty("Группа");
+                return;
+            }
             ClientModel newClientData = new ClientModel(Convert.ToInt32(ID.Text.Trim(' ')),
                                                ClientSurname.Text.Trim(' '), ClientName.Text.Trim(' '),
                                                ClientPatronymic.Text.Trim(' '),
@@ -199,7 +214,8 @@ namespace ControlPanel.View
                                                ClientParentSurname.Text.Trim(' ') + " " + ClientParentName.Text.Trim(' ') + " " + ClientParentPatronymic.Text.Trim(' '),
                                                ClientParentPhoneNumber.Text.Trim(' '),
                                                ClientData.DateLastVisit,
-                                               (ComboBoxTrainer.SelectedItem as Label).Content.ToString()
+                                               (ComboBoxTrainer.SelectedItem as Label).Content.ToString(),
+                                               (ComboBoxGroup.SelectedItem as Label).Content.ToString()
                                                );
 
 
@@ -253,6 +269,15 @@ namespace ControlPanel.View
         {
             if (isChangedCameraStatus)
                 (Owner as MainWindow).CheckBoxCameraOn.IsChecked = true;
+        }
+
+        private void ComboBoxTrainer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ApplicationContext DB = new ApplicationContext();
+            foreach (GroupModel group in DB.Groups.ToList().Where(x => x.Trainer == (ComboBoxTrainer.SelectedItem as Label).Content.ToString()))
+            {
+                ComboBoxGroup.Items.Add(new Label() { Content = group.Group });
+            }
         }
     }
 }

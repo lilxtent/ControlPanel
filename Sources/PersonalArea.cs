@@ -64,6 +64,26 @@ namespace ControlPanel.Sourses
             return GridData;
         }
     }
+    class PersonalGroup : PersonalUnit
+    {
+        private string Group { get; set; }
+
+        public PersonalGroup(ClientModel client)
+        {
+            Group = client.Group;
+        }
+        public override Grid getGrid()
+        {
+            Grid GridData = new Grid();
+
+            GridData.Children.Add(new Label()
+            {
+                Content = $"Группа: {Group}",
+            });
+
+            return GridData;
+        }
+    }
     class PersonalAvatar : PersonalUnit
     {
         private string ImagePath { get; set; }
