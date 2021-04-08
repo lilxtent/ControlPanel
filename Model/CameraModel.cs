@@ -72,7 +72,7 @@ namespace ControlPanel.Model
 
         public void startVideo()
         {
-
+            
             // если выбранная камера отличается от камеры в конфигурации мы перезаписываем конфигурацию
             if (windowCurr.lbCams.SelectedItem.ToString() != ConfigurationManager.AppSettings["CameraName"].ToString())
             {
