@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1222" MinWidth="1200" MinHeight="700" Closing="Window_Closing"
+        Title="MainWindow" Height="746" Width="1222" MinWidth="1200" MinHeight="700" Closing="Window_Closing"
         >
     <Grid x:Name="mainGrid" Margin="0,0,0,0" Background="#FFE5E5E5">
         <!-- Создаем 3 столбца одинакового размера -->
@@ -19,8 +19,10 @@
             <MenuItem Header="Файл">
                 <MenuItem Header="Добавить клиента" Click="butAddClient_Click"></MenuItem>
                 <MenuItem Header="Добавить тренера" Click="ButtonAddTrainer_Click"></MenuItem>
+                <MenuItem Header="Добавить абонемент" Click="ButtonAddSubscription_Click"></MenuItem>
                 <MenuItem x:Name="ButtonAddGroup" Header="Добавить группу" Click="ButtonAddGroup_Click"></MenuItem>
                 <MenuItem Header="Удаление тренера и групп" Click="ButtonDeleteTrainer_Click"></MenuItem>
+                <MenuItem Header="Удаление абонемента" Click="ButtonDeleteSubscription_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="Настройки">
                 <MenuItem x:Name="miSetupCamera" Header="Камера" Click="miSetupCamera_Click"></MenuItem>

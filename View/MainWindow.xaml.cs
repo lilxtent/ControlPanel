@@ -373,13 +373,22 @@ namespace ControlPanel
             AddGroupWindow GroupWindow = new(this);
             GroupWindow.ShowDialog();
         }
+        private void ButtonAddSubscription_Click(object sender, RoutedEventArgs e)
+        {
+            AddSubscriptionWindow SubscriptionWindow = new(this);
+            SubscriptionWindow.ShowDialog();
+        }
 
         private void ButtonDeleteTrainer_Click(object sender, RoutedEventArgs e)
         {
             DeleteTrainerWindow DeleteTrainer = new(this);
             DeleteTrainer.ShowDialog();
         }
-
+        private void ButtonDeleteSubscription_Click(object sender, RoutedEventArgs e)
+        {
+            DeleteSubscriptionWindow DeleteSubscription = new();
+            DeleteSubscription.ShowDialog();
+        }
         private void ChoosePathToDB(object sender, RoutedEventArgs e)
         {
             ShowDialogPathToDB();

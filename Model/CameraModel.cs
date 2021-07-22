@@ -87,6 +87,7 @@ namespace ControlPanel.Model
                 SetCameraInConfig(windowCurr.lbCams.SelectedItem.ToString());
             }
             videoSource = new VideoCaptureDevice(videoDevices[windowCurr.lbCams.SelectedIndex].MonikerString);
+            
             videoSource.NewFrame += new NewFrameEventHandler(videoNewFrame);
             videoSource.Start();
             isCameraStart = true;
@@ -107,7 +108,6 @@ namespace ControlPanel.Model
             if (!isPopUpWindowActive)
             {
                 Bitmap bitmap = (Bitmap)eventArgs.Frame.Clone();
-
                 SetImageCam(bitmap);
 
                 ZXing.Result result = reader.Decode((Bitmap)eventArgs.Frame.Clone());
