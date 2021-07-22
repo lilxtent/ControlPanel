@@ -1,6 +1,8 @@
 ﻿using ControlPanel.Model;
 using ControlPanel.Services;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -14,13 +16,17 @@ namespace ControlPanel.ViewModel.MainWindow
         private DatePicker DateStartPeriod { get; set; }
         private DatePicker dateEndPeriod { get; set; }
         private ComboBox comboBox { get; set; }
+        private ComboBox comboBoxSubscription { get; set; }
         private TextBox costTextBox { get; set; }
+        private TextBox costPerMonthTextBox { get; set; }
         private ClientModel currClient { get; set; }
         private ApplicationContext DB { get; set; }
 
+        private List<int> costPerMonthArray { get; set; }
 
 
         private int comboBoxAnotherIndex;
+        private bool isDatePicerChangeInsideComboBox = false;
 
         public ExtendSubscription(ControlPanel.MainWindow CurrWindow)
         {
@@ -29,10 +35,10 @@ namespace ControlPanel.ViewModel.MainWindow
             currClient = (ClientModel)((CurrWindow.lbClients.SelectedItem as Grid).DataContext);
 
             Grid = new Grid();
-            // разметили сетку 6 строк на 2 колонки
+            // разметили сетку 8 строк на 2 колонки
             Grid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(140) });
             Grid.ColumnDefinitions.Add(new ColumnDefinition());
-            int NRow = 6;
+            int NRow = 8;
             for (int i = 0; i < NRow; i++)
                 Grid.RowDefinitions.Add(new RowDefinition());
 
@@ -41,28 +47,41 @@ namespace ControlPanel.ViewModel.MainWindow
             {
                 SelectedDate = currClient.DateLastPayment == default ? DateTime.Today : currClient.DateLastPayment
             };
-            dateEndPeriod = new DatePicker() { };
+            dateEndPeriod = new DatePicker() { IsEnabled = false };
             DateStartPeriod.SelectedDateChanged += new EventHandler<SelectionChangedEventArgs>(DatePicker_SelectedDateChanged);
-            dateEndPeriod.SelectedDateChanged += new EventHandler<SelectionChangedEventArgs>(DatePicker_SelectedDateChanged);
+            //dateEndPeriod.SelectedDateChanged += new EventHandler<SelectionChangedEventArgs>(DatePicker_SelectedDateChanged);
 
             // инициализировали текстовые поля
             Label startLable = new Label() { Content = "Начало:" };
             Label endLable = new Label() { Content = "Конец:" };
             Label nameLable = new Label() { Content = "Продлить абонемент:" };
-            Label chooseLable = new Label() { Content = "Выберите абонемент:" };
-            Label costLable = new Label() { Content = "Укажите сумму оплаты:" };
+            Label chooseLable = new Label() { Content = "Выберите срок:" };
+            Label chooseSubscriptionLable = new Label() { Content = "Выберите абонемент:" };
+            Label costPerMonthLable = new Label() { Content = "сумма р/мес." };
+            Label costLable = new Label() { Content = "сумма оплаты:" };
 
             // инициализируем combo box для выбора абонемента
-            comboBox = new ComboBox();
-            comboBoxAnotherIndex = 5; // индекс поля "другое"
-            comboBox.SelectedIndex = comboBoxAnotherIndex; // изначально выбран "другое"
+            comboBoxSubscription = new ComboBox();
+            comboBoxSubscription.SelectionChanged += new SelectionChangedEventHandler(ComboBoxSubscription_SelectionChanged);
+            costPerMonthArray = new ();
+            foreach (SubscriptionModel subscription in DB.Subscriptions.ToList())
+            {
+                comboBoxSubscription.Items.Add(new Label() { Content = subscription.Subscription });
+                costPerMonthArray.Add(subscription.Cost);
+            }
+            //comboBoxSubscription.SelectedIndex = 0; // выбираем по умолчанию
 
+            // инициализируем combo box для выбора продолжительности абонемента
+            comboBox = new ComboBox();
+            //comboBox.SelectedIndex = 0; // изначально выбран "1 месяц"
             comboBox.SelectionChanged += new SelectionChangedEventHandler(ComboBox_SelectionChanged);
-            string[] mounths = { "1 месяц", "2 месяца", "3 месяца", "6 месяцев", "1 год", "другое" };
+            string[] mounths = { "1 месяц", "2 месяца", "3 месяца", "6 месяцев", "1 год"};
             foreach (string content in mounths)
                 comboBox.Items.Add(new Label() { Content = content });
             // инициализируем окно ввода суммы оплаты
-            costTextBox = new() { Margin = new Thickness(0, 3, 3, 3) };
+            costTextBox = new() { Margin = new Thickness(0, 3, 3, 3), IsEnabled = false};
+            // инициализируем окно  суммы оплаты
+            costPerMonthTextBox = new() { Margin = new Thickness(0, 3, 3, 3), IsEnabled = false };
             // иницализируем кнопку продлить
             Button ButSave = new Button() { Content = "продлить", Margin = new Thickness(3, 3, 3, 3) };
             ButSave.Click += new RoutedEventHandler(butExtend_Click);
@@ -77,7 +96,10 @@ namespace ControlPanel.ViewModel.MainWindow
             Grid.Children.Add(costLable);
             Grid.Children.Add(costTextBox);
             Grid.Children.Add(ButSave);
-
+            Grid.Children.Add(chooseSubscriptionLable);
+            Grid.Children.Add(comboBoxSubscription);
+            Grid.Children.Add(costPerMonthLable);
+            Grid.Children.Add(costPerMonthTextBox);
             // устанавливаем название
             Grid.SetColumn(nameLable, 0);
             Grid.SetRow(nameLable, 0);
@@ -102,33 +124,65 @@ namespace ControlPanel.ViewModel.MainWindow
             // устанавливаем комбо бокс
             Grid.SetColumn(comboBox, 1);
             Grid.SetRow(comboBox, 3);
-
+            // устанавливаем комбо бокс абонемента название
+            Grid.SetColumn(chooseSubscriptionLable, 0);
+            Grid.SetRow(chooseSubscriptionLable, 4);
+            // устанавливаем комбо бокс абонемента
+            Grid.SetColumn(comboBoxSubscription, 1);
+            Grid.SetRow(comboBoxSubscription, 4);
+            // устанавливаем название для указания цены за месяц
+            Grid.SetColumn(costPerMonthLable, 0);
+            Grid.SetRow(costPerMonthLable, 5);
+            // устанавливаем текст бокс для указания цены за месяц
+            Grid.SetColumn(costPerMonthTextBox, 1);
+            Grid.SetRow(costPerMonthTextBox, 5);
             // устанавливаем название для указания цены
             Grid.SetColumn(costLable, 0);
-            Grid.SetRow(costLable, 4);
+            Grid.SetRow(costLable, 6);
             // устанавливаем текст бокс для указания цены
             Grid.SetColumn(costTextBox, 1);
-            Grid.SetRow(costTextBox, 4);
-
+            Grid.SetRow(costTextBox, 6);
             // устанавливаем кнопку продлить
             Grid.SetColumn(ButSave, 0);
-            Grid.SetRow(ButSave, 5);
+            Grid.SetRow(ButSave, 7);
 
         }
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int[] multMounth = { 1, 2, 3, 6, 12 };
             int index = (sender as ComboBox).SelectedIndex;
-            if (index != -1 && index != comboBoxAnotherIndex && DateStartPeriod.SelectedDate is not null)
+            if (index != -1 && DateStartPeriod.SelectedDate is not null)
             {
                 DateTime start = (DateTime)DateStartPeriod.SelectedDate;
-                dateEndPeriod.SelectedDate = start.AddMonths(multMounth[index]);
+                dateEndPeriod.SelectedDate = start.AddMonths(multMounth[index]); 
+                // если у нас уже указан абонемент меняем стоимость
+                if (comboBoxSubscription.SelectedIndex != -1)
+                    costTextBox.Text = (costPerMonthArray[comboBoxSubscription.SelectedIndex] * multMounth[index]).ToString();
             }
+            // указываем что дата поменялась из-за изменений в combo box
+            isDatePicerChangeInsideComboBox = true; 
+            
+        }
+        private void ComboBoxSubscription_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int[] multMounth = { 1, 2, 3, 6, 12 };
+            
+            int index = (sender as ComboBox).SelectedIndex;
+            if (index != -1 && costPerMonthArray.Count != 0 && comboBox.SelectedIndex != -1)
+            {
+                costPerMonthTextBox.Text = costPerMonthArray[index].ToString();
+                if (comboBox is not null)
+                    costTextBox.Text = (costPerMonthArray[index] * multMounth[comboBox.SelectedIndex]).ToString();
+            }
+            //// указываем что дата поменялась из-за изменений в combo box
+            //isDatePicerChangeInsideComboBox = true;
 
         }
         private void DatePicker_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            comboBox.SelectedIndex = comboBoxAnotherIndex;
+            if (comboBox is not null && !isDatePicerChangeInsideComboBox)
+                comboBox.SelectedIndex = -1;
+            isDatePicerChangeInsideComboBox = false;
         }
         private bool CheckAllError()
         {
@@ -152,8 +206,8 @@ namespace ControlPanel.ViewModel.MainWindow
                 return false;
             }
             // обработка суммы на float
-            float temp;
-            if (!(float.TryParse(costTextBox.Text.Trim(' '), out temp)))
+            int temp;
+            if (!(int.TryParse(costTextBox.Text.Trim(' '), out temp)))
             {
                 MessageBox.Show($"Некорректная сумма оплаты!", "Ошибка");
                 return false;
@@ -185,7 +239,8 @@ namespace ControlPanel.ViewModel.MainWindow
             timePayment.AddHours(DateTime.Now.Date.Hour);
             // запись в таблицу платежей
             DB.Payments.Add(new PaymentModel(id, DateTime.Now,
-                DateStartPeriod.SelectedDate.Value, dateEndPeriod.SelectedDate.Value, float.Parse(costTextBox.Text)));
+                DateStartPeriod.SelectedDate.Value, dateEndPeriod.SelectedDate.Value, int.Parse(costTextBox.Text),
+                comboBoxSubscription.Text, int.Parse(costPerMonthTextBox.Text)));
             // обновляем информацию о последнем платеже клиента
             ClientModel NewClient = currClient;
             NewClient.SetDateLastPayment(dateEndPeriod.SelectedDate);
