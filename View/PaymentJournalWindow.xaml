@@ -5,14 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel.View"
         mc:Ignorable="d"
-        Title="PaymentJournal" Height="450" Width="800">
+        Title="PaymentJournal" Height="450" Width="900">
     <Grid>
         <DataGrid x:Name="PaymentJournalTable" AutoGenerateColumns="False"  Margin="11,10,10,10">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Дата оплаты" Binding="{Binding Path=DatePayment}" Width="200"/>
-                <DataGridTextColumn Header="Начало периода" Binding="{Binding Path=StartPeriod}" Width="200"/>
-                <DataGridTextColumn Header="Конец периода" Binding="{Binding Path=EndPeriod}" Width="200"/>
-                <DataGridTextColumn Header="Сумма оплаты" Binding="{Binding Path=Cost}" Width="200"/>
+                <DataGridTextColumn Header="Дата оплаты" Binding="{Binding Path=DatePayment, StringFormat='dd.MM.yyyy'}" Width="125"/>
+                <DataGridTextColumn Header="Начало периода" Binding="{Binding Path=StartPeriod, StringFormat='dd.MM.yyyy'}" Width="125"/>
+                <DataGridTextColumn Header="Конец периода" Binding="{Binding Path=EndPeriod, StringFormat='dd.MM.yyyy'}" Width="125"/>
+                <DataGridTextColumn Header="Сумма оплаты" Binding="{Binding Path=Cost}" Width="150"/>
+                <DataGridTextColumn Header="Тип абонемента" Binding="{Binding Path=Subscription}" Width="200"/>
+                <DataGridTextColumn Header="Цена абонемента за месяц" Binding="{Binding Path=CostPerMonth}" Width="100"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
