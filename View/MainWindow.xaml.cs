@@ -436,5 +436,11 @@ namespace ControlPanel
             ShowAllClientsShortData(lbClients);
             TodayVisits.ItemsSource = new TodayVisitsList();
         }
+
+        private void ValidSubscriptionsButton_Click(object sender, RoutedEventArgs e)
+        {
+            var validSubscriptionsWindow = new ValidSubscriptionsWindow();
+            validSubscriptionsWindow.Show();
+        }
     }
 }
