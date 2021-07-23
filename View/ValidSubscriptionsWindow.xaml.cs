@@ -25,23 +25,23 @@ namespace ControlPanel.View
             foreach (var payment in validPayments)
                 clientsWithValidSubscription.Add(DB.ClientsModels.FirstOrDefault(x => x.ID == payment.ID));
 
-            var tableData = new TableData[clientsWithValidSubscription.Count];
+            var tableData = new TableRowData[clientsWithValidSubscription.Count];
 
             for (int i = 0; i < tableData.Length; i++)
-                tableData[i] = new TableData(clientsWithValidSubscription[i].FIO,
+                tableData[i] = new TableRowData(clientsWithValidSubscription[i].FIO,
                                              validPayments[i]);
 
             ValidSubscriptionsTable.ItemsSource = tableData;
         }
 
-        private class TableData
+        private class TableRowData
         {
             public string ClientsName { get; }
             public string SubscriptionType { get; }
             public int SubscriptionCost { get; }
             public DateTime SubscriptionExpireDate { get; }
 
-            public TableData(string clientsName, PaymentModel paymentInfo)
+            public TableRowData(string clientsName, PaymentModel paymentInfo)
             {
                 ClientsName = clientsName;
                 SubscriptionType = paymentInfo.Subscription;
