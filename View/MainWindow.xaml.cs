@@ -442,5 +442,11 @@ namespace ControlPanel
             var validSubscriptionsWindow = new ValidSubscriptionsWindow();
             validSubscriptionsWindow.Show();
         }
+
+        private void SubscriptionSummaryButton_Click(object sender, RoutedEventArgs e)
+        {
+            var subscriptionSummaryWindow = new SubscriptionSummaryWindow();
+            subscriptionSummaryWindow.Show();
+        }
     }
 }

@@ -37,6 +37,9 @@
     <Compile Update="View\PopUpWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\SubscriptionSummaryWindow.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\ValidSubscriptionsWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -70,6 +73,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\PopUpWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\SubscriptionSummaryWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\ValidSubscriptionsWindow.xaml">
