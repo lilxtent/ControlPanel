@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="Сводка по абонементам" Height="450" Width="1000">
     <Grid>
-        <DataGrid x:Name="SubscriptionSummaryTable" AutoGenerateColumns="False">
+        <DataGrid x:Name="SubscriptionSummaryTable" AutoGenerateColumns="False" Width="810" Margin="0,0,200,0">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Абонемент" Binding="{Binding Path=Subscription}" Width="200"></DataGridTextColumn>
                 <DataGridTextColumn Header="руб/мес" Binding="{Binding Path=CostPerMonth}" Width="200"></DataGridTextColumn>
@@ -15,5 +15,7 @@
                 <DataGridTextColumn Header="Выручка в месяц, руб" Binding="{Binding Path=ProfitPerMonth}" Width="200"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <TextBlock x:Name="NumberOfClients" HorizontalAlignment="Left" Margin="805,25,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="185" FontWeight="Bold"/>
+        <TextBlock x:Name="Profit" HorizontalAlignment="Left" Margin="805,50,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Top" Height="25" Width="185" FontWeight="Bold"/>
     </Grid>
 </Window>

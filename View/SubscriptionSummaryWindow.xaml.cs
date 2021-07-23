@@ -16,17 +16,19 @@ namespace ControlPanel.View
             InitializeComponent();
 
             var DB = new ApplicationContext();
+            var clientsWithValidSubscription = DB.Payments.Where(x => x.EndPeriod > DateTime.Now);
 
             SubscriptionSummaryTable.ItemsSource =
-                DB.Payments.Where(x => x.EndPeriod > DateTime.Now)
-                           .AsEnumerable()
-                           .GroupBy(x => x.Subscription)
-                           .Select(x => new TableRowData(x.ToArray()));
+                clientsWithValidSubscription.AsEnumerable()
+                                            .GroupBy(x => x.Subscription)
+                                            .Select(x => new TableRowData(x.ToArray()));
 
+            NumberOfClients.Text = $"Всего клиентов: {clientsWithValidSubscription.Count()}";
+            Profit.Text = $"Выручка в месяц: {clientsWithValidSubscription.Sum(x => x.CostPerMonth)}";
         }
 
         private class TableRowData
-        { 
+        {
             public string Subscription { get; private set; }
             public int CostPerMonth { get; private set; }
             public int AmountOfClients { get; private set; }
