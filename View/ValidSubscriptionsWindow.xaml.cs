@@ -36,10 +36,10 @@ namespace ControlPanel.View
 
         private class TableRowData
         {
-            public string ClientsName { get; }
-            public string SubscriptionType { get; }
-            public int SubscriptionCost { get; }
-            public DateTime SubscriptionExpireDate { get; }
+            public string ClientsName { get; private set; }
+            public string SubscriptionType { get; private set; }
+            public int SubscriptionCost { get; private set; }
+            public DateTime SubscriptionExpireDate { get; private set; }
 
             public TableRowData(string clientsName, PaymentModel paymentInfo)
             {
