@@ -40,6 +40,42 @@ namespace ControlPanel.Sourses
             }
             return ColorBrush;
         }
+        public static MediaPlayer FindSound(ClientModel ClientData)
+        {
+            MediaPlayer mediaPlayer = new ();
+            // в случае если клиент ни разу не производил оплату
+            if (ClientData.DateLastPayment == default)
+            {
+                mediaPlayer.Open(new Uri(ConvertRelativeToAbsolutePath(@"\Sounds\SoundUnpay.mp3")));
+                return mediaPlayer;
+            }
+
+            int diffDays = (ClientData.DateLastPayment - DateTime.Today).Days;
+            // абонемент просрочен
+            if (diffDays < 0)
+            {
+                mediaPlayer.Open(new Uri(ConvertRelativeToAbsolutePath(@"\Sounds\SoundError.mp3")));
+
+            }
+            // остался 1 день
+            else if (diffDays <= 1)
+            {
+                mediaPlayer.Open(new Uri(ConvertRelativeToAbsolutePath(@"\Sounds\SoundConfirm.mp3")));
+
+            }
+            // осталось 3 дня
+            else if (diffDays <= 3)
+            {
+                mediaPlayer.Open(new Uri(ConvertRelativeToAbsolutePath(@"\Sounds\SoundConfirm.mp3")));
+
+            }
+            // осталось больше 3 дней
+            else
+            {
+                mediaPlayer.Open(new Uri(ClientMethods.ConvertRelativeToAbsolutePath(@"\Sounds\SoundConfirm.mp3")));
+            }
+            return mediaPlayer;
+        }
         public static SolidColorBrush GetRedColorBrush() =>
             new SolidColorBrush(Color.FromArgb(200, 255, 112, 99));
         public static SolidColorBrush GetGreenColorBrush() =>

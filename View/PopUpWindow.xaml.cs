@@ -2,6 +2,7 @@
 using ControlPanel.Services;
 using ControlPanel.Sourses;
 using System;
+using System.Media;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
@@ -18,6 +19,7 @@ namespace ControlPanel.View
         private DispatcherTimer timer { get; set; }
         private ClientModel Client { get; set; }
         private CameraModel Camera { get; set; }
+        private MediaPlayer mediaPlayer { get; set; }
 
         public PopUpWindow(ClientModel Client, CameraModel Camera)
         {
@@ -25,9 +27,9 @@ namespace ControlPanel.View
 
             this.Client = Client;
             this.Camera = Camera;
+            mediaPlayer = new();
             InitializeComponent();
             InitializeClientInfo();
-
             Camera.isPopUpWindowActive = true;
             this.Top = 10;
             this.Left = 20;
@@ -59,7 +61,9 @@ namespace ControlPanel.View
 
                 imagePhoto.Source = new BitmapImage(UriPath);
                 this.Background = ClientMethods.FindColor(Client);
-
+                // звук отметки
+                mediaPlayer = ClientMethods.FindSound(Client); 
+                mediaPlayer.Play();
                 SaveVisitInDB(); // сохраняем информацию о посещении
             }
             // иначе информируем об обратном
