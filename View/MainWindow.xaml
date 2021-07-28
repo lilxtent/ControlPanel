@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ControlPanel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="746" Width="1222" MinWidth="1200" MinHeight="700" Closing="Window_Closing"
+        Title="MainWindow" Height="765" Width="1394" MinWidth="1200" MinHeight="700" Closing="Window_Closing"
         >
     <Grid x:Name="mainGrid" Margin="0,0,0,0" Background="#FFE5E5E5">
         <!-- Создаем 3 столбца одинакового размера -->
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="335*"/>
-            <ColumnDefinition Width="143*"/>
-            <ColumnDefinition Width="122*"/>
+            <ColumnDefinition Width="787*"/>
+            <ColumnDefinition Width="324*"/>
+            <ColumnDefinition Width="272*"/>
         </Grid.ColumnDefinitions>
 
         <Menu HorizontalAlignment="Left" VerticalAlignment="Top" Width="117" Height="18">
@@ -48,10 +48,10 @@
         <ListBox Grid.Column="0" x:Name="lbClients" Margin="12,91,10,10" Loaded="lbClients_Loaded" SelectionChanged="lbClients_SelectionChanged"/>
         <Label Grid.Column="0" Content="Поиск:" HorizontalAlignment="Left" Height="25" Margin="12,29,0,0" VerticalAlignment="Top" Width="50"/>
         <TextBox Grid.Column="0" x:Name="TextBoxSearch" HorizontalAlignment="Left" Height="25" Margin="67,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="200" TextChanged="TextBoxSearch_TextChanged"/>
-        <CheckBox Grid.Column="0" x:Name="CheckBoxCameraOn" Content="Камера выключена" HorizontalAlignment="Right" Margin="0,2,403,0" VerticalAlignment="Top" Checked="CheckBoxCameraOn_Checked" Unchecked="CheckBoxCameraOn_Unchecked" Height="25" Width="139" />
+        <CheckBox Grid.Column="0" x:Name="CheckBoxCameraOn" Content="Камера выключена" HorizontalAlignment="Right" Margin="0,4,532,0" VerticalAlignment="Top" Checked="CheckBoxCameraOn_Checked" Unchecked="CheckBoxCameraOn_Unchecked" Height="25" Width="139" />
 
         <StackPanel Grid.Column="1" x:Name="spPayment" Margin="10,499,10,6" Background="#FFCCCCCC"/>
-        <TabControl Margin="10,36,10,265" Grid.Column="1">
+        <TabControl Margin="10,36,10,334" Grid.Column="1">
             <TabItem Header="Спортсмен">
                 <StackPanel x:Name="spPersonalArea" Margin="0,0,0,-2" Background="#FFE5E5E5"/>
             </TabItem>
@@ -67,7 +67,7 @@
         <Button Grid.Column="1" x:Name="ButtonVisitJournal" Content="Журнал посещений" HorizontalAlignment="Left" Height="20" Margin="155,424,0,0" VerticalAlignment="Top" Width="121" Click="ButtonVisitJournal_Click" IsEnabled="False"/>
         <Button Grid.Column="1" x:Name="ButtonVisit" Content="Отметить посещение"  HorizontalAlignment="Left" Margin="10,449,0,0" VerticalAlignment="Top" Width="133" Height="20" IsEnabled="False" Click="ButtonVisit_Click"/>
 
-        <DataGrid x:Name="TodayVisits" AutoGenerateColumns="False" HorizontalAlignment="Center" Height="388" Margin="0,59,0,0" VerticalAlignment="Top" Width="226" Grid.Column="2">
+        <DataGrid x:Name="TodayVisits" AutoGenerateColumns="False" HorizontalAlignment="Left" Height="400" Margin="10,59,0,0" VerticalAlignment="Top" Width="236" Grid.Column="2">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Фио" Binding="{Binding Path=ShortFIO}" Width="100"/>
                 <DataGridTextColumn Header="Дата посещения" Binding="{Binding Path=VisitTime}" Width="117"/>
@@ -77,9 +77,9 @@
 
         <ComboBox x:Name="ComboBoxTrainers" HorizontalAlignment="Left" Margin="67,61,0,0" VerticalAlignment="Top" Width="171" Height="25" SelectionChanged="ComboBoxTrainers_SelectionChanged"/>
         <ComboBox x:Name="ComboBoxGroups" HorizontalAlignment="Left" Margin="298,61,0,0" VerticalAlignment="Top" Width="151" Height="25" SelectionChanged="ComboBoxGroups_SelectionChanged"/>
-        <Label x:Name="LabelTrainer" Content="Тернер:" HorizontalAlignment="Left" Margin="12,59,0,0" VerticalAlignment="Top" Width="55"/>
-        <Label x:Name="LabelGroup" Content="Группа:" HorizontalAlignment="Left" Margin="243,59,0,0" VerticalAlignment="Top" Width="55"/>
-        <Label x:Name="labelSort" Content="Сортировка:" HorizontalAlignment="Left" Margin="272,28,0,0" VerticalAlignment="Top" Width="78"/>
-        <Button Content="Обновить" Click="UpdateButton_Click" HorizontalAlignment="Left" Height="25" Margin="547,61,0,0" VerticalAlignment="Top" Width="125"/>
+        <Label x:Name="LabelTrainer" Content="Тернер:" HorizontalAlignment="Left" Margin="12,59,0,0" VerticalAlignment="Top" Width="55" Height="26"/>
+        <Label x:Name="LabelGroup" Content="Группа:" HorizontalAlignment="Left" Margin="243,59,0,0" VerticalAlignment="Top" Width="55" Height="26"/>
+        <Label x:Name="labelSort" Content="Сортировка:" HorizontalAlignment="Left" Margin="272,28,0,0" VerticalAlignment="Top" Width="78" Height="26"/>
+        <Button Content="Обновить" Click="UpdateButton_Click" HorizontalAlignment="Left" Height="25" Margin="10,518,0,0" VerticalAlignment="Top" Width="125" Grid.Column="2"/>
     </Grid>
 </Window>

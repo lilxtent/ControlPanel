@@ -28,15 +28,15 @@ namespace ControlPanel.Sourses
 
             // разбиваем grid на колонки
             // первая колонка фиксированной длины
-            GridData.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(280) });
+            GridData.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(240) });
             GridData.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(25) });
+            GridData.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(200) });
 
-            int nColumn = 4;
+            int nColumn = 3;
             for (int i = 0; i < nColumn; i++)
                 GridData.ColumnDefinitions.Add(new ColumnDefinition());
             Label[] LabelsForGrid = {
-            CreateFIO(), CreateHeaderPhone(), CreatePhone(),
-                CreateHeaderBalance(), CreateBalance()};
+            CreateFIO(), CreateTrainer(), CreateHeaderPhone(), CreatePhone(), CreateBalance()};
 
             // добавляем все записи
             foreach (Label obj in LabelsForGrid)
@@ -59,6 +59,16 @@ namespace ControlPanel.Sourses
             Label LocalData = (new Label()
             {
                 Content = $"{Client.Surname} {Client.Name} {Client.Patronymic}",
+                FontWeight = FontWeights.Bold
+            });
+            return LocalData;
+        }
+        private Label CreateTrainer()
+        {
+
+            Label LocalData = (new Label()
+            {
+                Content = $"Тренер: {Client.Trainer}",
                 FontWeight = FontWeights.Bold
             });
             return LocalData;
